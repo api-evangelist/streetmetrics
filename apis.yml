@@ -1,7 +1,25 @@
 aid: streetmetrics
+accessModel:
+  pricing: unknown
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Unknown
+  confidence: low
+  source: []
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/streetmetrics.png
 name: StreetMetrics
-description: StreetMetrics is a company surfaced as a portfolio company of techstars and added to the
-  API Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+description: StreetMetrics is an out-of-home (OOH) advertising measurement, planning, and attribution
+  platform that gives operators, agencies, and brands data-driven tools to plan campaigns, track delivery
+  in near real-time across 1.6M+ OOH units, and measure business outcomes from outdoor advertising. Its
+  SmartSearch planning intelligence surfaces unit-level performance and audience insights, daily-refreshed
+  impression measurement tracks delivery, and attribution connects OOH exposure to website visits, app
+  opens, and in-store lift. No public developer API, SDKs, or API documentation are published; access is
+  delivered through the product platform (Intelligence, Measurement, Attribution, StreetCity) and verified
+  partner operators.
 url: https://raw.githubusercontent.com/api-evangelist/streetmetrics/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -11,9 +29,16 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-21'
 tags:
 - Company
+- Advertising
+- Out-of-Home
+- Measurement
+- Attribution
+- Analytics
+- Marketing
+- Location Data
 apis: []
 maintainers:
 - FN: Kin Lane
@@ -23,3 +48,16 @@ maintainers:
 common:
 - type: Website
   url: https://streetmetrics.com/
+- type: Blog
+  url: https://streetmetrics.com/resource-hub
+- type: TermsOfService
+  url: https://streetmetrics.com/privacy-terms/terms
+- type: PrivacyPolicy
+  url: https://streetmetrics.com/privacy-terms/privacy-policy
+- type: DomainSecurity
+  url: security/streetmetrics-domain-security.yml
+x-enrichment:
+  date: '2026-07-21'
+  status: minimal
+  artifacts_added: 1
+  pass: local-v1
