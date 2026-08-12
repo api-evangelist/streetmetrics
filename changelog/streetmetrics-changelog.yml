@@ -1,0 +1,75 @@
+generated: '2026-08-12'
+method: searched
+source: https://docs.streetmetrics.com/changelog
+scheme: semantic-ish platform release numbering (v3.8.0 → v4.0.0), dated, categorized by ReadMe change
+  type (added / improved / fixed)
+current_version: 4.0.0
+current_version_date: '2026-07-16'
+scope: >-
+  Product/platform releases for the StreetMetrics application (Intelligence, SmartSearch, Plans &
+  Scenarios, maps and inventory). REST API contract changes are not announced separately — no entry in
+  the recent window describes an endpoint, field or breaking change to the Public API.
+window: 10 most recent entries (2026-05-27 → 2026-07-16)
+entry_count: 10
+breaking_changes_in_window: 0
+entries:
+- version: 4.0.0
+  date: '2026-07-16'
+  type: added
+  title: v4.0.0
+  url: https://docs.streetmetrics.com/changelog/v4-0-0
+  highlights:
+  - SmartSearch becomes a multi-step reasoning assistant that plans and executes compound planning
+    questions
+  - Memory and searchable chat history across sessions
+  - Route, area and place targeting; per-unit dossiers with audience index benchmarks
+  - Guided plan building, budget and mix optimization under constraints
+  - Live maps and on-demand charts rendered from chat results
+- version: 3.9.6
+  date: '2026-07-02'
+  type: added
+  title: v3.9.6 Shared Scenarios
+  url: https://docs.streetmetrics.com/changelog/v3-9-6
+- version: 3.9.5
+  date: '2026-06-25'
+  type: improved
+  title: v3.9.5 Maps & Inventory Updates
+  url: https://docs.streetmetrics.com/changelog/v3-9-5
+- version: 3.9.4
+  date: '2026-06-23'
+  type: fixed
+  title: v3.9.4 — Impressions, Smart Search Fixes
+  url: https://docs.streetmetrics.com/changelog/v3-9-4
+- version: 3.9.3
+  date: '2026-06-16'
+  type: improved
+  title: v3.9.3 — Smarter Intelligence, More Frame Detail
+  url: https://docs.streetmetrics.com/changelog/v3-9-3
+- version: 3.9.2
+  date: '2026-06-15'
+  type: improved
+  title: v3.9.2
+  url: https://docs.streetmetrics.com/changelog/v3-9-2
+- version: 3.9.1
+  date: '2026-06-10'
+  type: fixed
+  title: v3.9.1
+  url: https://docs.streetmetrics.com/changelog/v3-9-1
+- version: 3.9.0
+  date: '2026-06-09'
+  type: improved
+  title: v3.9.0
+  url: https://docs.streetmetrics.com/changelog/v3-9-0
+- version: 3.8.1
+  date: '2026-06-05'
+  type: added
+  title: v3.8.1
+  url: https://docs.streetmetrics.com/changelog/v3-8-1
+- version: 3.8.0
+  date: '2026-05-27'
+  type: added
+  title: v3.8.0
+  url: https://docs.streetmetrics.com/changelog/v3-8-0
+gaps:
+- No API-specific changelog. The OpenAPI definition backing the reference was last uploaded 2025-11-26,
+  and nothing in the dated changelog tells an integrator what changed in it.

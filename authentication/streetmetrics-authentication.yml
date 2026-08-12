@@ -1,0 +1,92 @@
+generated: '2026-08-12'
+method: searched
+source: >-
+  https://docs.streetmetrics.com/recipes/how-to-authenticate-requests-and-create-tokens +
+  openapi/streetmetrics-public-api-openapi.json + live probes of
+  https://dashboard.streetmetrics.io/v3/public/ on 2026-08-12
+docs: https://docs.streetmetrics.com/recipes/how-to-authenticate-requests-and-create-tokens
+api: StreetMetrics Public API
+summary:
+  types:
+  - http
+  model: credential-exchange → JWT bearer
+  self_serve: false
+  note: >-
+    Credentials are the user's StreetMetrics platform email and password, so an API consumer must
+    already hold a platform account; there is no developer signup, no key-provisioning UI documented,
+    and no OAuth.
+schemes:
+- name: bearer
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  applied: false
+  applied_note: >-
+    Declared in components.securitySchemes but never referenced — no root-level `security` and zero of
+    54 operations carry an operation-level `security`. The contract therefore describes an anonymous
+    API while the service returns 401 UNAUTHORIZED without a token (probed against
+    GET /v3/public/markets on 2026-08-12). Corrected in
+    overlays/streetmetrics-public-api-overlay.yaml.
+  sources:
+  - openapi/streetmetrics-public-api-openapi.json
+- name: api-key
+  type: apiKey
+  in: header
+  parameter_name: api-key
+  applied_to:
+  - AuthController_authenticate
+  required: true
+  note: >-
+    Not modelled as a securityScheme — it is declared as a required header *parameter* on the
+    token-minting operation only. It is therefore invisible to any tooling that reads securitySchemes,
+    which is how this API can look keyless when it is not.
+  sources:
+  - openapi/streetmetrics-public-api-openapi.json
+flow:
+  step_1:
+    operation: AuthController_authenticate
+    request: POST https://dashboard.streetmetrics.io/v3/public/auth/authenticate
+    headers:
+      api-key: required
+      content-type: application/json
+    body: '{ "email": "<platform email>", "password": "<platform password>" }'
+    schema: AuthDto
+    note: Only `email` is listed in AuthDto.required; `password` is required in practice.
+  step_2:
+    response_schema: AuthResponse
+    response: '{ "statusCode": 201, "message": "Token to attach to subsequent requests", "meta": {}, "data": "<token>" }'
+    note: The token is the `data` string itself, not a nested object.
+  step_3:
+    usage: 'Authorization: Bearer <token> on every other operation'
+token:
+  lifetime_published: false
+  refresh_endpoint: none
+  revocation_endpoint: none
+  note: No expiry, refresh or revocation is documented. Treat a 401 on a previously-working token as
+    expiry and re-mint.
+oauth:
+  present: false
+  oidc_discovery: 404 on all probed hosts
+  scopes: none — nothing to model, so no scopes/ artifact is written
+observed:
+- url: https://dashboard.streetmetrics.io/v3/public/markets
+  method: GET
+  http_status: 401
+  body: '{"status":"error","statusCode":401,"errorCode":"UNAUTHORIZED","message":"You do not have permission for this action",...}'
+  fetched: '2026-08-12'
+- url: https://dashboard.streetmetrics.io/v3/public/auth/authenticate
+  method: POST
+  http_status: 400
+  body: '{"status":"error","statusCode":400,"errorCode":"BAD_REQUEST","message":"Email must be an email",...}'
+  fetched: '2026-08-12'
+documentation_drift:
+  finding: >-
+    The published authentication recipe (last updated 2025-05-12) shows
+    https://dashboard.streetmetrics.io/v3/api/auth/authenticate and warns readers about a "v3/" vs
+    "v3/api/" distinction. On 2026-08-12 POST to /v3/api/auth/authenticate returned 404, /v3/public/auth/authenticate
+    returned the current envelope, and the legacy /v3/auth/authenticate still answered with the older
+    envelope. The one recipe a new integrator follows first documents a path that no longer exists.
+transport_security:
+  https_required: true
+  tls: TLSv1.3
+  hsts: 'max-age=31536000; includeSubDomains (observed on dashboard.streetmetrics.io)'

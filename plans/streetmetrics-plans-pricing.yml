@@ -1,0 +1,31 @@
+generated: '2026-08-12'
+method: searched
+source: >-
+  https://www.streetmetrics.com/sitemap.xml, https://streetmetrics.com/pricing (404),
+  https://www.streetmetrics.com/contact, https://docs.streetmetrics.com/llms.txt
+plan_count: 0
+plans: []
+model: enterprise sales-gated
+note: >-
+  StreetMetrics publishes no pricing at all. There is no /pricing page (HTTP 404 on 2026-08-12) and no
+  pricing URL in the sitemap — the site's 78 indexed pages are product, methodology, careers, blog and
+  legal. The audience pages (/for-operators, /for-brands, /for-agencies) all terminate in a "request a
+  demo" contact form, and the platform login at platform.streetmetrics.com has no self-serve signup.
+  API access follows a platform subscription negotiated with sales; no developer tier, free tier, trial,
+  metered rate or overage is published.
+evidence:
+- url: https://streetmetrics.com/pricing
+  http_status: 404
+  fetched: '2026-08-12'
+- url: https://www.streetmetrics.com/sitemap.xml
+  http_status: 200
+  fetched: '2026-08-12'
+  finding: no pricing or plans URL present
+- url: https://www.streetmetrics.com/contact
+  http_status: 200
+  fetched: '2026-08-12'
+  finding: demo/contact request form is the only published route to access
+- url: https://platform.streetmetrics.com/
+  http_status: 307
+  fetched: '2026-08-12'
+  finding: redirects to /login; no signup or self-serve plan selection

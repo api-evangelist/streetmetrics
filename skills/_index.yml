@@ -1,0 +1,62 @@
+generated: '2026-08-12'
+method: generated
+source: >-
+  openapi/streetmetrics-public-api-openapi.json (all operationIds verified against the spec) +
+  https://docs.streetmetrics.com/recipes/* ; the provider-published skill was fetched verbatim from
+  https://docs.streetmetrics.com/.well-known/agent-skills/read-the-docs/SKILL.md
+api: StreetMetrics Public API
+skill_count: 5
+skills:
+- name: read-the-docs
+  file: skills/streetmetrics-read-the-docs.md
+  method: searched
+  provider_published: true
+  source: https://docs.streetmetrics.com/.well-known/agent-skills/read-the-docs/SKILL.md
+  discovery: https://docs.streetmetrics.com/.well-known/agent-skills/index.json
+  digest: sha256:8f282506697c51299ffa30244232926ea3dbd10d05ccf1b9a5dbf9e8b874e395
+  description: >-
+    StreetMetrics' own Agent Skill, saved verbatim. It does one thing: point an agent at
+    https://docs.streetmetrics.com/llms.txt as the index of every doc, reference page, changelog entry
+    and custom page. It teaches discovery, not any StreetMetrics operation.
+- name: streetmetrics-authenticate
+  file: skills/streetmetrics-authenticate.md
+  method: generated
+  provider_published: false
+  operations: [AuthController_authenticate]
+  description: Exchange platform credentials (plus the api-key header) for the JWT bearer token every
+    other operation requires, and handle expiry and the undocumented 400.
+- name: streetmetrics-build-a-campaign
+  file: skills/streetmetrics-build-a-campaign.md
+  method: generated
+  provider_published: false
+  operations: [CampaignController_createCampaign, AdGroupController_createTransitAdGroup,
+    AdGroupController_createStationaryAdGroup, AdGroupController_attachAssets,
+    AdGroupController_attachFrames, AdGroupController_attachCreatives, AdGroupController_getAdGroup]
+  description: Campaign → ad group (transit or stationary) → inventory → creatives, with the POST-adds
+    vs PUT-replaces distinction and the flightId/adGroupId vocabulary trap.
+- name: streetmetrics-pull-campaign-reporting
+  file: skills/streetmetrics-pull-campaign-reporting.md
+  method: generated
+  provider_published: false
+  operations: [ReportingController_getImpressionsByDate, ReportingController_getImpressionsByAdGroup,
+    ReportingController_getImpressionsByUnit, ReportingController_getDemographics,
+    ReportingController_getAffinities, ReportingController_getUfCampaign,
+    ReportingController_getUfAdGroup, ReportingController_getUfUnit]
+  description: Delivery and audience reporting at campaign/ad-group/unit grain, including the 204
+    empty-window case and the timezone/summaryBin rules.
+- name: streetmetrics-run-an-attribution-study
+  file: skills/streetmetrics-run-an-attribution-study.md
+  method: generated
+  provider_published: false
+  operations: [AttributionStudyController_createAttributionStudy, PixelController_createPixel,
+    PixelController_attachCampaignToPixel, PixelController_attachAttributionStudyToPixel,
+    AttributionStudyController_getConversionsByDate, AttributionStudyController_getConversionsByAdGroup,
+    AttributionStudyController_getConversionsByUnit,
+    AttributionStudyController_getAttributionStudyFile]
+  description: Stand up a study, bind pixels, read conversions at three grains, and download the ZIP
+    study file.
+notes:
+- Every operationId in these skills was grepped out of the harvested OpenAPI; none were invented.
+- The skills carry the cross-cutting rules from conventions/streetmetrics-conventions.yml — cursor
+  pagination, the search DSL, the response/error envelopes, and the absence of any idempotency
+  mechanism.

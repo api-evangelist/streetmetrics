@@ -1,0 +1,203 @@
+generated: '2026-08-12'
+method: derived
+source: >-
+  openapi/streetmetrics-public-api-openapi.json (54 operations) reconciled against the probed MCP
+  endpoint https://docs.streetmetrics.com/mcp
+summary: >-
+  StreetMetrics runs two agent-facing surfaces and they do not overlap. The REST Public API carries all
+  54 callable operations; the MCP server on the documentation host fronts the docs, not the API, and its
+  tools/list is auth-gated (HTTP 401), so no tool could be bound to an operation. Every REST operation
+  is therefore rest_only. This is a divergence finding, not a mapping: a coding agent connected to the
+  StreetMetrics MCP server can read the documentation but cannot call a single campaign, ad group,
+  attribution, pixel or reporting operation through it.
+surfaces:
+  openapi:
+    file: openapi/streetmetrics-public-api-openapi.json
+    base_url: https://dashboard.streetmetrics.io/v3/public/
+    operations: 54
+    gated: false
+    note: >-
+      Spec is public and anonymous; the operations themselves require a JWT bearer token minted from
+      platform credentials.
+  graphql:
+    present: false
+  mcp:
+    url: https://docs.streetmetrics.com/mcp
+    gated: true
+    http_status_on_tools_list: 401
+    scope: documentation
+coverage:
+  rest_operations: 54
+  mcp_tools_discovered: 0
+  bound: 0
+  mcp_only: 0
+  rest_only: 54
+  confidence: >-
+    No binding was attempted. Naming/semantic inference was deliberately skipped because the MCP server
+    is a documentation server, not an API wrapper — inventing a crosswalk row would assert a callable
+    tool that does not exist.
+crosswalk: []
+mcp_only: []
+rest_only:
+- operationId: AdGroupController_attachAssets
+  category: Ad Groups
+  http: POST /ad-groups/{id}/assets
+- operationId: AdGroupController_attachCreatives
+  category: Ad Groups
+  http: POST /ad-groups/{id}/creatives
+- operationId: AdGroupController_attachFrames
+  category: Ad Groups
+  http: POST /ad-groups/{id}/frames
+- operationId: AdGroupController_createStationaryAdGroup
+  category: Ad Groups
+  http: POST /ad-groups/stationary
+- operationId: AdGroupController_createTransitAdGroup
+  category: Ad Groups
+  http: POST /ad-groups/transit
+- operationId: AdGroupController_deleteAdGroup
+  category: Ad Groups
+  http: DELETE /ad-groups/{id}
+- operationId: AdGroupController_getAdGroup
+  category: Ad Groups
+  http: GET /ad-groups/{id}
+- operationId: AdGroupController_getAdGroups
+  category: Ad Groups
+  http: GET /ad-groups
+- operationId: AdGroupController_putUpdateAssets
+  category: Ad Groups
+  http: PUT /ad-groups/{id}/assets
+- operationId: AdGroupController_putUpdateFrames
+  category: Ad Groups
+  http: PUT /ad-groups/{id}/frames
+- operationId: AssetController_getAssetById
+  category: Assets
+  http: GET /assets/{id}
+- operationId: AssetController_getAssetOwners
+  category: Assets
+  http: GET /assets/asset-owners
+- operationId: AssetController_getAssets
+  category: Assets
+  http: GET /assets
+- operationId: AssetController_getCompatibleAssets
+  category: Assets
+  http: GET /assets/compatible
+- operationId: AssetController_getCompatibleAssetsByAdGroupId
+  category: Assets
+  http: GET /assets/ad-group/{adGroupId}/compatible
+- operationId: AssetController_patchUpdateAsset
+  category: Assets
+  http: PATCH /assets/{id}
+- operationId: AttributionStudyController_createAttributionStudy
+  category: Attribution Studies
+  http: POST /attribution-studies
+- operationId: AttributionStudyController_getAttributionStudies
+  category: Attribution Studies
+  http: GET /attribution-studies
+- operationId: AttributionStudyController_getAttributionStudy
+  category: Attribution Studies
+  http: GET /attribution-studies/{id}
+- operationId: AttributionStudyController_getAttributionStudyFile
+  category: Attribution Studies
+  http: GET /attribution-studies/files/{id}
+- operationId: AttributionStudyController_getConversionsByAdGroup
+  category: Attribution Studies
+  http: GET /attribution-studies/conversions/ad-group
+- operationId: AttributionStudyController_getConversionsByDate
+  category: Attribution Studies
+  http: GET /attribution-studies/conversions/date
+- operationId: AttributionStudyController_getConversionsByUnit
+  category: Attribution Studies
+  http: GET /attribution-studies/conversions/unit
+- operationId: AuthController_authenticate
+  category: Authentication
+  http: POST /auth/authenticate
+- operationId: CampaignController_createCampaign
+  category: Campaigns
+  http: POST /campaigns
+- operationId: CampaignController_deleteCampaign
+  category: Campaigns
+  http: DELETE /campaigns/{id}
+- operationId: CampaignController_getCampaign
+  category: Campaigns
+  http: GET /campaigns/{id}
+- operationId: CampaignController_getCampaigns
+  category: Campaigns
+  http: GET /campaigns
+- operationId: CampaignController_patchUpdateCampaign
+  category: Campaigns
+  http: PATCH /campaigns/{id}
+- operationId: PublicCreativesController_getCreativeById
+  category: Creatives
+  http: GET /creatives/{id}
+- operationId: PublicCreativesController_getCreatives
+  category: Creatives
+  http: GET /creatives
+- operationId: FramesController_createFrame
+  category: Frames
+  http: POST /frames
+- operationId: FramesController_getFrameById
+  category: Frames
+  http: GET /frames/{id}
+- operationId: FramesController_getFrames
+  category: Frames
+  http: GET /frames
+- operationId: FramesController_patchFrame
+  category: Frames
+  http: PATCH /frames/{id}
+- operationId: MarketController_getMarkets
+  category: Markets
+  http: GET /markets
+- operationId: MediaController_getMedia
+  category: Media
+  http: GET /media
+- operationId: MediaController_getProductTypes
+  category: Media
+  http: GET /media/product-types
+- operationId: PixelController_attachAttributionStudyToPixel
+  category: Pixels
+  http: PATCH /pixels/{pixelId}/attribution-study
+- operationId: PixelController_attachCampaignToPixel
+  category: Pixels
+  http: PATCH /pixels/{pixelId}/campaign
+- operationId: PixelController_createPixel
+  category: Pixels
+  http: POST /pixels
+- operationId: PixelController_detachAttributionStudyFromPixel
+  category: Pixels
+  http: DELETE /pixels/{pixelId}/attribution-study
+- operationId: PixelController_detachCampaignFromPixel
+  category: Pixels
+  http: DELETE /pixels/{pixelId}/campaign
+- operationId: PixelController_getPixel
+  category: Pixels
+  http: GET /pixels/{pixelId}
+- operationId: PixelController_getPixels
+  category: Pixels
+  http: GET /pixels
+- operationId: PixelController_updatePixel
+  category: Pixels
+  http: PATCH /pixels/{pixelId}
+- operationId: ReportingController_getAffinities
+  category: Reporting
+  http: GET /reporting/affinities
+- operationId: ReportingController_getDemographics
+  category: Reporting
+  http: GET /reporting/demographics
+- operationId: ReportingController_getImpressionsByAdGroup
+  category: Reporting
+  http: GET /reporting/impressions/ad-group
+- operationId: ReportingController_getImpressionsByDate
+  category: Reporting
+  http: GET /reporting/impressions/date
+- operationId: ReportingController_getImpressionsByUnit
+  category: Reporting
+  http: GET /reporting/impressions/unit
+- operationId: ReportingController_getUfAdGroup
+  category: Reporting
+  http: GET /reporting/uf/ad-group/campaign/{campaignId}
+- operationId: ReportingController_getUfCampaign
+  category: Reporting
+  http: GET /reporting/uf/campaign/{campaignId}
+- operationId: ReportingController_getUfUnit
+  category: Reporting
+  http: GET /reporting/uf/unit/campaign/{campaignId}

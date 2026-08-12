@@ -1,0 +1,72 @@
+generated: '2026-08-12'
+method: searched
+source: >-
+  https://docs.streetmetrics.com/changelog + https://docs.streetmetrics.com/reference/ad-groups +
+  live probes of dashboard.streetmetrics.io and status.streetmetrics.com on 2026-08-12
+api: StreetMetrics Public API
+
+versioning:
+  scheme: URI path
+  current: v3
+  base: https://dashboard.streetmetrics.io/v3/public/
+  spec_version: '3.0'
+  product_version: 4.0.0 (platform release line, published in the docs changelog)
+  note: >-
+    Platform releases (v3.8.x, v3.9.x, v4.0.0) version the StreetMetrics application, not the REST
+    contract; the REST surface has stayed on /v3/ across all of them. The two are numbered alike, which
+    is easy to misread.
+
+changelog:
+  published: true
+  url: https://docs.streetmetrics.com/changelog
+  cadence: roughly weekly to fortnightly through 2026
+  latest: v4.0.0 (2026-07-16)
+  scope: platform/product releases; API contract changes are not called out separately
+  see: changelog/streetmetrics-changelog.yml
+
+deprecation_policy:
+  published: false
+  sunset_header: not observed
+  deprecation_header: not observed
+  rfc8594: false
+  deprecated_operations: 0
+  evidence: >-
+    No operation in the spec carries `deprecated: true`, no deprecation or sunset policy page exists in
+    the documentation, and no Deprecation/Sunset response headers were seen on any probed response.
+  live_finding: >-
+    An older generation of routes is still answering on the same host without any deprecation signal.
+    POST https://dashboard.streetmetrics.io/v3/auth/authenticate returned HTTP 400 with the legacy error
+    envelope on 2026-08-12, while the published authentication recipe (updated 2025-05-12) documents
+    /v3/api/auth/authenticate, which now returns 404. Documentation and deployment have drifted and
+    nothing tells a consumer which generation is supported.
+
+documentation_versions:
+  platform: ReadMe
+  current_branch: 3.14.0
+  note: >-
+    The ReadMe project carries multiple historical documentation versions, several flagged deprecated,
+    each with its own uploaded API definition (streetmetrics-api.json, streetmetrics-public-api.json,
+    swagger-spec.json). The current branch's definition was last uploaded 2025-11-26.
+
+status_page:
+  published: false
+  probe:
+    url: https://status.streetmetrics.com/
+    http_status: 522
+    fetched: '2026-08-12'
+    note: >-
+      The hostname resolves through Cloudflare but the origin does not answer (522). Whatever status
+      page once lived there is not being served, so no StatusPage pointer is claimed.
+  other_hosts_checked:
+  - url: https://streetmetrics.com/status
+    http_status: 404
+  incident_history: none published
+
+sla:
+  published: false
+  evidence: No SLA, uptime commitment or support-response target is published on streetmetrics.com or in
+    the documentation. The terms page covers the platform commercially, not the API operationally.
+
+support:
+  channel: https://streetmetrics.com/contact
+  developer_specific: false

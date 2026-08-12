@@ -1,0 +1,113 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements — StreetMetrics Public API
+  version: 1.0.0
+x-generated: '2026-08-12'
+x-method: generated
+x-source: openapi/streetmetrics-public-api-openapi.json
+x-extends: openapi/streetmetrics-public-api-openapi.json
+x-note: >-
+  Non-destructive Overlay 1.0.0 capturing API Evangelist's enhancements to the StreetMetrics Public API
+  definition. It is never applied to the original: the harvested spec in openapi/ and
+  openapi/_original/ stays exactly as StreetMetrics published it. Every action below fixes something the
+  published contract states about itself and gets wrong or leaves out — most importantly a security
+  scheme that is defined but never applied, and a tag list that declares one tag while the operations
+  use eleven.
+actions:
+
+# 1. Apply the bearer scheme the spec defines but never uses.
+- target: $
+  description: >-
+    components.securitySchemes.bearer is declared but no root-level `security` and no operation-level
+    `security` exists anywhere in the document, so every generated client treats all 54 operations as
+    anonymous. Live probing shows the opposite — GET https://dashboard.streetmetrics.io/v3/public/markets
+    returns 401 UNAUTHORIZED without a token. Apply the scheme globally.
+  update:
+    security:
+    - bearer: []
+
+# 2. Exempt the token-minting operation from the global requirement.
+- target: $.paths['/auth/authenticate'].post
+  description: >-
+    POST /auth/authenticate mints the bearer token from an api-key header plus platform email/password,
+    so it must not require the bearer scheme it produces.
+  update:
+    security: []
+
+# 3. Declare the tags the operations actually use.
+- target: $
+  description: >-
+    tags declares a single entry, "public", which no operation references; the 54 operations are tagged
+    across eleven groups. Replace the declaration with the tags in use so the reference renders and
+    tag-based tooling (including our own split-by-tag refinement) does not silently drop operations.
+  update:
+    tags:
+    - name: Authentication
+      description: Mint the JWT bearer token used by every other operation.
+    - name: Campaigns
+      description: Campaign records — the top of the out-of-home buy hierarchy.
+    - name: Ad Groups
+      description: Transit and stationary ad groups (flights) within a campaign, and the assets, frames
+        and creatives attached to them.
+    - name: Assets
+      description: Moving units (vehicles) that carry transit advertising, plus asset owners and
+        compatibility lookups.
+    - name: Frames
+      description: Fixed advertising faces with physical geometry and exposure characteristics.
+    - name: Creatives
+      description: Creative records attachable to stationary or transit ad groups.
+    - name: Media
+      description: Media products and product types describing the inventory a face belongs to.
+    - name: Markets
+      description: Market reference data.
+    - name: Attribution Studies
+      description: Attribution studies and their conversion rollups by date, ad group and unit.
+    - name: Pixels
+      description: Conversion pixels and their bindings to campaigns and attribution studies.
+    - name: Reporting
+      description: Impressions, demographics, affinities and uniques-and-frequency rollups.
+
+# 4. Contact + license metadata that info leaves empty.
+- target: $.info
+  description: >-
+    info.contact is an empty object and info.description is an empty string. Fill in the published
+    documentation and support routes so the contract can be read without the portal.
+  update:
+    description: >-
+      Public REST API for the StreetMetrics out-of-home advertising measurement, planning and
+      attribution platform. Covers campaigns, transit and stationary ad groups, assets, frames,
+      creatives, markets, media, attribution studies, conversion pixels, and impression, demographic,
+      affinity and uniques-and-frequency reporting. Authenticate with POST /auth/authenticate to
+      exchange StreetMetrics platform credentials (with an api-key header) for a JWT bearer token, then
+      send it as `Authorization: Bearer <token>` on every other operation.
+    contact:
+      name: StreetMetrics Support
+      url: https://streetmetrics.com/contact
+    termsOfService: https://streetmetrics.com/privacy-terms/terms
+    x-documentation: https://docs.streetmetrics.com/reference/ad-groups
+
+# 5. Record the base-path divergence between the two published copies of this spec.
+- target: $.servers
+  description: >-
+    Two copies of this definition are published and they do not agree on where the paths hang. The live
+    NestJS document at https://dashboard.streetmetrics.io/docs-json declares the same
+    servers[] entry but prefixes every path with /public/, which concatenates to
+    /v3/public/public/... and 404s. The ReadMe-published copy (paths without the prefix) resolves
+    correctly and is the one harvested here. Annotate the server so a consumer knows which copy to
+    trust.
+  update:
+  - url: https://dashboard.streetmetrics.io/v3/public/
+    description: >-
+      Production. Paths in this document are relative to this server. Note that the live /docs-json
+      copy of this spec repeats the /public/ segment in its paths; use this document's paths.
+
+# 6. Document the rate-limit reality on the 429 responses.
+- target: $.components.schemas.ErrorResponseDto
+  description: >-
+    Enrich the error schema description with the observed errorCode vocabulary — the published example
+    is the placeholder "ERR001", while live responses return UNAUTHORIZED and BAD_REQUEST.
+  update:
+    description: >-
+      Standard error envelope. Observed errorCode values include BAD_REQUEST (400) and UNAUTHORIZED
+      (401). Errors are served as application/json, not application/problem+json. No request/correlation
+      id is returned; `timestamp` and `path` are the only handles for support escalation.

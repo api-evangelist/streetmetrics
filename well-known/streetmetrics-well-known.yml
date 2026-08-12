@@ -1,0 +1,151 @@
+generated: '2026-08-12'
+method: probed
+source: live GET probes of /.well-known/* on every StreetMetrics host in apis.yml + OpenAPI servers[]
+summary:
+  hosts_probed: 5
+  paths_probed: 10
+  hits: 1
+  note: >-
+    One real document is served: the Agent Skills discovery index on the ReadMe-hosted documentation
+    host. Every other well-known path 404s on every host, including /.well-known/api-catalog — which
+    docs.streetmetrics.com actively advertises in a Link header (rel="api-catalog") but does not serve.
+    No security.txt, no OAuth/OIDC metadata, and no A2A agent card anywhere.
+hosts:
+- streetmetrics.com
+- www.streetmetrics.com
+- docs.streetmetrics.com
+- dashboard.streetmetrics.io
+- platform.streetmetrics.com
+probes:
+- host: docs.streetmetrics.com
+  path: /.well-known/agent-skills/index.json
+  status: 200
+  content_type: application/json; charset=utf-8
+  file: well-known/streetmetrics-agent-skills-index.json
+  note: >-
+    Agent Skills discovery document (schemas.agentskills.io/discovery/0.2.0). Lists one skill,
+    "read-the-docs", served at
+    https://docs.streetmetrics.com/.well-known/agent-skills/read-the-docs/SKILL.md — saved verbatim to
+    skills/streetmetrics-read-the-docs.md.
+- host: docs.streetmetrics.com
+  path: /.well-known/api-catalog
+  status: 404
+  note: >-
+    Advertised but not served. Every response from docs.streetmetrics.com carries
+    Link: <https://docs.streetmetrics.com/.well-known/api-catalog>; rel="api-catalog", and that URL
+    404s. RFC 9727 discovery is therefore broken for any agent that follows the header.
+- host: docs.streetmetrics.com
+  path: /.well-known/security.txt
+  status: 404
+- host: docs.streetmetrics.com
+  path: /.well-known/openid-configuration
+  status: 404
+- host: docs.streetmetrics.com
+  path: /.well-known/oauth-authorization-server
+  status: 404
+- host: docs.streetmetrics.com
+  path: /.well-known/oauth-protected-resource
+  status: 404
+- host: docs.streetmetrics.com
+  path: /.well-known/ai-plugin.json
+  status: 404
+- host: docs.streetmetrics.com
+  path: /.well-known/agent-card.json
+  status: 404
+- host: docs.streetmetrics.com
+  path: /.well-known/agent.json
+  status: 404
+- host: docs.streetmetrics.com
+  path: /.well-known/mcp.json
+  status: 404
+- host: streetmetrics.com
+  path: /.well-known/security.txt
+  status: 404
+- host: streetmetrics.com
+  path: /.well-known/openid-configuration
+  status: 404
+- host: streetmetrics.com
+  path: /.well-known/oauth-authorization-server
+  status: 404
+- host: streetmetrics.com
+  path: /.well-known/oauth-protected-resource
+  status: 404
+- host: streetmetrics.com
+  path: /.well-known/api-catalog
+  status: 404
+- host: streetmetrics.com
+  path: /.well-known/ai-plugin.json
+  status: 404
+- host: streetmetrics.com
+  path: /.well-known/agent-card.json
+  status: 404
+- host: streetmetrics.com
+  path: /.well-known/agent.json
+  status: 404
+- host: streetmetrics.com
+  path: /.well-known/agent-skills/index.json
+  status: 404
+- host: streetmetrics.com
+  path: /.well-known/mcp.json
+  status: 404
+- host: www.streetmetrics.com
+  path: /.well-known/security.txt
+  status: 404
+- host: www.streetmetrics.com
+  path: /.well-known/api-catalog
+  status: 404
+- host: www.streetmetrics.com
+  path: /.well-known/agent-card.json
+  status: 404
+- host: www.streetmetrics.com
+  path: /.well-known/agent.json
+  status: 404
+- host: www.streetmetrics.com
+  path: /.well-known/agent-skills/index.json
+  status: 404
+- host: dashboard.streetmetrics.io
+  path: /.well-known/security.txt
+  status: 404
+  note: JSON 404 envelope from the API itself ({"message":"Cannot GET ...","status":404}).
+- host: dashboard.streetmetrics.io
+  path: /.well-known/openid-configuration
+  status: 404
+- host: dashboard.streetmetrics.io
+  path: /.well-known/oauth-authorization-server
+  status: 404
+- host: dashboard.streetmetrics.io
+  path: /.well-known/oauth-protected-resource
+  status: 404
+- host: dashboard.streetmetrics.io
+  path: /.well-known/api-catalog
+  status: 404
+- host: dashboard.streetmetrics.io
+  path: /.well-known/ai-plugin.json
+  status: 404
+- host: dashboard.streetmetrics.io
+  path: /.well-known/agent-card.json
+  status: 404
+- host: dashboard.streetmetrics.io
+  path: /.well-known/agent.json
+  status: 404
+- host: dashboard.streetmetrics.io
+  path: /.well-known/mcp.json
+  status: 404
+- host: platform.streetmetrics.com
+  path: /.well-known/security.txt
+  status: 404
+- host: platform.streetmetrics.com
+  path: /.well-known/openid-configuration
+  status: 404
+- host: platform.streetmetrics.com
+  path: /.well-known/oauth-authorization-server
+  status: 404
+- host: platform.streetmetrics.com
+  path: /.well-known/api-catalog
+  status: 404
+- host: platform.streetmetrics.com
+  path: /.well-known/agent-card.json
+  status: 404
+- host: platform.streetmetrics.com
+  path: /.well-known/agent.json
+  status: 404

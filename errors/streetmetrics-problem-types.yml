@@ -1,0 +1,119 @@
+generated: '2026-08-12'
+method: derived
+source: >-
+  openapi/streetmetrics-public-api-openapi.json (4xx/5xx responses + components.schemas.ErrorResponseDto)
+  enriched with live anonymous probes of https://dashboard.streetmetrics.io/v3/public/ on 2026-08-12
+api: StreetMetrics Public API
+format: custom-json
+rfc9457: false
+media_type: application/json
+envelope:
+  schema: ErrorResponseDto
+  fields:
+  - name: status
+    type: string
+    required: true
+    example: error
+  - name: statusCode
+    type: number
+    required: true
+    example: 400
+  - name: errorCode
+    type: string
+    required: true
+    description: Custom error code string. The spec's own example is the placeholder "ERR001"; live
+      responses return semantic values such as UNAUTHORIZED and BAD_REQUEST.
+  - name: message
+    type: string
+    required: true
+    example: Invalid input data
+  - name: details
+    type: object
+    required: true
+    nullable: true
+  - name: timestamp
+    type: string
+    required: true
+    example: '2024-08-26T14:56:29.000Z'
+  - name: path
+    type: string
+    required: true
+    example: /api/v1/resource
+legacy_envelope:
+  applies_to: the older /v3/* routes on the same host
+  fields: [message, status, title, type, success, errors]
+  observed: '{"message":"Email must be an email","status":400,"title":"Validation Error","type":"warning","success":false,"errors":[]}'
+  probe:
+    url: https://dashboard.streetmetrics.io/v3/auth/authenticate
+    http_status: 400
+    fetched: '2026-08-12'
+coverage:
+  operations: 54
+  with_401: 53
+  with_429: 45
+  with_500: 45
+  with_400: 20
+  with_404: 11
+  without_any_error_response: 1
+  note: >-
+    POST /auth/authenticate declares only a 201. The one operation an integrator hits first documents no
+    failure mode at all, even though it returns 400 for a malformed email (probed) and necessarily
+    returns an auth failure for bad credentials.
+problem_types:
+- code: BAD_REQUEST
+  status: 400
+  title: Bad Request
+  description: >-
+    Request failed validation — a malformed or missing field, an unparseable filter/search expression,
+    or an out-of-range query parameter.
+  remediation: >-
+    Re-read the parameter description for the failing field; the `search` parameter uses the
+    fieldName.operation:value DSL and the `order` parameter only accepts ASC or DESC.
+  observed:
+    url: https://dashboard.streetmetrics.io/v3/public/auth/authenticate
+    body: '{"status":"error","statusCode":400,"errorCode":"BAD_REQUEST","message":"Email must be an email","timestamp":"2026-08-12T18:49:22.599Z","path":"/v3/public/auth/authenticate"}'
+    fetched: '2026-08-12'
+  operations: 20
+- code: UNAUTHORIZED
+  status: 401
+  title: Unauthorized
+  description: >-
+    No bearer token, an expired token, or a token whose account lacks permission for the requested
+    resource.
+  remediation: >-
+    Mint a fresh token with POST /auth/authenticate (api-key header + platform email/password) and send
+    it as `Authorization: Bearer <token>`.
+  observed:
+    url: https://dashboard.streetmetrics.io/v3/public/markets
+    body: '{"status":"error","statusCode":401,"errorCode":"UNAUTHORIZED","message":"You do not have permission for this action","timestamp":"2026-08-12T18:49:22.450Z","path":"/v3/public/markets"}'
+    fetched: '2026-08-12'
+  operations: 53
+- code: NOT_FOUND
+  status: 404
+  title: Not Found
+  description: The addressed campaign, ad group, asset, frame, creative or attribution study does not
+    exist or is not visible to the authenticated account.
+  remediation: List the collection first and use an id from the response rather than an external
+    reference value.
+  operations: 11
+- code: TOO_MANY_REQUESTS
+  status: 429
+  title: Too Many Requests
+  description: Request rate exceeded. No published limit, no RateLimit-* headers and no Retry-After were
+    observed, so the status code is the only signal.
+  remediation: Back off exponentially and retry; treat any write retry as non-idempotent because the API
+    supports no idempotency key.
+  operations: 45
+- code: INTERNAL_SERVER_ERROR
+  status: 500
+  title: Internal Server Error
+  description: Unhandled server-side failure.
+  remediation: Retry with backoff; there is no request id in the envelope to quote to support, so
+    capture the `timestamp` and `path` values.
+  operations: 45
+gaps:
+- The `errorCode` vocabulary is not enumerated anywhere in the spec or the documentation — the only
+  published example is the placeholder "ERR001". Values in this catalog were read off live responses.
+- The `details` object is required but never typed, so a client cannot know what a validation failure
+  will carry.
+- Errors are `application/json`, not `application/problem+json`; there is no `type` URI per RFC 9457.

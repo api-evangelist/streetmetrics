@@ -1,0 +1,51 @@
+generated: '2026-08-12'
+method: searched
+source: >-
+  https://docs.streetmetrics.com/reference/ad-groups (and the full API reference + recipes index at
+  https://docs.streetmetrics.com/llms.txt) plus live anonymous probes of
+  https://dashboard.streetmetrics.io/v3/public/ on 2026-08-12
+api: StreetMetrics Public API
+limit_count: 0
+limits: []
+enforcement:
+  status_code: 429
+  declared_on_operations: 45
+  of_operations: 54
+  response_schema: ErrorResponseDto
+  note: >-
+    The contract says the API rate-limits — 45 of 54 operations declare a 429 "Too Many Requests" — but
+    no number, window, scope or reset signal is published anywhere. The 8 Pixel operations and
+    POST /auth/authenticate do not declare 429 at all.
+headers:
+  observed: []
+  checked:
+  - RateLimit-Limit
+  - RateLimit-Remaining
+  - RateLimit-Reset
+  - X-RateLimit-Limit
+  - X-RateLimit-Remaining
+  - X-RateLimit-Reset
+  - Retry-After
+  evidence:
+  - url: https://dashboard.streetmetrics.io/v3/public/markets
+    http_status: 401
+    fetched: '2026-08-12'
+    rate_limit_headers: none
+  - url: https://dashboard.streetmetrics.io/v3/public/auth/authenticate
+    http_status: 400
+    fetched: '2026-08-12'
+    rate_limit_headers: none
+  note: >-
+    Only anonymous responses could be observed; an authenticated 2xx may carry headers that a 401/400
+    does not. Nothing is asserted about the authenticated path.
+related_ceilings:
+- parameter: limit
+  applies_to: 12 collection operations
+  documented_max: 10000
+  note: >-
+    A page-size ceiling, not a rate limit — recorded here because it is the only published numeric
+    throughput constraint in the contract.
+gaps:
+- No published requests-per-second/minute/day figure for any plan or key.
+- No RateLimit-* or Retry-After header observed, so a client cannot know when to retry after a 429.
+- No documented per-key vs per-account scope.

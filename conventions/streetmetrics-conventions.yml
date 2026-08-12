@@ -1,0 +1,132 @@
+generated: '2026-08-12'
+method: derived
+source: >-
+  openapi/streetmetrics-public-api-openapi.json + live probes of https://dashboard.streetmetrics.io/v3/public/
+  + https://docs.streetmetrics.com/recipes/how-to-authenticate-requests-and-create-tokens
+api: StreetMetrics Public API
+base_url: https://dashboard.streetmetrics.io/v3/public/
+
+authentication:
+  style: JWT bearer token, minted from platform credentials
+  scheme: 'http bearer (bearerFormat: JWT), declared as components.securitySchemes.bearer'
+  token_endpoint: POST /auth/authenticate
+  token_request:
+    headers:
+      api-key: required (string, header) — declared as a required parameter on the authenticate operation
+    body: '{ "email": "<platform email>", "password": "<platform password>" }'
+  token_response: '{ "statusCode": 201, "message": "...", "meta": {}, "data": "<token to attach>" }'
+  defect: >-
+    The spec defines the bearer scheme but never applies it — no root-level `security` block and zero of
+    the 54 operations carry an operation-level `security`. A generated client reads this contract as an
+    entirely anonymous API, while every non-auth operation returns 401 in practice. Captured as an
+    Overlay fix in overlays/streetmetrics-public-api-security-overlay.yaml.
+  see: authentication/streetmetrics-authentication.yml
+
+versioning:
+  style: URI path
+  current: v3
+  path_prefix: /v3/public/
+  note: >-
+    Two generations of route are live on the same host. The current public surface is /v3/public/*; the
+    older /v3/* routes still answer (POST https://dashboard.streetmetrics.io/v3/auth/authenticate
+    returned HTTP 400 with the legacy error envelope on 2026-08-12) and the published authentication
+    recipe still documents /v3/api/ paths, which now 404. No deprecation headers or sunset dates are
+    published for the older generation.
+  spec_version_declared: '3.0 (info.version)'
+
+pagination:
+  style: cursor
+  parameters:
+    cursor: 'Opaque cursor; take it from the `nextCursor` field of the previous response.'
+    limit: 'Page size (documented max 10000 on most collections).'
+    sort: 'Field to sort by.'
+    order: 'ASC | DESC.'
+  response_fields:
+    next_cursor: nextCursor
+    note: >-
+      `nextCursor` is described in the parameter documentation, but the response envelope schemas type
+      `meta` only as a free-form object, so the cursor field is not discoverable from the schema alone.
+  termination: 'Iterate until `nextCursor` is null or absent.'
+  applies_to: 12 collection operations
+
+filtering:
+  style: string query DSL on the `search` query parameter
+  syntax: 'fieldName.operation(a|o):value  — chain additional clauses with a comma'
+  operators: [gt, lt, gte, lte, eq, ne, ilike, like, startilike, endilike, startlike, endlike]
+  logical: 'a = AND (default), o = OR — appended to the operator, e.g. status.eqo:PENDING'
+  examples:
+  - assetRef.ilike:E62
+  - createdAt.gte:2021-01-01
+  - status.eqo:PENDING,status.eqo:APPROVED
+  - age.gtea:30,age.lt:40
+
+expansion:
+  parameter: include
+  style: comma/array of related entity names
+  documented_values: [media, assets, frames]
+  scope: Ad Group responses
+  note: 15 operations accept `include`; only the Ad Group values are enumerated in the spec.
+
+reporting_conventions:
+  window: 'startDate / endDate query parameters (epoch-style numeric campaign dates on entities)'
+  grouping: 'summaryBin — LIFETIME | WEEK | MONTH | DAY | HOUR | DOW'
+  timezone: 'timezone query parameter for date bucketing'
+
+response_envelope:
+  shape: '{ "statusCode": number, "message": string, "meta": object, "data": <payload> }'
+  data: 'object for single-resource reads, array for collections'
+  required: [statusCode, meta, data]
+
+error_envelope:
+  shape: '{ "status": "error", "statusCode": number, "errorCode": string, "message": string, "details": object|null, "timestamp": string, "path": string }'
+  schema: ErrorResponseDto
+  rfc9457: false
+  content_type: application/json (not application/problem+json)
+  legacy_variant: '{ "message": string, "status": number, "title": string, "type": string, "success": false, "errors": [] }'
+  legacy_note: >-
+    Observed on the older /v3/* routes on 2026-08-12; the /v3/public/* routes return the ErrorResponseDto
+    envelope. Two envelopes are live on one host.
+  see: errors/streetmetrics-problem-types.yml
+
+idempotency:
+  supported: false
+  evidence: >-
+    No Idempotency-Key header, no idempotency parameter, and no idempotency language anywhere in the
+    spec, the reference, or the recipes. Creating a campaign, ad group, attribution study, frame or
+    pixel twice creates two records; retries are unsafe by default.
+
+rate_limiting:
+  documented_limits: false
+  status_code: 429
+  spec_coverage: >-
+    429 "Too Many Requests" is declared on 45 of 54 operations. The 9 that omit it are the 8 Pixel
+    operations (which declare only 200/201/400/401) and POST /auth/authenticate (which declares only
+    201 — no error responses at all).
+  headers_observed: []
+  note: >-
+    No RateLimit-*, X-RateLimit-* or Retry-After header was present on any anonymous response from
+    dashboard.streetmetrics.io on 2026-08-12, and no numeric limit is published in the docs. An agent
+    can detect exhaustion only by the 429 status.
+  see: rate-limits/streetmetrics-rate-limits.yml
+
+request_tracing:
+  request_id_header: none observed
+  note: >-
+    Error bodies carry `timestamp` and `path` but no correlation/request id, so a support escalation has
+    no server-side handle to quote.
+
+content_type:
+  request: application/json
+  response: application/json
+  binary: 'GET /attribution-studies/files/{id} returns a ZIP download.'
+
+webhooks:
+  present: false
+  evidence: 'No webhooks/callbacks in the spec; the ReadMe project reports webhooks: false.'
+
+cross_reference:
+  authentication: authentication/streetmetrics-authentication.yml
+  errors: errors/streetmetrics-problem-types.yml
+  lifecycle: lifecycle/streetmetrics-lifecycle.yml
+  rate_limits: rate-limits/streetmetrics-rate-limits.yml
+  data_model: data-model/streetmetrics-data-model.yml

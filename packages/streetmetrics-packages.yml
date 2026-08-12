@@ -1,0 +1,92 @@
+generated: '2026-08-12'
+method: searched
+source: >-
+  registry.npmjs.org search + package lookups, proxy.golang.org module index,
+  https://api.github.com/orgs/streetmetrics/repos, https://docs.streetmetrics.com/llms.txt
+sdk_count: 0
+official_client_libraries: 0
+summary: >-
+  StreetMetrics publishes no client SDK for the Public API in any language. The documentation offers
+  only cURL examples and the ReadMe try-it console; there is no SDK, quickstart-with-a-library, or
+  code-generation guidance. The company's GitHub organization is real and public but holds
+  infrastructure work, not API clients: one first-party Angular Mapbox binding (archived, never
+  published to npm) and four forks of third-party open-source projects. No SDKs pointer is claimed in
+  apis.yml because no API client library exists to claim.
+registries_checked:
+- registry: npm
+  query: streetmetrics
+  results: 0
+  also_checked: [ng-mapbox, '@streetmetrics/ng-mapbox']
+  status: 404 on both direct lookups
+- registry: pypi
+  query: streetmetrics
+  results: 0
+- registry: go (proxy.golang.org)
+  results: 2 modules under github.com/streetmetrics, both forks of upstream projects
+- registry: rubygems
+  results: 0
+- registry: crates.io
+  results: 0
+- registry: maven-central
+  results: 0
+- registry: nuget
+  results: 0
+packages:
+- name: ng-mapbox
+  language: typescript
+  registry: null
+  registry_url: null
+  version: null
+  published: null
+  official: true
+  api_client: false
+  source: https://github.com/streetmetrics/ng-mapbox
+  description: Angular bindings for the mapbox-gl library.
+  note: >-
+    First-party StreetMetrics code (not a fork) but never published to any registry — npm returns 404
+    for both `ng-mapbox` and `@streetmetrics/ng-mapbox`, so `version` and `published` are null by fact,
+    not by omission. The repository is archived; last push 2021-08-31. Consumable only by git URL.
+- name: github.com/streetmetrics/boxtree
+  language: go
+  registry: go
+  registry_url: https://pkg.go.dev/github.com/streetmetrics/boxtree
+  version: v1.0.1
+  published: '2020-07-29'
+  official: false
+  api_client: false
+  source: https://github.com/streetmetrics/boxtree
+  description: Static flat 2D interval tree (box overlap) for Go — geospatial indexing.
+  note: >-
+    A fork of an upstream project, republished under the StreetMetrics namespace and resolvable through
+    the Go module proxy. Version/date read from https://proxy.golang.org/github.com/streetmetrics/boxtree/@latest.
+    Not a StreetMetrics API client.
+- name: github.com/streetmetrics/intree
+  language: go
+  registry: go
+  registry_url: https://pkg.go.dev/github.com/streetmetrics/intree
+  version: v1.0.0
+  published: '2020-02-07'
+  official: false
+  api_client: false
+  source: https://github.com/streetmetrics/intree
+  description: Static flat interval tree for Go.
+  note: >-
+    Fork, as above. Version/date read from https://proxy.golang.org/github.com/streetmetrics/intree/@latest.
+other_org_repositories:
+- name: valhalla
+  fork: true
+  note: Fork of the Valhalla open-source routing engine (C++) — the routing core behind mileage/exposure
+    measurement.
+- name: docker-valhalla
+  fork: true
+  note: Fork of a Docker packaging of Valhalla.
+- name: pinot
+  fork: true
+  archived: true
+  note: Fork of Apache Pinot (realtime distributed OLAP datastore).
+gaps:
+- No official SDK in any language for the Public API.
+- No published Postman collection. A public Postman team exists at the handle `streetmetrics` (created
+  2025-06-26, https://www.postman.com/streetmetrics), but the Postman search API reports
+  collectionCount 0, apiCount 0 and workspaceCount 0 for it — a claimed handle with nothing behind it,
+  so no Postman pointer is wired.

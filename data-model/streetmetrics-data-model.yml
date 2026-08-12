@@ -1,0 +1,187 @@
+generated: '2026-08-12'
+method: derived
+source: openapi/streetmetrics-public-api-openapi.json (62 component schemas, $ref graph + id-reference
+  fields)
+api: StreetMetrics Public API
+summary: >-
+  The model is an out-of-home campaign hierarchy hung off physical inventory. A Campaign holds Ad Groups
+  (called "flights" in the payloads); an Ad Group is either transit — carrying Assets (vehicles) — or
+  stationary — carrying Frames (billboard faces); both can carry Creatives. Media describes the product
+  a face belongs to and is broken into Media Faces. Measurement attaches sideways: Attribution Studies
+  bind to a Campaign and are fed by conversion Pixels, and Reporting is a set of read-only rollups
+  (impressions, demographics, affinities, uniques-and-frequency) keyed by campaign, ad group or unit.
+id_conventions:
+  style: numeric surrogate ids plus an operator-supplied external reference on most entities
+  pairs:
+  - entity: Campaign
+    id: campaignId
+    external_ref: campaignRef
+  - entity: Ad Group
+    id: flightId
+    external_ref: flightRef
+    note: The path/resource is `ad-groups` but the payload field is `flightId` — the two vocabularies
+      are not reconciled anywhere in the docs.
+  - entity: Frame
+    id: frameId
+    external_ref: frameRef
+  - entity: Media
+    id: mediaId
+    external_ref: classRef
+  - entity: Asset
+    id: null
+    external_ref: assetRef
+    note: Assets expose no numeric id in the client entity — assetRef/classRef are the handles.
+  - entity: Creative
+    id: creativeId
+    external_ref: creativeRef
+  - entity: Market
+    id: marketId
+  - entity: Pixel
+    id: pixelId
+    external_ref: pixelUUID
+  - entity: Attribution Study
+    id: attributionId
+entities:
+- name: Campaign
+  schema: ClientCampaignEntityResponseDto
+  fields: [campaignId, campaignRef, contractId, industry, activeFrom, activeTo, metaData, createdAt,
+    updatedAt, adGroups]
+  operations: [CampaignController_getCampaigns, CampaignController_getCampaign,
+    CampaignController_createCampaign, CampaignController_patchUpdateCampaign,
+    CampaignController_deleteCampaign]
+  relationships:
+  - has_many: Ad Group
+    via: adGroups
+  - has_many: Attribution Study
+    via: attributionId query parameter on the study endpoints
+  - has_many: Pixel
+    via: PixelController_attachCampaignToPixel
+- name: Ad Group (flight)
+  schema: ClientAdGroupEntityResponseDto
+  fields: [flightId, flightRef, activeFrom, activeTo, productType, flightGroup, mediaPositions,
+    inventoryType, metaData, createdAt, updatedAt, media, assets, frames]
+  subtypes: [transit, stationary]
+  operations: [AdGroupController_getAdGroups, AdGroupController_getAdGroup,
+    AdGroupController_createTransitAdGroup, AdGroupController_createStationaryAdGroup,
+    AdGroupController_attachAssets, AdGroupController_putUpdateAssets, AdGroupController_attachFrames,
+    AdGroupController_putUpdateFrames, AdGroupController_attachCreatives,
+    AdGroupController_deleteAdGroup]
+  relationships:
+  - belongs_to: Campaign
+  - has_many: Asset
+    via: assets
+    applies_to: transit ad groups
+  - has_many: Frame
+    via: frames
+    applies_to: stationary ad groups
+  - has_one: Media
+    via: media
+  - has_many: Creative
+    via: AdGroupController_attachCreatives
+- name: Asset
+  schema: ClientAssetEntityDto
+  fields: [assetOwner, assetType, assetRef, classRef, displayName, assetStatus, metaData]
+  description: A moving unit (vehicle) that carries transit advertising.
+  operations: [AssetController_getAssets, AssetController_getAssetById,
+    AssetController_patchUpdateAsset, AssetController_getAssetOwners,
+    AssetController_getCompatibleAssets, AssetController_getCompatibleAssetsByAdGroupId]
+  relationships:
+  - belongs_to: Ad Group
+    via: attach/replace operations
+  - belongs_to: Media
+    via: classRef
+- name: Frame
+  schema: ClientFrameEntityDto
+  fields: [frameId, frameRef, frameWidth, frameHeight, frameElevation, frameType, expositionAngle,
+    expositionWidth, market]
+  description: A fixed advertising face (billboard/panel) with physical geometry and exposure angles.
+  operations: [FramesController_getFrames, FramesController_getFrameById,
+    FramesController_createFrame, FramesController_patchFrame]
+  relationships:
+  - belongs_to: Market
+    via: market
+  - belongs_to: Ad Group
+    via: attach/update frames operations
+- name: Media
+  schema: ClientMediaEntityDto
+  fields: [mediaId, classRef, assetOwner, productType, combined, assetType, mediaFormat, mediaPlacement,
+    faces]
+  operations: [MediaController_getMedia, MediaController_getProductTypes]
+  relationships:
+  - has_many: Media Face
+    via: faces
+- name: Media Face
+  schema: ClientMediaFaceEntityDto
+  fields: [mediaId, facePosition, faceDimension]
+  relationships:
+  - belongs_to: Media
+    via: mediaId
+- name: Creative
+  schema: CreativeResponseDto
+  fields: [creativeId, creativeRef, displayName]
+  operations: [PublicCreativesController_getCreatives, PublicCreativesController_getCreativeById]
+  relationships:
+  - belongs_to: Ad Group
+    via: AdGroupController_attachCreatives
+- name: Market
+  schema: ClientMarketEntityDto
+  fields: [marketId, marketName]
+  operations: [MarketController_getMarkets]
+  relationships:
+  - has_many: Frame
+- name: Attribution Study
+  schema: ClientAttributionStudyEntityDto
+  fields: [attributionId, campaignId, status, studyName, studyType, campaignGoals, startDate, endDate,
+    postStudyEndDate, isPartOfOtherEffort, pauseOtherChannels, brandFocused, adsAligned, analysisType,
+    createdAt, updatedAt, campaigns]
+  operations: [AttributionStudyController_getAttributionStudies,
+    AttributionStudyController_getAttributionStudy, AttributionStudyController_createAttributionStudy,
+    AttributionStudyController_getAttributionStudyFile,
+    AttributionStudyController_getConversionsByDate,
+    AttributionStudyController_getConversionsByAdGroup,
+    AttributionStudyController_getConversionsByUnit]
+  relationships:
+  - belongs_to: Campaign
+    via: campaignId
+  - has_many: Pixel
+    via: PixelController_attachAttributionStudyToPixel
+- name: Pixel
+  schema: ClientPixelEntity
+  fields: [pixelId, pixelUUID, campaignId, campaign, metaData]
+  description: Conversion-tracking pixel that feeds attribution studies.
+  operations: [PixelController_createPixel, PixelController_getPixels, PixelController_getPixel,
+    PixelController_updatePixel, PixelController_attachCampaignToPixel,
+    PixelController_detachCampaignFromPixel, PixelController_attachAttributionStudyToPixel,
+    PixelController_detachAttributionStudyFromPixel]
+  relationships:
+  - belongs_to: Campaign
+    via: campaignId
+  - belongs_to: Attribution Study
+    via: attach/detach attribution-study operations
+read_models:
+- name: Impressions
+  schemas: [ClientReportingImpressionsByDateResponseDto, ClientReportingImpressionsByAdGroupResponseDto,
+    ClientReportingImpressionsByUnitResponseDto]
+  grain: [date, ad group, unit]
+- name: Demographics
+  schemas: [ClientReportingDemographicsResponseDto]
+  grain: [campaign]
+- name: Affinities
+  schemas: [ClientReportingAffinitiesResponseDto]
+  grain: [campaign]
+- name: Uniques & Frequency
+  schemas: [ClientReportingUfResponseDto, ClientReportingUfResponseDtoAdgroup,
+    ClientReportingUfResponseDtoUnit]
+  grain: [campaign, ad group, unit]
+- name: Conversions
+  schemas: [ClientAttributionConversionsByDateResponseDto,
+    ClientAttributionConversionsByAdGroupResponseDto, ClientAttributionConversionsByUnitResponseDto]
+  grain: [date, ad group, unit]
+  binning: summaryBin — LIFETIME | WEEK | MONTH | DAY | HOUR | DOW
+notes:
+- Relationships are expressed through attach/detach operations and id fields rather than hypermedia;
+  there are no links in any response.
+- Every list response wraps its payload in the {statusCode, message, meta, data} envelope, so the entity
+  schemas above are the contents of `data`.
+- The `metaData` field is an untyped object on Campaign, Ad Group, Asset and Pixel — an extension point
+  the contract does not describe.

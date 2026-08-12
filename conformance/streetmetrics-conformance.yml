@@ -1,0 +1,105 @@
+generated: '2026-08-12'
+method: derived
+source: >-
+  openapi/streetmetrics-public-api-openapi.json, live probes of dashboard.streetmetrics.io and
+  docs.streetmetrics.com, https://www.streetmetrics.com/methodology,
+  https://www.streetmetrics.com/privacy-terms/privacy-policy
+api: StreetMetrics Public API
+standards:
+- id: openapi-3.0
+  conforms: true
+  evidence: >-
+    openapi 3.0.0 document with 40 paths / 54 operations / 62 component schemas, published in the
+    provider's own developer hub and served live from the API host at
+    https://dashboard.streetmetrics.io/docs-json. Validated as parseable OpenAPI; ReadMe reports the
+    uploaded definition's validation status as "valid".
+- id: oauth2
+  conforms: false
+  evidence: No oauth2 security scheme in the spec; /.well-known/oauth-authorization-server and
+    /.well-known/oauth-protected-resource 404 on every host.
+- id: oidc
+  conforms: false
+  evidence: /.well-known/openid-configuration returns 404 on streetmetrics.com,
+    docs.streetmetrics.com, dashboard.streetmetrics.io and platform.streetmetrics.com.
+- id: jwt-bearer
+  conforms: partial
+  evidence: >-
+    components.securitySchemes.bearer declares http/bearer with bearerFormat JWT and the documented flow
+    exchanges credentials for a token. But the scheme is never applied — no root `security`, and zero
+    operations carry one — so the contract does not actually require the credential the service enforces.
+- id: rfc9457
+  conforms: false
+  evidence: >-
+    Errors use a bespoke envelope (status, statusCode, errorCode, message, details, timestamp, path)
+    served as application/json. No application/problem+json, no `type` URI.
+- id: pagination
+  conforms: true
+  style: cursor
+  evidence: >-
+    cursor/limit/sort/order documented on 12 collection operations, with a described `nextCursor`
+    continuation field and a documented max limit of 10000.
+  caveat: The `nextCursor` field is described only in prose; the response `meta` object is untyped, so
+    it cannot be found from the schema.
+- id: idempotency
+  conforms: false
+  evidence: No Idempotency-Key header or equivalent anywhere in the spec, reference or recipes; 22 write
+    operations (POST/PUT/PATCH/DELETE) are all non-idempotent on retry.
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: /.well-known/security.txt returns 404 on all five probed hosts.
+- id: rfc9727-api-catalog
+  conforms: false
+  evidence: >-
+    docs.streetmetrics.com advertises Link: <.../.well-known/api-catalog>; rel="api-catalog" on every
+    response, but that URL returns 404. The discovery header is present and the document is not.
+- id: rfc8594-sunset
+  conforms: false
+  evidence: No Sunset or Deprecation headers observed; no deprecation policy published, while a previous
+    generation of routes (/v3/*) is still live alongside /v3/public/*.
+- id: a2a-agent-card
+  conforms: false
+  evidence: /.well-known/agent-card.json and /.well-known/agent.json return 404 on all five probed
+    hosts.
+- id: mcp
+  conforms: partial
+  evidence: >-
+    A live MCP endpoint is served at https://docs.streetmetrics.com/mcp (ReadMe-hosted documentation
+    MCP). It answers JSON-RPC but requires authorization — initialize and tools/list both return HTTP
+    401 "Authorization required" to anonymous clients, and it returns no WWW-Authenticate challenge and
+    publishes no OAuth metadata, so a client cannot discover how to authenticate.
+- id: llms-txt
+  conforms: true
+  evidence: https://docs.streetmetrics.com/llms.txt returns a valid llms.txt index (HTTP 200) linking
+    every reference page, recipe and changelog entry as markdown.
+- id: agent-skills-discovery-0.2.0
+  conforms: true
+  evidence: >-
+    https://docs.streetmetrics.com/.well-known/agent-skills/index.json returns a valid discovery
+    document ($schema schemas.agentskills.io/discovery/0.2.0) listing one skill with a sha256 digest.
+- id: asyncapi
+  conforms: false
+  applicable: false
+  evidence: No event, streaming or webhook surface exists — the spec declares no webhooks/callbacks and
+    the ReadMe project reports webhooks disabled.
+compliance:
+  certifications_published: []
+  programs_published: []
+  evidence: >-
+    No SOC 2, ISO 27001, PCI, HIPAA or FedRAMP claim, no trust center, and no third-party accreditation
+    (no MRC or Geopath accreditation claim) appears on streetmetrics.com. The methodology page states
+    only that StreetMetrics "makes our methodology available to clients, agency partners, auditors, and
+    industry bodies" — an availability statement, not an audit.
+  privacy_notices:
+  - name: GDPR Privacy Notice
+    url: https://www.streetmetrics.com/privacy-terms/gpdr-privacy-notice
+  - name: CCPA Privacy Notice
+    url: https://www.streetmetrics.com/privacy-terms/ccpa-privacy-notice
+  - name: Privacy Policy
+    url: https://streetmetrics.com/privacy-terms/privacy-policy
+    last_updated: '2022-05-01'
+  privacy_posture: >-
+    The methodology page states all device data is processed with hashed identifiers and that no
+    personally identifiable information is stored or transmitted.
+  note: >-
+    No `Compliance` pointer is wired in apis.yml: regional privacy notices are published, but no
+    certification, attestation or compliance program is.

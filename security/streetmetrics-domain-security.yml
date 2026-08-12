@@ -1,4 +1,4 @@
-generated: '2026-07-21'
+generated: '2026-08-12'
 method: probed
 source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
 hosts:
@@ -8,6 +8,16 @@ hosts:
   cert_expires: Oct 15 14:35:10 2026 GMT
   hsts: true
   hsts_max_age: 31536000
+- host: docs.streetmetrics.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct 21 04:55:59 2026 GMT
+  hsts: null
+- host: dashboard.streetmetrics.io
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct  2 05:56:18 2026 GMT
+  hsts: null
 domains:
 - domain: streetmetrics.com
   dnssec: false
@@ -15,3 +25,8 @@ domains:
   spf: true
   dmarc: true
   dmarc_policy: none
+- domain: streetmetrics.io
+  dnssec: false
+  caa: []
+  spf: false
+  dmarc: false

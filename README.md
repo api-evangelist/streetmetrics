@@ -42,6 +42,15 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-StreetMetrics is a company surfaced as a portfolio company of techstars and added to the API Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+StreetMetrics is an out-of-home (OOH) advertising measurement, planning, and attribution platform,
+surfaced as a portfolio company of techstars and profiled here from its public developer surface.
+
+StreetMetrics publishes a **public REST API** — the StreetMetrics Public API, documented at
+https://docs.streetmetrics.com and served from `https://dashboard.streetmetrics.io/v3/public/`. The
+harvested OpenAPI 3.0 definition (54 operations across campaigns, ad groups, assets, frames,
+creatives, markets, media, attribution studies, conversion pixels and reporting) is in `openapi/`,
+with the verbatim live copy in `openapi/_original/`. Authentication, conventions, error catalog, data
+model, lifecycle, changelog, conformance, rate limits, plans, packages, well-known probes, MCP, and
+Agent Skills artifacts were derived or searched from that surface.
 
 Backed by: techstars — https://streetmetrics.com/

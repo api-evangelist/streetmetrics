@@ -1,14 +1,16 @@
 aid: streetmetrics
 accessModel:
   pricing: unknown
-  onboarding: unknown
+  onboarding: sales-gate
   trial: false
   try_now: false
-  public: false
-  label: Unknown
-  confidence: low
-  source: []
-  generated: '2026-07-22'
+  public: true
+  label: Public API, platform credentials required
+  confidence: medium
+  source:
+  - authentication
+  - docs
+  generated: '2026-08-12'
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/streetmetrics.png
 name: StreetMetrics
@@ -17,19 +19,22 @@ description: StreetMetrics is an out-of-home (OOH) advertising measurement, plan
   in near real-time across 1.6M+ OOH units, and measure business outcomes from outdoor advertising. Its
   SmartSearch planning intelligence surfaces unit-level performance and audience insights, daily-refreshed
   impression measurement tracks delivery, and attribution connects OOH exposure to website visits, app
-  opens, and in-store lift. No public developer API, SDKs, or API documentation are published; access is
-  delivered through the product platform (Intelligence, Measurement, Attribution, StreetCity) and verified
-  partner operators.
+  opens, and in-store lift. StreetMetrics publishes a public REST API — the StreetMetrics Public API,
+  documented at docs.streetmetrics.com and served from dashboard.streetmetrics.io/v3/public/ — covering
+  campaigns, ad groups, assets, frames, creatives, markets, media, attribution studies, conversion
+  pixels, and impression/demographic/uniques-and-frequency reporting. Authentication is a JWT bearer
+  token minted from the same email and password used to sign in to the StreetMetrics platform, so API
+  access follows a platform subscription rather than self-serve developer signup.
 url: https://raw.githubusercontent.com/api-evangelist/streetmetrics/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - techstars
-x-tier: stub
-x-tier-reason: portfolio-lead
+x-tier: enriched
+x-tier-reason: portfolio-lead-enriched
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-21'
+modified: '2026-08-12'
 tags:
 - Company
 - Advertising
@@ -39,13 +44,60 @@ tags:
 - Analytics
 - Marketing
 - Location Data
-apis: []
+- Media Planning
+- Transit Advertising
+- Campaign Reporting
+- Audience Data
+apis:
+- name: StreetMetrics Public API
+  description: >-
+    Public REST API for the StreetMetrics out-of-home advertising platform. 54 operations across
+    campaigns, transit and stationary ad groups, assets and asset owners, frames, creatives, markets,
+    media and product types, attribution studies (including conversion rollups by date, ad group and
+    unit), conversion pixels, and reporting (impressions by date/ad group/unit, demographics,
+    affinities, uniques and frequency). Authentication is a JWT bearer token obtained by POSTing
+    StreetMetrics platform credentials to /auth/authenticate.
+  humanURL: https://docs.streetmetrics.com/reference/ad-groups
+  baseURL: https://dashboard.streetmetrics.io/v3/public/
+  tags:
+  - Advertising
+  - Out-of-Home
+  - Measurement
+  - Attribution
+  - Analytics
+  - Media Planning
+  - Campaign Reporting
+  properties:
+  - type: OpenAPI
+    url: openapi/streetmetrics-public-api-openapi.json
+  - type: Documentation
+    url: https://docs.streetmetrics.com/reference/ad-groups
+  - type: APIReference
+    url: https://docs.streetmetrics.com/reference/ad-groups
+  - type: Authentication
+    url: authentication/streetmetrics-authentication.yml
+  - type: Conventions
+    url: conventions/streetmetrics-conventions.yml
+  - type: ErrorCatalog
+    url: errors/streetmetrics-problem-types.yml
+  - type: DataModel
+    url: data-model/streetmetrics-data-model.yml
+  - type: Overlay
+    url: overlays/streetmetrics-public-api-overlay.yaml
+  - type: RateLimits
+    url: rate-limits/streetmetrics-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/streetmetrics-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/streetmetrics-changelog.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: Authentication
+  url: authentication/streetmetrics-authentication.yml
 - type: Website
   url: https://streetmetrics.com/
 - type: Blog
@@ -56,8 +108,56 @@ common:
   url: https://streetmetrics.com/privacy-terms/privacy-policy
 - type: DomainSecurity
   url: security/streetmetrics-domain-security.yml
+- type: DeveloperPortal
+  url: https://docs.streetmetrics.com/
+- type: Documentation
+  url: https://docs.streetmetrics.com/reference/ad-groups
+- type: APIReference
+  url: https://docs.streetmetrics.com/reference/ad-groups
+- type: GettingStarted
+  url: https://docs.streetmetrics.com/recipes/how-to-authenticate-requests-and-create-tokens
+- type: Login
+  url: https://platform.streetmetrics.com/login
+- type: Support
+  url: https://streetmetrics.com/contact
+- type: GitHubOrganization
+  url: https://github.com/streetmetrics
+- type: ChangeLog
+  url: changelog/streetmetrics-changelog.yml
+- type: ChangeLog
+  url: https://docs.streetmetrics.com/changelog
+- type: Lifecycle
+  url: lifecycle/streetmetrics-lifecycle.yml
+- type: Conventions
+  url: conventions/streetmetrics-conventions.yml
+- type: ErrorCatalog
+  url: errors/streetmetrics-problem-types.yml
+- type: RateLimits
+  url: rate-limits/streetmetrics-rate-limits.yml
+- type: DataModel
+  url: data-model/streetmetrics-data-model.yml
+- type: Conformance
+  url: conformance/streetmetrics-conformance.yml
+- type: Plans
+  url: plans/streetmetrics-plans-pricing.yml
+- type: Packages
+  url: packages/streetmetrics-packages.yml
+- type: LLMsTxt
+  url: llms/streetmetrics-llms.txt
+- type: LLMsTxt
+  url: https://docs.streetmetrics.com/llms.txt
+- type: WellKnown
+  url: well-known/streetmetrics-well-known.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: MCPServer
+  url: mcp/streetmetrics-mcp.yml
+- type: MCPServer
+  url: https://docs.streetmetrics.com/mcp
+- type: ToolCrosswalk
+  url: mcp/streetmetrics-tool-crosswalk.yml
 x-enrichment:
-  date: '2026-07-21'
-  status: minimal
-  artifacts_added: 1
+  date: '2026-08-12'
+  status: enriched
+  artifacts_added: 24
   pass: local-v1
