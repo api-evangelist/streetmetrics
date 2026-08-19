@@ -6,22 +6,20 @@ server:
   name: StreetMetrics Documentation MCP Server
   url: https://docs.streetmetrics.com/mcp
   transport: streamable-http
-  hosted_by: >-
-    ReadMe (docs.streetmetrics.com is a ReadMe-hosted developer hub; the project has MCP enabled —
-    the rendered docs advertise "Copy MCP Command" / "Connect to Cursor" / "Connect to VS Code"
-    actions and the project config exposes mcp_server_card: true and webmcp: true).
+  hosted_by: 'ReadMe (docs.streetmetrics.com is a ReadMe-hosted developer hub; the project has MCP enabled
+    — the rendered docs advertise "Copy MCP Command" / "Connect to Cursor" / "Connect to VS Code" actions
+    and the project config exposes mcp_server_card: true and webmcp: true).'
   scope: documentation
-  note: >-
-    This endpoint fronts the StreetMetrics documentation (reference pages, recipes, changelog), not the
-    StreetMetrics Public API operations. No MCP server that wraps the REST API itself was found on any
-    StreetMetrics host.
+  note: This endpoint fronts the StreetMetrics documentation (reference pages, recipes, changelog), not
+    the StreetMetrics Public API operations. No MCP server that wraps the REST API itself was found on
+    any StreetMetrics host.
 evidence:
 - fetched: '2026-08-12'
   method: GET
   url: https://docs.streetmetrics.com/mcp
   http_status: 200
   content_type: text/html
-  body: 'This URL can only be accessed with a MCP client.'
+  body: This URL can only be accessed with a MCP client.
 - fetched: '2026-08-12'
   method: POST
   url: https://docs.streetmetrics.com/mcp
@@ -40,21 +38,24 @@ evidence:
   http_status: 404
 tools:
   discovered: false
-  reason: >-
-    tools/list is auth-gated (401 Authorization required) to anonymous clients, so the live tool set and
-    its inputSchemas could not be enumerated. No tool list is published in llms.txt either. Nothing is
-    recorded here rather than guessing — an authenticated introspection is required to capture the real
-    manifest.
+  reason: tools/list is auth-gated (401 Authorization required) to anonymous clients, so the live tool
+    set and its inputSchemas could not be enumerated. No tool list is published in llms.txt either. Nothing
+    is recorded here rather than guessing — an authenticated introspection is required to capture the
+    real manifest.
 authentication:
   anonymous_access: false
-  challenge: 'JSON-RPC error -32001 "Authorization required" (HTTP 401)'
+  challenge: JSON-RPC error -32001 "Authorization required" (HTTP 401)
   oauth_metadata:
     well_known_oauth_authorization_server: 404
     well_known_oauth_protected_resource: 404
-  note: >-
-    The MCP endpoint returns a bare 401 with no WWW-Authenticate challenge and the host serves no OAuth
-    authorization-server or protected-resource metadata, so a client cannot discover how to obtain a
-    token from the protocol alone.
+  note: The MCP endpoint returns a bare 401 with no WWW-Authenticate challenge and the host serves no
+    OAuth authorization-server or protected-resource metadata, so a client cannot discover how to obtain
+    a token from the protocol alone.
 related:
   agent_skills_index: https://docs.streetmetrics.com/.well-known/agent-skills/index.json
   llms_txt: https://docs.streetmetrics.com/llms.txt
+deployment:
+  mode: remote
+  verified: searched
+  checked: '2026-08-12'
+  source: catalog MCP census

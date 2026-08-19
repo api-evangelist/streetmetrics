@@ -1,0 +1,1717 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "StreetMetrics Public API",
+    "version": "3.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Ad Groups",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve a specific Ad Group by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://dashboard.streetmetrics.io/v3/public/ad-groups/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the Ad Group to retrieve"
+              },
+              {
+                "name": "include",
+                "value": "media",
+                "type": "query",
+                "description": "Specific entities to include in the AdGroup response. Only valid for AdGroup entities. Possible values: media, assets, frames"
+              }
+            ]
+          },
+          "docs": "Retrieve a specific Ad Group by ID"
+        },
+        {
+          "info": {
+            "name": "Delete an Ad Group",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://dashboard.streetmetrics.io/v3/public/ad-groups/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the ad group"
+              }
+            ]
+          },
+          "docs": "Delete an Ad Group"
+        },
+        {
+          "info": {
+            "name": "Retrieve a list of Ad Groups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://dashboard.streetmetrics.io/v3/public/ad-groups",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of results (max 10000)"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Order direction"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination. \n      The cursor is used to fetch the next set of results in a paginated response.\n      Typically, it is provided in the 'nextCursor' field of the previous response.\n      Usage:\n      - Start by making an initial request without a cursor.\n      - In the response, you'll receive a 'nextCursor' if there are more results to fetch.\n      - Use this 'nextCursor' value as the cursor in your subsequent request to fetch the next page of results.\n      - Continue this process until the 'nextCursor' is null or not provided, indicating there are no more results.\n      Example: \n      \n    ?cursor=12345\n    "
+              },
+              {
+                "name": "include",
+                "value": "media",
+                "type": "query",
+                "description": "Specific entities to include in the AdGroup response. Only valid for AdGroup entities. Possible values: media, assets, frames"
+              },
+              {
+                "name": "search",
+                "value": "assetRef.ilike:E62,createdAt.gte:2021-01-01",
+                "type": "query",
+                "description": "Search query string. The syntax is 'fieldName.operation(a|o):value'.\n      The a|o (AND|OR) is optional and if not provided, it is considered as AND.\n    Additional searches can be chained with a comma.\n      Supported operations are:\n          - gt: Greater than\n          - lt: Less than\n          - gte: Greater than or equal to\n          - lte: Less than or equal to\n          - eq: Equal to\n          - ne: Not equal to\n          - ilike: Case-insensitive like\n          - like: Case-sensitive like\n          - startilike: Case-insensitive like at the start\n          - endilike: Case-insensitive like at the end\n          - startlike: Case-sensitive like at the start\n          - endlike: Case-sensitive like at the end\n        Logical operators:\n          - a: AND\n          - o: OR\n        Examples:\n          - assetRef.ilike:E62\n            Returns all assets with assetRef like E62\n          - createdAt.gte:2021-01-01\n            Returns all assets created after 2021-01-01\n          - status.eqo:PENDING,status.eqo:APPROVED\n            Returns all assets with status either PENDING OR APPROVED\n          - name.startilike:John\n            Returns all assets with name starting with John\n          - age.gtea:30,age.lt:40\n            Returns all assets with age greater than or equal to 30 and less than 40"
+              },
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the campaign to filter ad groups by"
+              }
+            ]
+          },
+          "docs": "Retrieve a list of Ad Groups"
+        },
+        {
+          "info": {
+            "name": "Create a new Transit Ad Group",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://dashboard.streetmetrics.io/v3/public/ad-groups/transit",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new Transit Ad Group"
+        },
+        {
+          "info": {
+            "name": "Create a new Stationary Ad Group",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://dashboard.streetmetrics.io/v3/public/ad-groups/stationary",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new Stationary Ad Group"
+        },
+        {
+          "info": {
+            "name": "Attach assets to a Transit Ad Group",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://dashboard.streetmetrics.io/v3/public/ad-groups/:id/assets",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the ad group"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Attach assets to a Transit Ad Group"
+        },
+        {
+          "info": {
+            "name": "Replace assets attached to a Transit Ad Group",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://dashboard.streetmetrics.io/v3/public/ad-groups/:id/assets",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the ad group"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Replace assets attached to a Transit Ad Group"
+        },
+        {
+          "info": {
+            "name": "Attach frames to a Stationary Ad Group",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://dashboard.streetmetrics.io/v3/public/ad-groups/:id/frames",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the ad group"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Attach frames to a Stationary Ad Group"
+        },
+        {
+          "info": {
+            "name": "Update frames attached to a Stationary Ad Group",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://dashboard.streetmetrics.io/v3/public/ad-groups/:id/frames",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the ad group"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update frames attached to a Stationary Ad Group"
+        },
+        {
+          "info": {
+            "name": "Attach creatives to a Stationary or Transit Ad group",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://dashboard.streetmetrics.io/v3/public/ad-groups/:id/creatives",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the ad group"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Attach creatives to a Stationary or Transit Ad group"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Authentication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Authenticate a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://dashboard.streetmetrics.io/v3/public/auth/authenticate",
+            "headers": [
+              {
+                "name": "api-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Authenticate a user"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Attribution Studies",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Download an attribution study file as a ZIP",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://dashboard.streetmetrics.io/v3/public/attribution-studies/files/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the attribution study"
+              }
+            ]
+          },
+          "docs": "Download an attribution study file as a ZIP"
+        },
+        {
+          "info": {
+            "name": "Get a specific attribution study by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://dashboard.streetmetrics.io/v3/public/attribution-studies/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the attribution study"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of results (max 10000)"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Order direction"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination. \n      The cursor is used to fetch the next set of results in a paginated response.\n      Typically, it is provided in the 'nextCursor' field of the previous response.\n      Usage:\n      - Start by making an initial request without a cursor.\n      - In the response, you'll receive a 'nextCursor' if there are more results to fetch.\n      - Use this 'nextCursor' value as the cursor in your subsequent request to fetch the next page of results.\n      - Continue this process until the 'nextCursor' is null or not provided, indicating there are no more results.\n      Example: \n      \n    ?cursor=12345\n    "
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Entities to include in the response. Possible values: campaigns"
+              },
+              {
+                "name": "search",
+                "value": "assetRef.ilike:E62,createdAt.gte:2021-01-01",
+                "type": "query",
+                "description": "Search query string. The syntax is 'fieldName.operation(a|o):value'.\n      The a|o (AND|OR) is optional and if not provided, it is considered as AND.\n    Additional searches can be chained with a comma.\n      Supported operations are:\n          - gt: Greater than\n          - lt: Less than\n          - gte: Greater than or equal to\n          - lte: Less than or equal to\n          - eq: Equal to\n          - ne: Not equal to\n          - ilike: Case-insensitive like\n          - like: Case-sensitive like\n          - startilike: Case-insensitive like at the start\n          - endilike: Case-insensitive like at the end\n          - startlike: Case-sensitive like at the start\n          - endlike: Case-sensitive like at the end\n        Logical operators:\n          - a: AND\n          - o: OR\n        Examples:\n          - assetRef.ilike:E62\n            Returns all assets with assetRef like E62\n          - createdAt.gte:2021-01-01\n            Returns all assets created after 2021-01-01\n          - status.eqo:PENDING,status.eqo:APPROVED\n            Returns all assets with status either PENDING OR APPROVED\n          - name.startilike:John\n            Returns all assets with name starting with John\n          - age.gtea:30,age.lt:40\n            Returns all assets with age greater than or equal to 30 and less than 40"
+              }
+            ]
+          },
+          "docs": "Get a specific attribution study by ID"
+        },
+        {
+          "info": {
+            "name": "Get a list of attribution studies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://dashboard.streetmetrics.io/v3/public/attribution-studies",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of results (max 10000)"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Order direction"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination. \n      The cursor is used to fetch the next set of results in a paginated response.\n      Typically, it is provided in the 'nextCursor' field of the previous response.\n      Usage:\n      - Start by making an initial request without a cursor.\n      - In the response, you'll receive a 'nextCursor' if there are more results to fetch.\n      - Use this 'nextCursor' value as the cursor in your subsequent request to fetch the next page of results.\n      - Continue this process until the 'nextCursor' is null or not provided, indicating there are no more results.\n      Example: \n      \n    ?cursor=12345\n    "
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Entities to include in the response. Possible values: campaigns"
+              },
+              {
+                "name": "search",
+                "value": "assetRef.ilike:E62,createdAt.gte:2021-01-01",
+                "type": "query",
+                "description": "Search query string. The syntax is 'fieldName.operation(a|o):value'.\n      The a|o (AND|OR) is optional and if not provided, it is considered as AND.\n    Additional searches can be chained with a comma.\n      Supported operations are:\n          - gt: Greater than\n          - lt: Less than\n          - gte: Greater than or equal to\n          - lte: Less than or equal to\n          - eq: Equal to\n          - ne: Not equal to\n          - ilike: Case-insensitive like\n          - like: Case-sensitive like\n          - startilike: Case-insensitive like at the start\n          - endilike: Case-insensitive like at the end\n          - startlike: Case-sensitive like at the start\n          - endlike: Case-sensitive like at the end\n        Logical operators:\n          - a: AND\n          - o: OR\n        Examples:\n          - assetRef.ilike:E62\n            Returns all assets with assetRef like E62\n          - createdAt.gte:2021-01-01\n            Returns all assets created after 2021-01-01\n          - status.eqo:PENDING,status.eqo:APPROVED\n            Returns all assets with status either PENDING OR APPROVED\n          - name.startilike:John\n            Returns all assets with name starting with John\n          - age.gtea:30,age.lt:40\n            Returns all assets with age greater than or equal to 30 and less than 40"
+              }
+            ]
+          },
+          "docs": "Get a list of attribution studies"
+        },
+        {
+          "info": {
+            "name": "Create a new attribution study",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://dashboard.streetmetrics.io/v3/public/attribution-studies",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new attribution study"
+        },
+        {
+          "info": {
+            "name": "Get conversions aggregated by date",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://dashboard.streetmetrics.io/v3/public/attribution-studies/conversions/date",
+            "params": [
+              {
+                "name": "attributionId",
+                "value": "",
+                "type": "query",
+                "description": "Attribution study ID"
+              },
+              {
+                "name": "startDate",
+                "value": "",
+                "type": "query",
+                "description": "Start date as Unix timestamp in epoch seconds. If not provided, uses attribution study start date."
+              },
+              {
+                "name": "endDate",
+                "value": "",
+                "type": "query",
+                "description": "End date as Unix timestamp in epoch seconds. If not provided, uses attribution study post-study end date."
+              },
+              {
+                "name": "summaryBin",
+                "value": "",
+                "type": "query",
+                "description": "Optional summary bin for grouping data by time periods (WEEK, MONTH, DAY, HOUR, LIFETIME, DOW). When specified, results include summaryBinGrouping field."
+              },
+              {
+                "name": "timezone",
+                "value": "",
+                "type": "query",
+                "description": "Timezone for date calculations"
+              }
+            ]
+          },
+          "docs": "Retrieves conversion data aggregated by date. When summaryBin is specified, data is grouped by time periods (week, month, day, etc.)."
+        },
+        {
+          "info": {
+            "name": "Get conversions aggregated by ad group",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://dashboard.streetmetrics.io/v3/public/attribution-studies/conversions/ad-group",
+            "params": [
+              {
+                "name": "attributionId",
+                "value": "",
+                "type": "query",
+                "description": "Attribution study ID"
+              },
+              {
+                "name": "startDate",
+                "value": "",
+                "type": "query",
+                "description": "Start date as Unix timestamp in epoch seconds. If not provided, uses attribution study start date."
+              },
+              {
+                "name": "endDate",
+                "value": "",
+                "type": "query",
+                "description": "End date as Unix timestamp in epoch seconds. If not provided, uses attribution study post-study end date."
+              },
+              {
+                "name": "summaryBin",
+                "value": "",
+                "type": "query",
+                "description": "Optional summary bin for grouping data by time periods (WEEK, MONTH, DAY, HOUR, LIFETIME, DOW). When specified, results include summaryBinGrouping field."
+              },
+              {
+                "name": "timezone",
+                "value": "",
+                "type": "query",
+                "description": "Timezone for date calculations"
+              }
+            ]
+          },
+          "docs": "Retrieves conversion data aggregated by ad group (flight). When summaryBin is specified, data is grouped by both ad group and time periods."
+        },
+        {
+          "info": {
+            "name": "Get conversions aggregated by unit",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://dashboard.streetmetrics.io/v3/public/attribution-studies/conversions/unit",
+            "params": [
+              {
+                "name": "attributionId",
+                "value": "",
+                "type": "query",
+                "description": "Attribution study ID"
+              },
+              {
+                "name": "startDate",
+                "value": "",
+                "type": "query",
+                "description": "Start date as Unix timestamp in epoch seconds. If not provided, uses attribution study start date."
+              },
+              {
+                "name": "endDate",
+                "value": "",
+                "type": "query",
+                "description": "End date as Unix timestamp in epoch seconds. If not provided, uses attribution study post-study end date."
+              },
+              {
+                "name": "summaryBin",
+                "value": "",
+                "type": "query",
+                "description": "Optional summary bin for grouping data by time periods (WEEK, MONTH, DAY, HOUR, LIFETIME, DOW). When specified, results include summaryBinGrouping field."
+              },
+              {
+                "name": "timezone",
+                "value": "",
+                "type": "query",
+                "description": "Timezone for date calculations"
+              },
+              {
+                "name": "useCreative",
+                "value": "",
+                "type": "query",
+                "description": "When true, groups by creative fields instead of matchable fields. Only available for /unit endpoint."
+              }
+            ]
+          },
+          "docs": "Retrieves conversion data aggregated by unit (matchable or creative). When summaryBin is specified, data is grouped by both unit and time periods. Use useCreative=true to group by creative instead of matchable."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Assets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get asset by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://dashboard.streetmetrics.io/v3/public/assets/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get asset by ID"
+        },
+        {
+          "info": {
+            "name": "Update asset",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://dashboard.streetmetrics.io/v3/public/assets/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update asset"
+        },
+        {
+          "info": {
+            "name": "Get assets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://dashboard.streetmetrics.io/v3/public/assets",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of results"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Order direction"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Entities to include in the response. Possible values: campaigns"
+              },
+              {
+                "name": "search",
+                "value": "assetRef.ilike:E62,createdAt.gte:2021-01-01",
+                "type": "query",
+                "description": "Search query"
+              }
+            ]
+          },
+          "docs": "Get assets"
+        },
+        {
+          "info": {
+            "name": "Get asset owners",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://dashboard.streetmetrics.io/v3/public/assets/asset-owners"
+          },
+          "docs": "Get asset owners"
+        },
+        {
+          "info": {
+            "name": "Get compatible assets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://dashboard.streetmetrics.io/v3/public/assets/compatible",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of results (max 10000)"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Order direction"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination. \n      The cursor is used to fetch the next set of results in a paginated response.\n      Typically, it is provided in the 'nextCursor' field of the previous response.\n      Usage:\n      - Start by making an initial request without a cursor.\n      - In the response, you'll receive a 'nextCursor' if there are more results to fetch.\n      - Use this 'nextCursor' value as the cursor in your subsequent request to fetch the next page of results.\n      - Continue this process until the 'nextCursor' is null or not provided, indicating there are no more results.\n      Example: \n      \n    ?cursor=12345\n    "
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Entities to include in the response. Possible values: campaigns"
+              },
+              {
+                "name": "search",
+                "value": "assetRef.ilike:E62,createdAt.gte:2021-01-01",
+                "type": "query",
+                "description": "Search query string. The syntax is 'fieldName.operation(a|o):value'.\n      The a|o (AND|OR) is optional and if not provided, it is considered as AND.\n    Additional searches can be chained with a comma.\n      Supported operations are:\n          - gt: Greater than\n          - lt: Less than\n          - gte: Greater than or equal to\n          - lte: Less than or equal to\n          - eq: Equal to\n          - ne: Not equal to\n          - ilike: Case-insensitive like\n          - like: Case-sensitive like\n          - startilike: Case-insensitive like at the start\n          - endilike: Case-insensitive like at the end\n          - startlike: Case-sensitive like at the start\n          - endlike: Case-sensitive like at the end\n        Logical operators:\n          - a: AND\n          - o: OR\n        Examples:\n          - assetRef.ilike:E62\n            Returns all assets with assetRef like E62\n          - createdAt.gte:2021-01-01\n            Returns all assets created after 2021-01-01\n          - status.eqo:PENDING,status.eqo:APPROVED\n            Returns all assets with status either PENDING OR APPROVED\n          - name.startilike:John\n            Returns all assets with name starting with John\n          - age.gtea:30,age.lt:40\n            Returns all assets with age greater than or equal to 30 and less than 40"
+              },
+              {
+                "name": "assetOwner",
+                "value": "",
+                "type": "query",
+                "description": "The owner of the asset, used to filter the available assets by their associated owner."
+              },
+              {
+                "name": "productType",
+                "value": "",
+                "type": "query",
+                "description": "The specific media product to filter the assets by, representing the type or category of the media."
+              },
+              {
+                "name": "assetMediaPositions",
+                "value": "",
+                "type": "query",
+                "description": "An array of positions to filter the assets, indicating the specific locations or placements of the media on the asset."
+              }
+            ]
+          },
+          "docs": "Get compatible assets"
+        },
+        {
+          "info": {
+            "name": "Get compatible assets by ad group ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://dashboard.streetmetrics.io/v3/public/assets/ad-group/:adGroupId/compatible",
+            "params": [
+              {
+                "name": "adGroupId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get compatible assets by ad group ID"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Campaigns",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a specific campaign by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://dashboard.streetmetrics.io/v3/public/campaigns/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the campaign to retrieve"
+              },
+              {
+                "name": "include",
+                "value": "adGroups,markets",
+                "type": "query",
+                "description": "Specific entities to include in the Campaign response. Only valid for Campaign entities. Possible values: adGroups, markets"
+              }
+            ]
+          },
+          "docs": "Get a specific campaign by ID"
+        },
+        {
+          "info": {
+            "name": "Update a campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://dashboard.streetmetrics.io/v3/public/campaigns/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Update a campaign"
+        },
+        {
+          "info": {
+            "name": "Delete a campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://dashboard.streetmetrics.io/v3/public/campaigns/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the campaign"
+              }
+            ]
+          },
+          "docs": "Delete a campaign"
+        },
+        {
+          "info": {
+            "name": "Get a list of campaigns",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://dashboard.streetmetrics.io/v3/public/campaigns",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of results (max 10000)"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Order direction"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination. \n      The cursor is used to fetch the next set of results in a paginated response.\n      Typically, it is provided in the 'nextCursor' field of the previous response.\n      Usage:\n      - Start by making an initial request without a cursor.\n      - In the response, you'll receive a 'nextCursor' if there are more results to fetch.\n      - Use this 'nextCursor' value as the cursor in your subsequent request to fetch the next page of results.\n      - Continue this process until the 'nextCursor' is null or not provided, indicating there are no more results.\n      Example: \n      \n    ?cursor=12345\n    "
+              },
+              {
+                "name": "include",
+                "value": "adGroups,markets",
+                "type": "query",
+                "description": "Specific entities to include in the Campaign response. Only valid for Campaign entities. Possible values: adGroups, markets"
+              },
+              {
+                "name": "search",
+                "value": "assetRef.ilike:E62,createdAt.gte:2021-01-01",
+                "type": "query",
+                "description": "Search query string. The syntax is 'fieldName.operation(a|o):value'.\n      The a|o (AND|OR) is optional and if not provided, it is considered as AND.\n    Additional searches can be chained with a comma.\n      Supported operations are:\n          - gt: Greater than\n          - lt: Less than\n          - gte: Greater than or equal to\n          - lte: Less than or equal to\n          - eq: Equal to\n          - ne: Not equal to\n          - ilike: Case-insensitive like\n          - like: Case-sensitive like\n          - startilike: Case-insensitive like at the start\n          - endilike: Case-insensitive like at the end\n          - startlike: Case-sensitive like at the start\n          - endlike: Case-sensitive like at the end\n        Logical operators:\n          - a: AND\n          - o: OR\n        Examples:\n          - assetRef.ilike:E62\n            Returns all assets with assetRef like E62\n          - createdAt.gte:2021-01-01\n            Returns all assets created after 2021-01-01\n          - status.eqo:PENDING,status.eqo:APPROVED\n            Returns all assets with status either PENDING OR APPROVED\n          - name.startilike:John\n            Returns all assets with name starting with John\n          - age.gtea:30,age.lt:40\n            Returns all assets with age greater than or equal to 30 and less than 40"
+              }
+            ]
+          },
+          "docs": "Get a list of campaigns"
+        },
+        {
+          "info": {
+            "name": "Create a new campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://dashboard.streetmetrics.io/v3/public/campaigns",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new campaign"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Creatives",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a list of creatives",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://dashboard.streetmetrics.io/v3/public/creatives",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of results (max 10000)"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Order direction"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination. \n      The cursor is used to fetch the next set of results in a paginated response.\n      Typically, it is provided in the 'nextCursor' field of the previous response.\n      Usage:\n      - Start by making an initial request without a cursor.\n      - In the response, you'll receive a 'nextCursor' if there are more results to fetch.\n      - Use this 'nextCursor' value as the cursor in your subsequent request to fetch the next page of results.\n      - Continue this process until the 'nextCursor' is null or not provided, indicating there are no more results.\n      Example: \n      \n    ?cursor=12345\n    "
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Entities to include in the response. Possible values: campaigns"
+              },
+              {
+                "name": "search",
+                "value": "assetRef.ilike:E62,createdAt.gte:2021-01-01",
+                "type": "query",
+                "description": "Search query string. The syntax is 'fieldName.operation(a|o):value'.\n      The a|o (AND|OR) is optional and if not provided, it is considered as AND.\n    Additional searches can be chained with a comma.\n      Supported operations are:\n          - gt: Greater than\n          - lt: Less than\n          - gte: Greater than or equal to\n          - lte: Less than or equal to\n          - eq: Equal to\n          - ne: Not equal to\n          - ilike: Case-insensitive like\n          - like: Case-sensitive like\n          - startilike: Case-insensitive like at the start\n          - endilike: Case-insensitive like at the end\n          - startlike: Case-sensitive like at the start\n          - endlike: Case-sensitive like at the end\n        Logical operators:\n          - a: AND\n          - o: OR\n        Examples:\n          - assetRef.ilike:E62\n            Returns all assets with assetRef like E62\n          - createdAt.gte:2021-01-01\n            Returns all assets created after 2021-01-01\n          - status.eqo:PENDING,status.eqo:APPROVED\n            Returns all assets with status either PENDING OR APPROVED\n          - name.startilike:John\n            Returns all assets with name starting with John\n          - age.gtea:30,age.lt:40\n            Returns all assets with age greater than or equal to 30 and less than 40"
+              }
+            ]
+          },
+          "docs": "Get a list of creatives"
+        },
+        {
+          "info": {
+            "name": "Get a specific creative by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://dashboard.streetmetrics.io/v3/public/creatives/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the creative to retrieve"
+              }
+            ]
+          },
+          "docs": "Get a specific creative by ID"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Frames",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a list of frames",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://dashboard.streetmetrics.io/v3/public/frames",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of results (max 10000)"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Order direction"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination. \n      The cursor is used to fetch the next set of results in a paginated response.\n      Typically, it is provided in the 'nextCursor' field of the previous response.\n      Usage:\n      - Start by making an initial request without a cursor.\n      - In the response, you'll receive a 'nextCursor' if there are more results to fetch.\n      - Use this 'nextCursor' value as the cursor in your subsequent request to fetch the next page of results.\n      - Continue this process until the 'nextCursor' is null or not provided, indicating there are no more results.\n      Example: \n      \n    ?cursor=12345\n    "
+              },
+              {
+                "name": "include",
+                "value": "market",
+                "type": "query",
+                "description": "Specific entities to include in the Frame response. Only valid for Frame entities. Possible values: market"
+              },
+              {
+                "name": "search",
+                "value": "assetRef.ilike:E62,createdAt.gte:2021-01-01",
+                "type": "query",
+                "description": "Search query string. The syntax is 'fieldName.operation(a|o):value'.\n      The a|o (AND|OR) is optional and if not provided, it is considered as AND.\n    Additional searches can be chained with a comma.\n      Supported operations are:\n          - gt: Greater than\n          - lt: Less than\n          - gte: Greater than or equal to\n          - lte: Less than or equal to\n          - eq: Equal to\n          - ne: Not equal to\n          - ilike: Case-insensitive like\n          - like: Case-sensitive like\n          - startilike: Case-insensitive like at the start\n          - endilike: Case-insensitive like at the end\n          - startlike: Case-sensitive like at the start\n          - endlike: Case-sensitive like at the end\n        Logical operators:\n          - a: AND\n          - o: OR\n        Examples:\n          - assetRef.ilike:E62\n            Returns all assets with assetRef like E62\n          - createdAt.gte:2021-01-01\n            Returns all assets created after 2021-01-01\n          - status.eqo:PENDING,status.eqo:APPROVED\n            Returns all assets with status either PENDING OR APPROVED\n          - name.startilike:John\n            Returns all assets with name starting with John\n          - age.gtea:30,age.lt:40\n            Returns all assets with age greater than or equal to 30 and less than 40"
+              }
+            ]
+          },
+          "docs": "Get a list of frames"
+        },
+        {
+          "info": {
+            "name": "Create a frame",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://dashboard.streetmetrics.io/v3/public/frames",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a frame"
+        },
+        {
+          "info": {
+            "name": "Get a frame by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://dashboard.streetmetrics.io/v3/public/frames/:id",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of results (max 10000)"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Order direction"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination. \n      The cursor is used to fetch the next set of results in a paginated response.\n      Typically, it is provided in the 'nextCursor' field of the previous response.\n      Usage:\n      - Start by making an initial request without a cursor.\n      - In the response, you'll receive a 'nextCursor' if there are more results to fetch.\n      - Use this 'nextCursor' value as the cursor in your subsequent request to fetch the next page of results.\n      - Continue this process until the 'nextCursor' is null or not provided, indicating there are no more results.\n      Example: \n      \n    ?cursor=12345\n    "
+              },
+              {
+                "name": "include",
+                "value": "market",
+                "type": "query",
+                "description": "Specific entities to include in the Frame response. Only valid for Frame entities. Possible values: market"
+              },
+              {
+                "name": "search",
+                "value": "assetRef.ilike:E62,createdAt.gte:2021-01-01",
+                "type": "query",
+                "description": "Search query string. The syntax is 'fieldName.operation(a|o):value'.\n      The a|o (AND|OR) is optional and if not provided, it is considered as AND.\n    Additional searches can be chained with a comma.\n      Supported operations are:\n          - gt: Greater than\n          - lt: Less than\n          - gte: Greater than or equal to\n          - lte: Less than or equal to\n          - eq: Equal to\n          - ne: Not equal to\n          - ilike: Case-insensitive like\n          - like: Case-sensitive like\n          - startilike: Case-insensitive like at the start\n          - endilike: Case-insensitive like at the end\n          - startlike: Case-sensitive like at the start\n          - endlike: Case-sensitive like at the end\n        Logical operators:\n          - a: AND\n          - o: OR\n        Examples:\n          - assetRef.ilike:E62\n            Returns all assets with assetRef like E62\n          - createdAt.gte:2021-01-01\n            Returns all assets created after 2021-01-01\n          - status.eqo:PENDING,status.eqo:APPROVED\n            Returns all assets with status either PENDING OR APPROVED\n          - name.startilike:John\n            Returns all assets with name starting with John\n          - age.gtea:30,age.lt:40\n            Returns all assets with age greater than or equal to 30 and less than 40"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a frame by ID"
+        },
+        {
+          "info": {
+            "name": "Patch a frame by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://dashboard.streetmetrics.io/v3/public/frames/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Patch a frame by ID"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Markets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a list of markets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://dashboard.streetmetrics.io/v3/public/markets",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of results (max 10000)"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Order direction"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination. \n      The cursor is used to fetch the next set of results in a paginated response.\n      Typically, it is provided in the 'nextCursor' field of the previous response.\n      Usage:\n      - Start by making an initial request without a cursor.\n      - In the response, you'll receive a 'nextCursor' if there are more results to fetch.\n      - Use this 'nextCursor' value as the cursor in your subsequent request to fetch the next page of results.\n      - Continue this process until the 'nextCursor' is null or not provided, indicating there are no more results.\n      Example: \n      \n    ?cursor=12345\n    "
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Entities to include in the response. Possible values: campaigns"
+              },
+              {
+                "name": "search",
+                "value": "assetRef.ilike:E62,createdAt.gte:2021-01-01",
+                "type": "query",
+                "description": "Search query string. The syntax is 'fieldName.operation(a|o):value'.\n      The a|o (AND|OR) is optional and if not provided, it is considered as AND.\n    Additional searches can be chained with a comma.\n      Supported operations are:\n          - gt: Greater than\n          - lt: Less than\n          - gte: Greater than or equal to\n          - lte: Less than or equal to\n          - eq: Equal to\n          - ne: Not equal to\n          - ilike: Case-insensitive like\n          - like: Case-sensitive like\n          - startilike: Case-insensitive like at the start\n          - endilike: Case-insensitive like at the end\n          - startlike: Case-sensitive like at the start\n          - endlike: Case-sensitive like at the end\n        Logical operators:\n          - a: AND\n          - o: OR\n        Examples:\n          - assetRef.ilike:E62\n            Returns all assets with assetRef like E62\n          - createdAt.gte:2021-01-01\n            Returns all assets created after 2021-01-01\n          - status.eqo:PENDING,status.eqo:APPROVED\n            Returns all assets with status either PENDING OR APPROVED\n          - name.startilike:John\n            Returns all assets with name starting with John\n          - age.gtea:30,age.lt:40\n            Returns all assets with age greater than or equal to 30 and less than 40"
+              }
+            ]
+          },
+          "docs": "Get a list of markets"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Media",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a list of product types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://dashboard.streetmetrics.io/v3/public/media/product-types"
+          },
+          "docs": "Get a list of product types"
+        },
+        {
+          "info": {
+            "name": "Get a list of media",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://dashboard.streetmetrics.io/v3/public/media",
+            "params": [
+              {
+                "name": "include",
+                "value": "face",
+                "type": "query",
+                "description": "Specific entities to include in the Media response. Only valid for Media entities. Possible values: face"
+              }
+            ]
+          },
+          "docs": "Get a list of media"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Pixels",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a list of pixels",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://dashboard.streetmetrics.io/v3/public/pixels",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of results (max 10000)"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Order direction"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination. \n      The cursor is used to fetch the next set of results in a paginated response.\n      Typically, it is provided in the 'nextCursor' field of the previous response.\n      Usage:\n      - Start by making an initial request without a cursor.\n      - In the response, you'll receive a 'nextCursor' if there are more results to fetch.\n      - Use this 'nextCursor' value as the cursor in your subsequent request to fetch the next page of results.\n      - Continue this process until the 'nextCursor' is null or not provided, indicating there are no more results.\n      Example: \n      \n    ?cursor=12345\n    "
+              },
+              {
+                "name": "include",
+                "value": "campaign",
+                "type": "query",
+                "description": "Specific entities to include in the Pixel response. Only valid for Pixel entities. Possible values: campaign"
+              },
+              {
+                "name": "search",
+                "value": "assetRef.ilike:E62,createdAt.gte:2021-01-01",
+                "type": "query",
+                "description": "Search query string. The syntax is 'fieldName.operation(a|o):value'.\n      The a|o (AND|OR) is optional and if not provided, it is considered as AND.\n    Additional searches can be chained with a comma.\n      Supported operations are:\n          - gt: Greater than\n          - lt: Less than\n          - gte: Greater than or equal to\n          - lte: Less than or equal to\n          - eq: Equal to\n          - ne: Not equal to\n          - ilike: Case-insensitive like\n          - like: Case-sensitive like\n          - startilike: Case-insensitive like at the start\n          - endilike: Case-insensitive like at the end\n          - startlike: Case-sensitive like at the start\n          - endlike: Case-sensitive like at the end\n        Logical operators:\n          - a: AND\n          - o: OR\n        Examples:\n          - assetRef.ilike:E62\n            Returns all assets with assetRef like E62\n          - createdAt.gte:2021-01-01\n            Returns all assets created after 2021-01-01\n          - status.eqo:PENDING,status.eqo:APPROVED\n            Returns all assets with status either PENDING OR APPROVED\n          - name.startilike:John\n            Returns all assets with name starting with John\n          - age.gtea:30,age.lt:40\n            Returns all assets with age greater than or equal to 30 and less than 40"
+              }
+            ]
+          },
+          "docs": "Get a list of pixels"
+        },
+        {
+          "info": {
+            "name": "Create a new pixel",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://dashboard.streetmetrics.io/v3/public/pixels",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new pixel"
+        },
+        {
+          "info": {
+            "name": "Get a single pixel",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://dashboard.streetmetrics.io/v3/public/pixels/:pixelId",
+            "params": [
+              {
+                "name": "pixelId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of results (max 10000)"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Order direction"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination. \n      The cursor is used to fetch the next set of results in a paginated response.\n      Typically, it is provided in the 'nextCursor' field of the previous response.\n      Usage:\n      - Start by making an initial request without a cursor.\n      - In the response, you'll receive a 'nextCursor' if there are more results to fetch.\n      - Use this 'nextCursor' value as the cursor in your subsequent request to fetch the next page of results.\n      - Continue this process until the 'nextCursor' is null or not provided, indicating there are no more results.\n      Example: \n      \n    ?cursor=12345\n    "
+              },
+              {
+                "name": "include",
+                "value": "campaign",
+                "type": "query",
+                "description": "Specific entities to include in the Pixel response. Only valid for Pixel entities. Possible values: campaign"
+              },
+              {
+                "name": "search",
+                "value": "assetRef.ilike:E62,createdAt.gte:2021-01-01",
+                "type": "query",
+                "description": "Search query string. The syntax is 'fieldName.operation(a|o):value'.\n      The a|o (AND|OR) is optional and if not provided, it is considered as AND.\n    Additional searches can be chained with a comma.\n      Supported operations are:\n          - gt: Greater than\n          - lt: Less than\n          - gte: Greater than or equal to\n          - lte: Less than or equal to\n          - eq: Equal to\n          - ne: Not equal to\n          - ilike: Case-insensitive like\n          - like: Case-sensitive like\n          - startilike: Case-insensitive like at the start\n          - endilike: Case-insensitive like at the end\n          - startlike: Case-sensitive like at the start\n          - endlike: Case-sensitive like at the end\n        Logical operators:\n          - a: AND\n          - o: OR\n        Examples:\n          - assetRef.ilike:E62\n            Returns all assets with assetRef like E62\n          - createdAt.gte:2021-01-01\n            Returns all assets created after 2021-01-01\n          - status.eqo:PENDING,status.eqo:APPROVED\n            Returns all assets with status either PENDING OR APPROVED\n          - name.startilike:John\n            Returns all assets with name starting with John\n          - age.gtea:30,age.lt:40\n            Returns all assets with age greater than or equal to 30 and less than 40"
+              }
+            ]
+          },
+          "docs": "Get a single pixel"
+        },
+        {
+          "info": {
+            "name": "Update a pixel",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://dashboard.streetmetrics.io/v3/public/pixels/:pixelId",
+            "params": [
+              {
+                "name": "pixelId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a pixel"
+        },
+        {
+          "info": {
+            "name": "Attach a campaign to a pixel",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://dashboard.streetmetrics.io/v3/public/pixels/:pixelId/campaign",
+            "params": [
+              {
+                "name": "pixelId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Attach a campaign to a pixel"
+        },
+        {
+          "info": {
+            "name": "Detach a campaign from a pixel",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://dashboard.streetmetrics.io/v3/public/pixels/:pixelId/campaign",
+            "params": [
+              {
+                "name": "pixelId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Detach a campaign from a pixel"
+        },
+        {
+          "info": {
+            "name": "Attach an attribution study to a pixel",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://dashboard.streetmetrics.io/v3/public/pixels/:pixelId/attribution-study",
+            "params": [
+              {
+                "name": "pixelId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Attach an attribution study to a pixel"
+        },
+        {
+          "info": {
+            "name": "Detach an attribution study from a pixel",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://dashboard.streetmetrics.io/v3/public/pixels/:pixelId/attribution-study",
+            "params": [
+              {
+                "name": "pixelId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Detach an attribution study from a pixel"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Reporting",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve impressions data grouped by date",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://dashboard.streetmetrics.io/v3/public/reporting/impressions/date",
+            "params": [
+              {
+                "name": "marketId",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the market"
+              },
+              {
+                "name": "startDate",
+                "value": "",
+                "type": "query",
+                "description": "Start date as Unix timestamp"
+              },
+              {
+                "name": "endDate",
+                "value": "",
+                "type": "query",
+                "description": "End date as Unix timestamp"
+              },
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the campaign"
+              },
+              {
+                "name": "summaryBin",
+                "value": "",
+                "type": "query",
+                "description": "Summary bin for grouping data"
+              },
+              {
+                "name": "timezone",
+                "value": "",
+                "type": "query",
+                "description": "Timezone for date calculations"
+              }
+            ]
+          },
+          "docs": "Retrieve impressions data grouped by date"
+        },
+        {
+          "info": {
+            "name": "Retrieve impressions data grouped by ad group",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://dashboard.streetmetrics.io/v3/public/reporting/impressions/ad-group",
+            "params": [
+              {
+                "name": "marketId",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the market"
+              },
+              {
+                "name": "startDate",
+                "value": "",
+                "type": "query",
+                "description": "Start date as Unix timestamp"
+              },
+              {
+                "name": "endDate",
+                "value": "",
+                "type": "query",
+                "description": "End date as Unix timestamp"
+              },
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the campaign"
+              },
+              {
+                "name": "summaryBin",
+                "value": "",
+                "type": "query",
+                "description": "Summary bin for grouping data"
+              },
+              {
+                "name": "timezone",
+                "value": "",
+                "type": "query",
+                "description": "Timezone for date calculations"
+              }
+            ]
+          },
+          "docs": "Retrieve impressions data grouped by ad group"
+        },
+        {
+          "info": {
+            "name": "Retrieve impressions data grouped by unit",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://dashboard.streetmetrics.io/v3/public/reporting/impressions/unit",
+            "params": [
+              {
+                "name": "marketIds",
+                "value": "",
+                "type": "query",
+                "description": "The IDs of the markets (if optional will use all markets for the campaign)"
+              },
+              {
+                "name": "startDate",
+                "value": "",
+                "type": "query",
+                "description": "Start date as Unix timestamp"
+              },
+              {
+                "name": "endDate",
+                "value": "",
+                "type": "query",
+                "description": "End date as Unix timestamp"
+              },
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the campaign"
+              },
+              {
+                "name": "unitType",
+                "value": "",
+                "type": "query",
+                "description": "Asset or Frame, defaults to both"
+              },
+              {
+                "name": "summaryBin",
+                "value": "",
+                "type": "query",
+                "description": "Summary bin for grouping data"
+              }
+            ]
+          },
+          "docs": "Retrieve impressions data grouped by unit"
+        },
+        {
+          "info": {
+            "name": "Retrieve demographics data grouped by campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://dashboard.streetmetrics.io/v3/public/reporting/demographics",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the campaigns (only supports one campaign at a time)"
+              },
+              {
+                "name": "startDate",
+                "value": "",
+                "type": "query",
+                "description": "Start date as Unix timestamp"
+              },
+              {
+                "name": "endDate",
+                "value": "",
+                "type": "query",
+                "description": "End date as Unix timestamp"
+              }
+            ]
+          },
+          "docs": "Retrieve demographics data grouped by campaign"
+        },
+        {
+          "info": {
+            "name": "Retrieve affinities data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://dashboard.streetmetrics.io/v3/public/reporting/affinities",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the campaigns (only supports one campaign at a time)"
+              },
+              {
+                "name": "startDate",
+                "value": "",
+                "type": "query",
+                "description": "Start date as Unix timestamp"
+              },
+              {
+                "name": "endDate",
+                "value": "",
+                "type": "query",
+                "description": "End date as Unix timestamp"
+              }
+            ]
+          },
+          "docs": "Retrieve affinities data"
+        },
+        {
+          "info": {
+            "name": "Retrieve uniques and frequency data grouped by campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://dashboard.streetmetrics.io/v3/public/reporting/uf/campaign/:campaignId",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve uniques and frequency data grouped by campaign"
+        },
+        {
+          "info": {
+            "name": "Retrieve uniques and frequency data grouped by ad group",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://dashboard.streetmetrics.io/v3/public/reporting/uf/ad-group/campaign/:campaignId",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve uniques and frequency data grouped by ad group"
+        },
+        {
+          "info": {
+            "name": "Retrieve uniques and frequency data grouped by unit",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://dashboard.streetmetrics.io/v3/public/reporting/uf/unit/campaign/:campaignId",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve uniques and frequency data grouped by unit"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
