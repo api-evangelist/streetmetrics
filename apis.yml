@@ -39,6 +39,19 @@ tags:
 - Company
 - Advertising
 - Out-of-Home
+- Measurements
+- Attribution
+- Analytics
+- Marketing
+- Location Data
+- Media Planning
+- Transit Advertising
+- Campaign Reporting
+- Audience Data
+tags_raw:
+- Company
+- Advertising
+- Out-of-Home
 - Measurement
 - Attribution
 - Analytics
@@ -60,6 +73,14 @@ apis:
   humanURL: https://docs.streetmetrics.com/reference/ad-groups
   baseURL: https://dashboard.streetmetrics.io/v3/public/
   tags:
+  - Advertising
+  - Out-of-Home
+  - Measurements
+  - Attribution
+  - Analytics
+  - Media Planning
+  - Campaign Reporting
+  tags_raw:
   - Advertising
   - Out-of-Home
   - Measurement
