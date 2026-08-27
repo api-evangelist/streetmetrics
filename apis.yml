@@ -62,35 +62,16 @@ tags_raw:
 - Campaign Reporting
 - Audience Data
 apis:
-- name: StreetMetrics Public API
-  description: >-
-    Public REST API for the StreetMetrics out-of-home advertising platform. 54 operations across
-    campaigns, transit and stationary ad groups, assets and asset owners, frames, creatives, markets,
-    media and product types, attribution studies (including conversion rollups by date, ad group and
-    unit), conversion pixels, and reporting (impressions by date/ad group/unit, demographics,
-    affinities, uniques and frequency). Authentication is a JWT bearer token obtained by POSTing
-    StreetMetrics platform credentials to /auth/authenticate.
+- aid: streetmetrics:streetmetrics-ad-groups-api
+  name: StreetMetrics Ad Groups API
+  description: The Ad Groups API from StreetMetrics — 7 operation(s) for ad groups.
   humanURL: https://docs.streetmetrics.com/reference/ad-groups
   baseURL: https://dashboard.streetmetrics.io/v3/public/
   tags:
-  - Advertising
-  - Out-of-Home
-  - Measurements
-  - Attribution
-  - Analytics
-  - Media Planning
-  - Campaign Reporting
-  tags_raw:
-  - Advertising
-  - Out-of-Home
-  - Measurement
-  - Attribution
-  - Analytics
-  - Media Planning
-  - Campaign Reporting
+  - Ad Groups
   properties:
   - type: OpenAPI
-    url: openapi/streetmetrics-public-api-openapi.json
+    url: openapi/streetmetrics-ad-groups-api-openapi.yml
   - type: Documentation
     url: https://docs.streetmetrics.com/reference/ad-groups
   - type: APIReference
@@ -103,8 +84,286 @@ apis:
     url: errors/streetmetrics-problem-types.yml
   - type: DataModel
     url: data-model/streetmetrics-data-model.yml
-  - type: Overlay
-    url: overlays/streetmetrics-public-api-overlay.yaml
+  - type: RateLimits
+    url: rate-limits/streetmetrics-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/streetmetrics-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/streetmetrics-changelog.yml
+- aid: streetmetrics:streetmetrics-assets-api
+  name: StreetMetrics Assets API
+  description: The Assets API from StreetMetrics — 5 operation(s) for assets.
+  humanURL: https://docs.streetmetrics.com/reference/ad-groups
+  baseURL: https://dashboard.streetmetrics.io/v3/public/
+  tags:
+  - Assets
+  properties:
+  - type: OpenAPI
+    url: openapi/streetmetrics-assets-api-openapi.yml
+  - type: Documentation
+    url: https://docs.streetmetrics.com/reference/ad-groups
+  - type: APIReference
+    url: https://docs.streetmetrics.com/reference/ad-groups
+  - type: Authentication
+    url: authentication/streetmetrics-authentication.yml
+  - type: Conventions
+    url: conventions/streetmetrics-conventions.yml
+  - type: ErrorCatalog
+    url: errors/streetmetrics-problem-types.yml
+  - type: DataModel
+    url: data-model/streetmetrics-data-model.yml
+  - type: RateLimits
+    url: rate-limits/streetmetrics-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/streetmetrics-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/streetmetrics-changelog.yml
+- aid: streetmetrics:streetmetrics-attribution-studies-api
+  name: StreetMetrics Attribution Studies API
+  description: The Attribution Studies API from StreetMetrics — 6 operation(s) for attribution studies.
+  humanURL: https://docs.streetmetrics.com/reference/ad-groups
+  baseURL: https://dashboard.streetmetrics.io/v3/public/
+  tags:
+  - Attribution Studies
+  properties:
+  - type: OpenAPI
+    url: openapi/streetmetrics-attribution-studies-api-openapi.yml
+  - type: Documentation
+    url: https://docs.streetmetrics.com/reference/ad-groups
+  - type: APIReference
+    url: https://docs.streetmetrics.com/reference/ad-groups
+  - type: Authentication
+    url: authentication/streetmetrics-authentication.yml
+  - type: Conventions
+    url: conventions/streetmetrics-conventions.yml
+  - type: ErrorCatalog
+    url: errors/streetmetrics-problem-types.yml
+  - type: DataModel
+    url: data-model/streetmetrics-data-model.yml
+  - type: RateLimits
+    url: rate-limits/streetmetrics-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/streetmetrics-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/streetmetrics-changelog.yml
+- aid: streetmetrics:streetmetrics-authentication-api
+  name: StreetMetrics Authentication API
+  description: The Authentication API from StreetMetrics — 1 operation(s) for authentication.
+  humanURL: https://docs.streetmetrics.com/reference/ad-groups
+  baseURL: https://dashboard.streetmetrics.io/v3/public/
+  tags:
+  - Authentication
+  properties:
+  - type: OpenAPI
+    url: openapi/streetmetrics-authentication-api-openapi.yml
+  - type: Documentation
+    url: https://docs.streetmetrics.com/reference/ad-groups
+  - type: APIReference
+    url: https://docs.streetmetrics.com/reference/ad-groups
+  - type: Authentication
+    url: authentication/streetmetrics-authentication.yml
+  - type: Conventions
+    url: conventions/streetmetrics-conventions.yml
+  - type: ErrorCatalog
+    url: errors/streetmetrics-problem-types.yml
+  - type: DataModel
+    url: data-model/streetmetrics-data-model.yml
+  - type: RateLimits
+    url: rate-limits/streetmetrics-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/streetmetrics-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/streetmetrics-changelog.yml
+- aid: streetmetrics:streetmetrics-campaigns-api
+  name: StreetMetrics Campaigns API
+  description: The Campaigns API from StreetMetrics — 2 operation(s) for campaigns.
+  humanURL: https://docs.streetmetrics.com/reference/ad-groups
+  baseURL: https://dashboard.streetmetrics.io/v3/public/
+  tags:
+  - Campaigns
+  properties:
+  - type: OpenAPI
+    url: openapi/streetmetrics-campaigns-api-openapi.yml
+  - type: Documentation
+    url: https://docs.streetmetrics.com/reference/ad-groups
+  - type: APIReference
+    url: https://docs.streetmetrics.com/reference/ad-groups
+  - type: Authentication
+    url: authentication/streetmetrics-authentication.yml
+  - type: Conventions
+    url: conventions/streetmetrics-conventions.yml
+  - type: ErrorCatalog
+    url: errors/streetmetrics-problem-types.yml
+  - type: DataModel
+    url: data-model/streetmetrics-data-model.yml
+  - type: RateLimits
+    url: rate-limits/streetmetrics-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/streetmetrics-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/streetmetrics-changelog.yml
+- aid: streetmetrics:streetmetrics-creatives-api
+  name: StreetMetrics Creatives API
+  description: The Creatives API from StreetMetrics — 2 operation(s) for creatives.
+  humanURL: https://docs.streetmetrics.com/reference/ad-groups
+  baseURL: https://dashboard.streetmetrics.io/v3/public/
+  tags:
+  - Creatives
+  properties:
+  - type: OpenAPI
+    url: openapi/streetmetrics-creatives-api-openapi.yml
+  - type: Documentation
+    url: https://docs.streetmetrics.com/reference/ad-groups
+  - type: APIReference
+    url: https://docs.streetmetrics.com/reference/ad-groups
+  - type: Authentication
+    url: authentication/streetmetrics-authentication.yml
+  - type: Conventions
+    url: conventions/streetmetrics-conventions.yml
+  - type: ErrorCatalog
+    url: errors/streetmetrics-problem-types.yml
+  - type: DataModel
+    url: data-model/streetmetrics-data-model.yml
+  - type: RateLimits
+    url: rate-limits/streetmetrics-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/streetmetrics-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/streetmetrics-changelog.yml
+- aid: streetmetrics:streetmetrics-frames-api
+  name: StreetMetrics Frames API
+  description: The Frames API from StreetMetrics — 2 operation(s) for frames.
+  humanURL: https://docs.streetmetrics.com/reference/ad-groups
+  baseURL: https://dashboard.streetmetrics.io/v3/public/
+  tags:
+  - Frames
+  properties:
+  - type: OpenAPI
+    url: openapi/streetmetrics-frames-api-openapi.yml
+  - type: Documentation
+    url: https://docs.streetmetrics.com/reference/ad-groups
+  - type: APIReference
+    url: https://docs.streetmetrics.com/reference/ad-groups
+  - type: Authentication
+    url: authentication/streetmetrics-authentication.yml
+  - type: Conventions
+    url: conventions/streetmetrics-conventions.yml
+  - type: ErrorCatalog
+    url: errors/streetmetrics-problem-types.yml
+  - type: DataModel
+    url: data-model/streetmetrics-data-model.yml
+  - type: RateLimits
+    url: rate-limits/streetmetrics-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/streetmetrics-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/streetmetrics-changelog.yml
+- aid: streetmetrics:streetmetrics-markets-api
+  name: StreetMetrics Markets API
+  description: The Markets API from StreetMetrics — 1 operation(s) for markets.
+  humanURL: https://docs.streetmetrics.com/reference/ad-groups
+  baseURL: https://dashboard.streetmetrics.io/v3/public/
+  tags:
+  - Markets
+  properties:
+  - type: OpenAPI
+    url: openapi/streetmetrics-markets-api-openapi.yml
+  - type: Documentation
+    url: https://docs.streetmetrics.com/reference/ad-groups
+  - type: APIReference
+    url: https://docs.streetmetrics.com/reference/ad-groups
+  - type: Authentication
+    url: authentication/streetmetrics-authentication.yml
+  - type: Conventions
+    url: conventions/streetmetrics-conventions.yml
+  - type: ErrorCatalog
+    url: errors/streetmetrics-problem-types.yml
+  - type: DataModel
+    url: data-model/streetmetrics-data-model.yml
+  - type: RateLimits
+    url: rate-limits/streetmetrics-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/streetmetrics-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/streetmetrics-changelog.yml
+- aid: streetmetrics:streetmetrics-media-api
+  name: StreetMetrics Media API
+  description: The Media API from StreetMetrics — 2 operation(s) for media.
+  humanURL: https://docs.streetmetrics.com/reference/ad-groups
+  baseURL: https://dashboard.streetmetrics.io/v3/public/
+  tags:
+  - Media
+  properties:
+  - type: OpenAPI
+    url: openapi/streetmetrics-media-api-openapi.yml
+  - type: Documentation
+    url: https://docs.streetmetrics.com/reference/ad-groups
+  - type: APIReference
+    url: https://docs.streetmetrics.com/reference/ad-groups
+  - type: Authentication
+    url: authentication/streetmetrics-authentication.yml
+  - type: Conventions
+    url: conventions/streetmetrics-conventions.yml
+  - type: ErrorCatalog
+    url: errors/streetmetrics-problem-types.yml
+  - type: DataModel
+    url: data-model/streetmetrics-data-model.yml
+  - type: RateLimits
+    url: rate-limits/streetmetrics-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/streetmetrics-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/streetmetrics-changelog.yml
+- aid: streetmetrics:streetmetrics-pixels-api
+  name: StreetMetrics Pixels API
+  description: The Pixels API from StreetMetrics — 4 operation(s) for pixels.
+  humanURL: https://docs.streetmetrics.com/reference/ad-groups
+  baseURL: https://dashboard.streetmetrics.io/v3/public/
+  tags:
+  - Pixels
+  properties:
+  - type: OpenAPI
+    url: openapi/streetmetrics-pixels-api-openapi.yml
+  - type: Documentation
+    url: https://docs.streetmetrics.com/reference/ad-groups
+  - type: APIReference
+    url: https://docs.streetmetrics.com/reference/ad-groups
+  - type: Authentication
+    url: authentication/streetmetrics-authentication.yml
+  - type: Conventions
+    url: conventions/streetmetrics-conventions.yml
+  - type: ErrorCatalog
+    url: errors/streetmetrics-problem-types.yml
+  - type: DataModel
+    url: data-model/streetmetrics-data-model.yml
+  - type: RateLimits
+    url: rate-limits/streetmetrics-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/streetmetrics-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/streetmetrics-changelog.yml
+- aid: streetmetrics:streetmetrics-reporting-api
+  name: StreetMetrics Reporting API
+  description: The Reporting API from StreetMetrics — 8 operation(s) for reporting.
+  humanURL: https://docs.streetmetrics.com/reference/ad-groups
+  baseURL: https://dashboard.streetmetrics.io/v3/public/
+  tags:
+  - Reporting
+  properties:
+  - type: OpenAPI
+    url: openapi/streetmetrics-reporting-api-openapi.yml
+  - type: Documentation
+    url: https://docs.streetmetrics.com/reference/ad-groups
+  - type: APIReference
+    url: https://docs.streetmetrics.com/reference/ad-groups
+  - type: Authentication
+    url: authentication/streetmetrics-authentication.yml
+  - type: Conventions
+    url: conventions/streetmetrics-conventions.yml
+  - type: ErrorCatalog
+    url: errors/streetmetrics-problem-types.yml
+  - type: DataModel
+    url: data-model/streetmetrics-data-model.yml
   - type: RateLimits
     url: rate-limits/streetmetrics-rate-limits.yml
   - type: Lifecycle
@@ -117,6 +376,8 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: Overlay
+  url: overlays/streetmetrics-public-api-overlay.yaml
 - type: Authentication
   url: authentication/streetmetrics-authentication.yml
 - type: Website
