@@ -1,0 +1,1583 @@
+openapi: 3.2.0
+info:
+  title: Streetmetrics Ad Groups API
+  version: '3.0'
+  contact: {}
+  description: 'Operations tagged Ad Groups across 2 of this provider''s published API definitions: streetmetrics-public-api-docs-json.json, streetmetrics-public-api-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://dashboard.streetmetrics.io/v3/public/
+tags:
+- name: Ad Groups
+paths:
+  /public/ad-groups/{id}:
+    get:
+      operationId: AdGroupController_getAdGroup
+      parameters:
+      - name: id
+        required: true
+        in: path
+        description: The ID of the Ad Group to retrieve
+        schema:
+          type: number
+      - name: include
+        required: false
+        in: query
+        description: 'Specific entities to include in the AdGroup response. Only valid for AdGroup entities. Possible values: media, assets, frames'
+        schema:
+          example:
+          - media
+          type: array
+          items:
+            type: string
+            enum:
+            - media
+            - assets
+            - frames
+      responses:
+        '200':
+          description: Ad Group retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAdGroupResponseDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '404':
+          description: Ad Group not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      summary: Retrieve a specific Ad Group by ID
+      tags:
+      - Ad Groups
+    delete:
+      operationId: AdGroupController_deleteAdGroup
+      parameters:
+      - name: id
+        required: true
+        in: path
+        description: The ID of the ad group
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Ad Group deleted successfully
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      summary: Delete an Ad Group
+      tags:
+      - Ad Groups
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /public/ad-groups:
+    get:
+      operationId: AdGroupController_getAdGroups
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Limit the number of results (max 10000)
+        schema:
+          type: number
+      - name: sort
+        required: false
+        in: query
+        description: Field to sort by
+        schema:
+          type: string
+      - name: order
+        required: false
+        in: query
+        description: Order direction
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: cursor
+        required: false
+        in: query
+        description: "Cursor for pagination. \n      The cursor is used to fetch the next set of results in a paginated response.\n      Typically, it is provided in the 'nextCursor' field of the previous response.\n      Usage:\n      - Start by making an initial request without a cursor.\n      - In the response, you'll receive a 'nextCursor' if there are more results to fetch.\n      - Use this 'nextCursor' value as the cursor in your subsequent request to fetch the next page of results.\n      - Continue this process until the 'nextCursor' is null or not provided, indicating there are no more results.\n      Example: \n      \n    ?cursor=12345\n    "
+        schema:
+          type: string
+      - name: include
+        required: false
+        in: query
+        description: 'Specific entities to include in the AdGroup response. Only valid for AdGroup entities. Possible values: media, assets, frames'
+        schema:
+          example:
+          - media
+          type: array
+          items:
+            type: string
+            enum:
+            - media
+            - assets
+            - frames
+      - name: search
+        required: false
+        in: query
+        description: "Search query string. The syntax is 'fieldName.operation(a|o):value'.\n      The a|o (AND|OR) is optional and if not provided, it is considered as AND.\n    Additional searches can be chained with a comma.\n      Supported operations are:\n          - gt: Greater than\n          - lt: Less than\n          - gte: Greater than or equal to\n          - lte: Less than or equal to\n          - eq: Equal to\n          - ne: Not equal to\n          - ilike: Case-insensitive like\n          - like: Case-sensitive like\n          - startilike: Case-insensitive like at the start\n          - endilike: Case-insensitive like at the end\n          - startlike: Case-sensitive like at the start\n          - endlike: Case-sensitive like at the end\n        Logical operators:\n          - a: AND\n          - o: OR\n        Examples:\n          - assetRef.ilike:E62\n            Returns all assets with assetRef like E62\n          - createdAt.gte:2021-01-01\n            Returns all assets created after 2021-01-01\n          - status.eqo:PENDING,status.eqo:APPROVED\n            Returns all assets with status either PENDING OR APPROVED\n          - name.startilike:John\n            Returns all assets with name starting with John\n          - age.gtea:30,age.lt:40\n            Returns all assets with age greater than or equal to 30 and less than 40"
+        schema:
+          example: assetRef.ilike:E62,createdAt.gte:2021-01-01
+          type: string
+      - name: campaignId
+        required: false
+        in: query
+        description: The ID of the campaign to filter ad groups by
+        schema:
+          type: number
+      responses:
+        '200':
+          description: List of Ad Groups retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAdGroupsResponseDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '404':
+          description: Ad Groups not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      summary: Retrieve a list of Ad Groups
+      tags:
+      - Ad Groups
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /public/ad-groups/transit:
+    post:
+      operationId: AdGroupController_createTransitAdGroup
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTransitAdGroupDto'
+      responses:
+        '201':
+          description: Ad Group created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateAdGroupResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      summary: Create a new Transit Ad Group
+      tags:
+      - Ad Groups
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /public/ad-groups/stationary:
+    post:
+      operationId: AdGroupController_createStationaryAdGroup
+      parameters: []
+      requestBody:
+        required: true
+        description: Details of the Ad Group to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateStationaryAdGroupDto'
+      responses:
+        '201':
+          description: Ad Group created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateAdGroupResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      summary: Create a new Stationary Ad Group
+      tags:
+      - Ad Groups
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /public/ad-groups/{id}/assets:
+    post:
+      operationId: AdGroupController_attachAssets
+      parameters:
+      - name: id
+        required: true
+        in: path
+        description: The ID of the ad group
+        schema:
+          type: number
+      requestBody:
+        required: true
+        description: The assets to attach to the ad group
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AttachAssetsToAdGroupDto'
+      responses:
+        '201':
+          description: Assets attached successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttachAssetsToAdGroupResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      summary: Attach assets to a Transit Ad Group
+      tags:
+      - Ad Groups
+    put:
+      operationId: AdGroupController_putUpdateAssets
+      parameters:
+      - name: id
+        required: true
+        in: path
+        description: The ID of the ad group
+        schema:
+          type: number
+      requestBody:
+        required: true
+        description: The assets to update (this is a full replacement, any assets not included in this request will be detached)
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutUpdateAttachedAssetsDto'
+      responses:
+        '200':
+          description: Assets updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttachAssetsToAdGroupResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      summary: Replace assets attached to a Transit Ad Group
+      tags:
+      - Ad Groups
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /public/ad-groups/{id}/frames:
+    post:
+      operationId: AdGroupController_attachFrames
+      parameters:
+      - name: id
+        required: true
+        in: path
+        description: The ID of the ad group
+        schema:
+          type: number
+      requestBody:
+        required: true
+        description: The frames to attach to the ad group
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AttachFramesToAdGroupDto'
+      responses:
+        '201':
+          description: Frames attached successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttachFramesToAdGroupResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      summary: Attach frames to a Stationary Ad Group
+      tags:
+      - Ad Groups
+    put:
+      operationId: AdGroupController_putUpdateFrames
+      parameters:
+      - name: id
+        required: true
+        in: path
+        description: The ID of the ad group
+        schema:
+          type: number
+      requestBody:
+        required: true
+        description: The frames to update (this is a full replacement, any frames not included in this request will be detached)
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AttachFramesToAdGroupDto'
+      responses:
+        '200':
+          description: Frames updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttachFramesToAdGroupResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      summary: Update frames attached to a Stationary Ad Group
+      tags:
+      - Ad Groups
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /public/ad-groups/{id}/creatives:
+    post:
+      operationId: AdGroupController_attachCreatives
+      parameters:
+      - name: id
+        required: true
+        in: path
+        description: The ID of the ad group
+        schema:
+          type: number
+      requestBody:
+        required: true
+        description: The creatives to attach to the ad group. You can only upload creatives that match the ad group inventory type (Stationary or Transit)
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AttachCreativesToAdGroupDto'
+      responses:
+        '201':
+          description: Creatives attached successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttachCreativesToAdGroupResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      summary: Attach creatives to a Stationary or Transit Ad group
+      tags:
+      - Ad Groups
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /ad-groups/{id}:
+    get:
+      operationId: AdGroupController_getAdGroup
+      summary: Retrieve a specific Ad Group by ID
+      parameters:
+      - name: id
+        required: true
+        in: path
+        description: The ID of the Ad Group to retrieve
+        schema:
+          type: number
+      - name: include
+        required: false
+        in: query
+        description: 'Specific entities to include in the AdGroup response. Only valid for AdGroup entities. Possible values: media, assets, frames'
+        example:
+        - media
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ad Group retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAdGroupResponseDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '404':
+          description: Ad Group not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      tags:
+      - Ad Groups
+    delete:
+      operationId: AdGroupController_deleteAdGroup
+      summary: Delete an Ad Group
+      parameters:
+      - name: id
+        required: true
+        in: path
+        description: The ID of the ad group
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Ad Group deleted successfully
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      tags:
+      - Ad Groups
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /ad-groups:
+    get:
+      operationId: AdGroupController_getAdGroups
+      summary: Retrieve a list of Ad Groups
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Limit the number of results (max 10000)
+        schema:
+          type: number
+      - name: sort
+        required: false
+        in: query
+        description: Field to sort by
+        schema:
+          type: string
+      - name: order
+        required: false
+        in: query
+        description: Order direction
+        schema:
+          enum:
+          - ASC
+          - DESC
+          type: string
+      - name: cursor
+        required: false
+        in: query
+        description: "Cursor for pagination. \n      The cursor is used to fetch the next set of results in a paginated response.\n      Typically, it is provided in the 'nextCursor' field of the previous response.\n      Usage:\n      - Start by making an initial request without a cursor.\n      - In the response, you'll receive a 'nextCursor' if there are more results to fetch.\n      - Use this 'nextCursor' value as the cursor in your subsequent request to fetch the next page of results.\n      - Continue this process until the 'nextCursor' is null or not provided, indicating there are no more results.\n      Example: \n      \n    ?cursor=12345\n    "
+        schema:
+          type: string
+      - name: include
+        required: false
+        in: query
+        description: 'Specific entities to include in the AdGroup response. Only valid for AdGroup entities. Possible values: media, assets, frames'
+        example:
+        - media
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: "Search query string. The syntax is 'fieldName.operation(a|o):value'.\n      The a|o (AND|OR) is optional and if not provided, it is considered as AND.\n    Additional searches can be chained with a comma.\n      Supported operations are:\n          - gt: Greater than\n          - lt: Less than\n          - gte: Greater than or equal to\n          - lte: Less than or equal to\n          - eq: Equal to\n          - ne: Not equal to\n          - ilike: Case-insensitive like\n          - like: Case-sensitive like\n          - startilike: Case-insensitive like at the start\n          - endilike: Case-insensitive like at the end\n          - startlike: Case-sensitive like at the start\n          - endlike: Case-sensitive like at the end\n        Logical operators:\n          - a: AND\n          - o: OR\n        Examples:\n          - assetRef.ilike:E62\n            Returns all assets with assetRef like E62\n          - createdAt.gte:2021-01-01\n            Returns all assets created after 2021-01-01\n          - status.eqo:PENDING,status.eqo:APPROVED\n            Returns all assets with status either PENDING OR APPROVED\n          - name.startilike:John\n            Returns all assets with name starting with John\n          - age.gtea:30,age.lt:40\n            Returns all assets with age greater than or equal to 30 and less than 40"
+        example: assetRef.ilike:E62,createdAt.gte:2021-01-01
+        schema:
+          type: string
+      - name: campaignId
+        required: false
+        in: query
+        description: The ID of the campaign to filter ad groups by
+        schema:
+          type: number
+      responses:
+        '200':
+          description: List of Ad Groups retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAdGroupsResponseDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '404':
+          description: Ad Groups not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      tags:
+      - Ad Groups
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /ad-groups/transit:
+    post:
+      operationId: AdGroupController_createTransitAdGroup
+      summary: Create a new Transit Ad Group
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTransitAdGroupDto_2'
+      responses:
+        '201':
+          description: Ad Group created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateAdGroupResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      tags:
+      - Ad Groups
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /ad-groups/stationary:
+    post:
+      operationId: AdGroupController_createStationaryAdGroup
+      summary: Create a new Stationary Ad Group
+      parameters: []
+      requestBody:
+        required: true
+        description: Details of the Ad Group to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateStationaryAdGroupDto_2'
+      responses:
+        '201':
+          description: Ad Group created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateAdGroupResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      tags:
+      - Ad Groups
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /ad-groups/{id}/assets:
+    post:
+      operationId: AdGroupController_attachAssets
+      summary: Attach assets to a Transit Ad Group
+      parameters:
+      - name: id
+        required: true
+        in: path
+        description: The ID of the ad group
+        schema:
+          type: number
+      requestBody:
+        required: true
+        description: The assets to attach to the ad group
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AttachAssetsToAdGroupDto_2'
+      responses:
+        '201':
+          description: Assets attached successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttachAssetsToAdGroupResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      tags:
+      - Ad Groups
+    put:
+      operationId: AdGroupController_putUpdateAssets
+      summary: Replace assets attached to a Transit Ad Group
+      parameters:
+      - name: id
+        required: true
+        in: path
+        description: The ID of the ad group
+        schema:
+          type: number
+      requestBody:
+        required: true
+        description: The assets to update (this is a full replacement, any assets not included in this request will be detached)
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutUpdateAttachedAssetsDto_2'
+      responses:
+        '200':
+          description: Assets updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttachAssetsToAdGroupResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      tags:
+      - Ad Groups
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /ad-groups/{id}/frames:
+    post:
+      operationId: AdGroupController_attachFrames
+      summary: Attach frames to a Stationary Ad Group
+      parameters:
+      - name: id
+        required: true
+        in: path
+        description: The ID of the ad group
+        schema:
+          type: number
+      requestBody:
+        required: true
+        description: The frames to attach to the ad group
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AttachFramesToAdGroupDto_2'
+      responses:
+        '201':
+          description: Frames attached successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttachFramesToAdGroupResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      tags:
+      - Ad Groups
+    put:
+      operationId: AdGroupController_putUpdateFrames
+      summary: Update frames attached to a Stationary Ad Group
+      parameters:
+      - name: id
+        required: true
+        in: path
+        description: The ID of the ad group
+        schema:
+          type: number
+      requestBody:
+        required: true
+        description: The frames to update (this is a full replacement, any frames not included in this request will be detached)
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AttachFramesToAdGroupDto_2'
+      responses:
+        '200':
+          description: Frames updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttachFramesToAdGroupResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      tags:
+      - Ad Groups
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /ad-groups/{id}/creatives:
+    post:
+      operationId: AdGroupController_attachCreatives
+      summary: Attach creatives to a Stationary or Transit Ad group
+      parameters:
+      - name: id
+        required: true
+        in: path
+        description: The ID of the ad group
+        schema:
+          type: number
+      requestBody:
+        required: true
+        description: The creatives to attach to the ad group. You can only upload creatives that match the ad group inventory type (Stationary or Transit)
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AttachCreativesToAdGroupDto_2'
+      responses:
+        '201':
+          description: Creatives attached successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttachCreativesToAdGroupResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      tags:
+      - Ad Groups
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+components:
+  schemas:
+    GetAdGroupsResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          description: List of ad groups
+          allOf:
+          - $ref: '#/components/schemas/ClientAdGroupEntityResponseDto'
+      required:
+      - statusCode
+      - meta
+      - data
+    ClientFrameEntityDto:
+      type: object
+      properties:
+        frameId:
+          type: number
+          description: Unique identifier for the frame entity
+        frameRef:
+          type: string
+          description: Reference for the frame
+        frameWidth:
+          type: number
+          description: Width of the frame
+        frameHeight:
+          type: number
+          description: Height of the frame
+        frameElevation:
+          type: number
+          description: Elevation of the frame
+        frameType:
+          type: string
+          description: Type of the frame
+        expositionAngle:
+          type: number
+          description: Exposition angle of the frame
+        expositionWidth:
+          type: number
+          description: Exposition width of the frame
+        market:
+          type:
+          - object
+          - 'null'
+          description: Market information for the frame
+      required:
+      - frameId
+      - frameRef
+      - frameWidth
+      - frameHeight
+      - frameElevation
+      - frameType
+      - expositionAngle
+      - expositionWidth
+      - market
+    ClientMediaEntityDto:
+      type: object
+      properties:
+        mediaId:
+          type: number
+          description: Unique identifier for the media entity
+        classRef:
+          type: string
+          description: Reference class for the media entity
+        assetOwner:
+          type: string
+          description: Owner of the asset
+        productType:
+          type: string
+          description: Type of product associated with the media
+        combined:
+          type: boolean
+          description: Indicates if the media is combined
+        assetType:
+          type: string
+          description: Type of asset
+        mediaFormat:
+          type: string
+          description: Format of the media
+        mediaPlacement:
+          type: string
+          description: Placement of the media
+        faces:
+          description: List of faces associated with the media
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientMediaFaceEntityDto'
+      required:
+      - mediaId
+      - classRef
+      - assetOwner
+      - productType
+      - combined
+      - assetType
+      - mediaFormat
+      - mediaPlacement
+      - faces
+    GetAdGroupResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          description: The retrieved Ad Group
+          allOf:
+          - $ref: '#/components/schemas/ClientAdGroupEntityResponseDto'
+      required:
+      - statusCode
+      - meta
+      - data
+    PutUpdateAttachedAssetsDto:
+      type: object
+      properties:
+        assetIds:
+          uniqueItems: true
+          type: array
+          items:
+            type: number
+            maximum: 2147483647
+            minimum: 1
+      required:
+      - assetIds
+    AttachCreativesToAdGroupResponse:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          type: boolean
+          description: Whether the creatives were successfully attached to the ad group
+      required:
+      - statusCode
+      - meta
+      - data
+    AttachAssetsToAdGroupResponse:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          type: boolean
+          description: Whether the assets were successfully attached to the ad group
+      required:
+      - statusCode
+      - meta
+      - data
+    ErrorResponseDto:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status of the response
+          example: error
+        statusCode:
+          type: number
+          description: HTTP status code
+          example: 400
+        errorCode:
+          type: string
+          description: Custom error code
+          example: ERR001
+        message:
+          type: string
+          description: Error message
+          example: Invalid input data
+        details:
+          type:
+          - object
+          - 'null'
+          description: Additional details about the error
+        timestamp:
+          type: string
+          description: Timestamp of the error
+          example: '2024-08-26T14:56:29.000Z'
+        path:
+          type: string
+          description: Request path where the error occurred
+          example: /api/v1/resource
+      required:
+      - status
+      - statusCode
+      - errorCode
+      - message
+      - details
+      - timestamp
+      - path
+    AttachFramesToAdGroupResponse:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          type: boolean
+          description: Whether the frames were successfully attached to the ad group
+      required:
+      - statusCode
+      - meta
+      - data
+    CreateStationaryAdGroupDto:
+      type: object
+      properties:
+        flightRef:
+          type: string
+        activeFrom:
+          type: number
+        activeTo:
+          type: number
+        campaignId:
+          type: number
+          maximum: 2147483647
+          minimum: 1
+        type:
+          type: string
+          enum:
+          - STATIC
+          - DIGITAL
+      required:
+      - flightRef
+      - activeFrom
+      - activeTo
+      - campaignId
+      - type
+    AttachAssetsToAdGroupDto:
+      type: object
+      properties:
+        assetIds:
+          minItems: 1
+          uniqueItems: true
+          type: array
+          items:
+            type: number
+            maximum: 2147483647
+            minimum: 1
+      required:
+      - assetIds
+    AttachFramesToAdGroupDto:
+      type: object
+      properties:
+        frameIds:
+          minItems: 1
+          uniqueItems: true
+          type: array
+          items:
+            type: number
+            maximum: 2147483647
+            minimum: 1
+      required:
+      - frameIds
+    CreateAdGroupResponse:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          type: number
+          description: The ID of the created ad group
+      required:
+      - statusCode
+      - meta
+      - data
+    ClientAdGroupEntityResponseDto:
+      type: object
+      properties:
+        flightId:
+          type: number
+          example: 1
+          description: The ID of the ad group
+        flightRef:
+          type: string
+          example: FL12345
+          description: The reference string of the ad group
+        activeFrom:
+          type: number
+          example: 1627843200
+          description: Unix timestamp representing the start of the ad group
+        activeTo:
+          type: number
+          example: 1627846800
+          description: Unix timestamp representing the end of the ad group
+        productType:
+          type: string
+          example: Digital
+          description: The product type of the ad group
+        flightGroup:
+          enum:
+          - SELECTIVE
+          - ACCUMULATIVE
+          type: string
+          description: The group this ad group belongs to
+        mediaPositions:
+          type: string
+          items:
+            type: string
+            enum:
+            - LEFT
+            - RIGHT
+            - CENTER
+            - FRONT
+            - BACK
+          enum:
+          - LEFT
+          - RIGHT
+          - CENTER
+          - FRONT
+          - BACK
+          example:
+          - LEFT
+          description: Positions of the media in the ad group
+        inventoryType:
+          type: string
+          example: OOH
+          description: Type of inventory for the ad group
+        metaData:
+          type: object
+          description: Additional metadata for the ad group
+        createdAt:
+          format: date-time
+          type: string
+          example: '2023-07-29T12:34:56Z'
+          description: The date and time the ad group was created
+        updatedAt:
+          format: date-time
+          type: string
+          example: '2023-08-01T15:22:11Z'
+          description: The date and time the ad group was last updated
+        media:
+          description: Associated media entity (optional)
+          allOf:
+          - $ref: '#/components/schemas/ClientMediaEntityDto'
+        assets:
+          description: Associated assets (optional)
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientAssetEntityDto'
+        frames:
+          description: Associated frames (optional)
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientFrameEntityDto'
+      required:
+      - flightId
+      - flightRef
+      - activeFrom
+      - activeTo
+      - productType
+      - flightGroup
+      - mediaPositions
+      - inventoryType
+      - metaData
+      - createdAt
+      - updatedAt
+    ClientMediaFaceEntityDto:
+      type: object
+      properties:
+        mediaId:
+          type: number
+          description: Unique identifier for the media entity
+        facePosition:
+          type: string
+          description: Position of the face on the media
+        faceDimension:
+          type: object
+          description: Dimensions of the face
+      required:
+      - mediaId
+      - facePosition
+      - faceDimension
+    CreateTransitAdGroupDto:
+      type: object
+      properties:
+        assetOwner:
+          type: string
+        productType:
+          type: string
+        assetMediaPositions:
+          type: array
+          minItems: 1
+          uniqueItems: true
+          items:
+            type: string
+            enum:
+            - LEFT
+            - RIGHT
+            - CENTER
+            - FRONT
+            - BACK
+        flightRef:
+          type: string
+        activeFrom:
+          type: number
+        activeTo:
+          type: number
+        campaignId:
+          type: number
+          maximum: 2147483647
+          minimum: 1
+        type:
+          type: string
+          enum:
+          - STATIC
+          - DIGITAL
+      required:
+      - assetOwner
+      - productType
+      - assetMediaPositions
+      - flightRef
+      - activeFrom
+      - activeTo
+      - campaignId
+      - type
+    ClientAssetEntityDto:
+      type: object
+      properties:
+        assetOwner:
+          type: string
+          description: The owner of the asset.
+        assetType:
+          type: string
+          description: The type of the asset.
+        assetRef:
+          type: string
+          description: The asset identifier as it appears through the API feed.
+        classRef:
+          type: string
+          description: The class associated with the asset - this defined the media products the asset can support
+        displayName:
+          type: string
+          description: The name of the asset as it will appear in the StreetMetrics platform.
+        assetStatus:
+          type: string
+          description: The status of the asset.
+        metaData:
+          type: object
+          description: The metadata of the asset.
+    AttachCreativesToAdGroupDto:
+      type: object
+      properties:
+        creativeIds:
+          minItems: 1
+          uniqueItems: true
+          type: array
+          items:
+            type: number
+            maximum: 2147483647
+            minimum: 1
+      required:
+      - creativeIds
+    PutUpdateAttachedAssetsDto_2:
+      type: object
+      properties:
+        assetIds:
+          type: array
+          items:
+            type: number
+            maximum: 2147483647
+            minimum: 1
+      required:
+      - assetIds
+    CreateStationaryAdGroupDto_2:
+      type: object
+      properties:
+        flightRef:
+          type: string
+        activeFrom:
+          type: number
+        activeTo:
+          type: number
+        campaignId:
+          type: number
+          maximum: 2147483647
+        type:
+          type: string
+          enum:
+          - STATIC
+          - DIGITAL
+      required:
+      - flightRef
+      - activeFrom
+      - activeTo
+      - campaignId
+      - type
+    AttachAssetsToAdGroupDto_2:
+      type: object
+      properties:
+        assetIds:
+          type: array
+          items:
+            type: number
+            maximum: 2147483647
+            minimum: 1
+      required:
+      - assetIds
+    AttachFramesToAdGroupDto_2:
+      type: object
+      properties:
+        frameIds:
+          type: array
+          items:
+            type: number
+            maximum: 2147483647
+            minimum: 1
+      required:
+      - frameIds
+    CreateTransitAdGroupDto_2:
+      type: object
+      properties:
+        assetOwner:
+          type: string
+        productType:
+          type: string
+        assetMediaPositions:
+          type: array
+          items:
+            type: string
+            enum:
+            - LEFT
+            - RIGHT
+            - CENTER
+            - FRONT
+            - BACK
+        flightRef:
+          type: string
+        activeFrom:
+          type: number
+        activeTo:
+          type: number
+        campaignId:
+          type: number
+          maximum: 2147483647
+        type:
+          type: string
+          enum:
+          - STATIC
+          - DIGITAL
+      required:
+      - assetOwner
+      - productType
+      - assetMediaPositions
+      - flightRef
+      - activeFrom
+      - activeTo
+      - campaignId
+      - type
+    AttachCreativesToAdGroupDto_2:
+      type: object
+      properties:
+        creativeIds:
+          type: array
+          items:
+            type: number
+            maximum: 2147483647
+            minimum: 1
+      required:
+      - creativeIds
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+x-refined-from:
+- streetmetrics-public-api-docs-json.json
+- streetmetrics-public-api-openapi.json
+x-explorer-enabled: false
+x-proxy-enabled: false

@@ -1,0 +1,786 @@
+openapi: 3.2.0
+info:
+  title: Streetmetrics Assets API
+  version: '3.0'
+  contact: {}
+  description: 'Operations tagged Assets across 2 of this provider''s published API definitions: streetmetrics-public-api-docs-json.json, streetmetrics-public-api-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://dashboard.streetmetrics.io/v3/public/
+tags:
+- name: Assets
+paths:
+  /public/assets/{id}:
+    get:
+      operationId: AssetController_getAssetById
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Successful retrieval of asset
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '404':
+          description: Asset not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      summary: Get asset by ID
+      tags:
+      - Assets
+    patch:
+      operationId: AssetController_patchUpdateAsset
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssetPatchUpdateDto'
+      responses:
+        '200':
+          description: Successful patch update of asset
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '404':
+          description: Asset not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      summary: Update asset
+      tags:
+      - Assets
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /public/assets:
+    get:
+      operationId: AssetController_getAssets
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Limit the number of results
+        schema:
+          type: number
+      - name: sort
+        required: false
+        in: query
+        description: Field to sort by
+        schema:
+          type: string
+      - name: order
+        required: false
+        in: query
+        description: Order direction
+        schema:
+          enum:
+          - ASC
+          - DESC
+          type: string
+      - name: cursor
+        required: false
+        in: query
+        description: Cursor for pagination
+        schema:
+          type: string
+      - name: include
+        required: false
+        in: query
+        description: 'Entities to include in the response. Possible values: campaigns'
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: Search query
+        schema:
+          example: assetRef.ilike:E62,createdAt.gte:2021-01-01
+          type: string
+      responses:
+        '200':
+          description: Successful retrieval of assets
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      summary: Get assets
+      tags:
+      - Assets
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /public/assets/asset-owners:
+    get:
+      operationId: AssetController_getAssetOwners
+      parameters: []
+      responses:
+        '200':
+          description: Successful retrieval of asset owners
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '404':
+          description: Asset owners not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      summary: Get asset owners
+      tags:
+      - Assets
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /public/assets/compatible:
+    get:
+      operationId: AssetController_getCompatibleAssets
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Limit the number of results (max 10000)
+        schema:
+          type: number
+      - name: sort
+        required: false
+        in: query
+        description: Field to sort by
+        schema:
+          type: string
+      - name: order
+        required: false
+        in: query
+        description: Order direction
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: cursor
+        required: false
+        in: query
+        description: "Cursor for pagination. \n      The cursor is used to fetch the next set of results in a paginated response.\n      Typically, it is provided in the 'nextCursor' field of the previous response.\n      Usage:\n      - Start by making an initial request without a cursor.\n      - In the response, you'll receive a 'nextCursor' if there are more results to fetch.\n      - Use this 'nextCursor' value as the cursor in your subsequent request to fetch the next page of results.\n      - Continue this process until the 'nextCursor' is null or not provided, indicating there are no more results.\n      Example: \n      \n    ?cursor=12345\n    "
+        schema:
+          type: string
+      - name: include
+        required: false
+        in: query
+        description: 'Entities to include in the response. Possible values: campaigns'
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: "Search query string. The syntax is 'fieldName.operation(a|o):value'.\n      The a|o (AND|OR) is optional and if not provided, it is considered as AND.\n    Additional searches can be chained with a comma.\n      Supported operations are:\n          - gt: Greater than\n          - lt: Less than\n          - gte: Greater than or equal to\n          - lte: Less than or equal to\n          - eq: Equal to\n          - ne: Not equal to\n          - ilike: Case-insensitive like\n          - like: Case-sensitive like\n          - startilike: Case-insensitive like at the start\n          - endilike: Case-insensitive like at the end\n          - startlike: Case-sensitive like at the start\n          - endlike: Case-sensitive like at the end\n        Logical operators:\n          - a: AND\n          - o: OR\n        Examples:\n          - assetRef.ilike:E62\n            Returns all assets with assetRef like E62\n          - createdAt.gte:2021-01-01\n            Returns all assets created after 2021-01-01\n          - status.eqo:PENDING,status.eqo:APPROVED\n            Returns all assets with status either PENDING OR APPROVED\n          - name.startilike:John\n            Returns all assets with name starting with John\n          - age.gtea:30,age.lt:40\n            Returns all assets with age greater than or equal to 30 and less than 40"
+        schema:
+          example: assetRef.ilike:E62,createdAt.gte:2021-01-01
+          type: string
+      - name: assetOwner
+        required: true
+        in: query
+        description: The owner of the asset, used to filter the available assets by their associated owner.
+        schema:
+          type: string
+      - name: productType
+        required: true
+        in: query
+        description: The specific media product to filter the assets by, representing the type or category of the media.
+        schema:
+          type: string
+      - name: assetMediaPositions
+        required: true
+        in: query
+        description: An array of positions to filter the assets, indicating the specific locations or placements of the media on the asset.
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - LEFT
+            - RIGHT
+            - CENTER
+            - FRONT
+            - BACK
+      responses:
+        '200':
+          description: Successful retrieval of compatible assets
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      summary: Get compatible assets
+      tags:
+      - Assets
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /public/assets/ad-group/{adGroupId}/compatible:
+    get:
+      operationId: AssetController_getCompatibleAssetsByAdGroupId
+      parameters:
+      - name: adGroupId
+        required: true
+        in: path
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Successful retrieval of compatible assets
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      summary: Get compatible assets by ad group ID
+      tags:
+      - Assets
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /assets/{id}:
+    get:
+      operationId: AssetController_getAssetById
+      summary: Get asset by ID
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Successful retrieval of asset
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '404':
+          description: Asset not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      tags:
+      - Assets
+    patch:
+      operationId: AssetController_patchUpdateAsset
+      summary: Update asset
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssetPatchUpdateDto'
+      responses:
+        '200':
+          description: Successful patch update of asset
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '404':
+          description: Asset not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      tags:
+      - Assets
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /assets:
+    get:
+      operationId: AssetController_getAssets
+      summary: Get assets
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Limit the number of results
+        schema:
+          type: number
+      - name: sort
+        required: false
+        in: query
+        description: Field to sort by
+        schema:
+          type: string
+      - name: order
+        required: false
+        in: query
+        description: Order direction
+        schema:
+          enum:
+          - ASC
+          - DESC
+          type: string
+      - name: cursor
+        required: false
+        in: query
+        description: Cursor for pagination
+        schema:
+          type: string
+      - name: include
+        required: false
+        in: query
+        description: 'Entities to include in the response. Possible values: campaigns'
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: Search query
+        example: assetRef.ilike:E62,createdAt.gte:2021-01-01
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful retrieval of assets
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      tags:
+      - Assets
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /assets/asset-owners:
+    get:
+      operationId: AssetController_getAssetOwners
+      summary: Get asset owners
+      parameters: []
+      responses:
+        '200':
+          description: Successful retrieval of asset owners
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '404':
+          description: Asset owners not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      tags:
+      - Assets
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /assets/compatible:
+    get:
+      operationId: AssetController_getCompatibleAssets
+      summary: Get compatible assets
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Limit the number of results (max 10000)
+        schema:
+          type: number
+      - name: sort
+        required: false
+        in: query
+        description: Field to sort by
+        schema:
+          type: string
+      - name: order
+        required: false
+        in: query
+        description: Order direction
+        schema:
+          enum:
+          - ASC
+          - DESC
+          type: string
+      - name: cursor
+        required: false
+        in: query
+        description: "Cursor for pagination. \n      The cursor is used to fetch the next set of results in a paginated response.\n      Typically, it is provided in the 'nextCursor' field of the previous response.\n      Usage:\n      - Start by making an initial request without a cursor.\n      - In the response, you'll receive a 'nextCursor' if there are more results to fetch.\n      - Use this 'nextCursor' value as the cursor in your subsequent request to fetch the next page of results.\n      - Continue this process until the 'nextCursor' is null or not provided, indicating there are no more results.\n      Example: \n      \n    ?cursor=12345\n    "
+        schema:
+          type: string
+      - name: include
+        required: false
+        in: query
+        description: 'Entities to include in the response. Possible values: campaigns'
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: "Search query string. The syntax is 'fieldName.operation(a|o):value'.\n      The a|o (AND|OR) is optional and if not provided, it is considered as AND.\n    Additional searches can be chained with a comma.\n      Supported operations are:\n          - gt: Greater than\n          - lt: Less than\n          - gte: Greater than or equal to\n          - lte: Less than or equal to\n          - eq: Equal to\n          - ne: Not equal to\n          - ilike: Case-insensitive like\n          - like: Case-sensitive like\n          - startilike: Case-insensitive like at the start\n          - endilike: Case-insensitive like at the end\n          - startlike: Case-sensitive like at the start\n          - endlike: Case-sensitive like at the end\n        Logical operators:\n          - a: AND\n          - o: OR\n        Examples:\n          - assetRef.ilike:E62\n            Returns all assets with assetRef like E62\n          - createdAt.gte:2021-01-01\n            Returns all assets created after 2021-01-01\n          - status.eqo:PENDING,status.eqo:APPROVED\n            Returns all assets with status either PENDING OR APPROVED\n          - name.startilike:John\n            Returns all assets with name starting with John\n          - age.gtea:30,age.lt:40\n            Returns all assets with age greater than or equal to 30 and less than 40"
+        example: assetRef.ilike:E62,createdAt.gte:2021-01-01
+        schema:
+          type: string
+      - name: assetOwner
+        required: true
+        in: query
+        description: The owner of the asset, used to filter the available assets by their associated owner.
+        schema:
+          type: string
+      - name: productType
+        required: true
+        in: query
+        description: The specific media product to filter the assets by, representing the type or category of the media.
+        schema:
+          type: string
+      - name: assetMediaPositions
+        required: true
+        in: query
+        description: An array of positions to filter the assets, indicating the specific locations or placements of the media on the asset.
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - LEFT
+            - RIGHT
+            - CENTER
+            - FRONT
+            - BACK
+      responses:
+        '200':
+          description: Successful retrieval of compatible assets
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      tags:
+      - Assets
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /assets/ad-group/{adGroupId}/compatible:
+    get:
+      operationId: AssetController_getCompatibleAssetsByAdGroupId
+      summary: Get compatible assets by ad group ID
+      parameters:
+      - name: adGroupId
+        required: true
+        in: path
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Successful retrieval of compatible assets
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      tags:
+      - Assets
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+components:
+  schemas:
+    AssetPatchUpdateDto:
+      type: object
+      properties:
+        assetOwner:
+          type: string
+          description: The owner of the asset.
+        assetType:
+          enum:
+          - DEFAULT
+          - BIKE
+          - BUS
+          - CAR
+          - MOBILE_BILLBOARD
+          - PEDI_CAB
+          - TRUCK
+          - SCOOTER
+          - TAXI
+          - LIGHT_RAIL
+          - BOX_VAN
+          - SEMI_TRAILER
+          - TROLLEY
+          - DOUBLE_DECKER
+          - TOUR_BUS
+          - DELIVERY_TRUCK
+          - STATIONARY
+          type: string
+          description: The type of the asset.
+        assetRef:
+          type: string
+          description: The asset identifier as it appears through the API feed.
+        classRef:
+          type: string
+          description: The class associated with the asset - this defined the media products the asset can support
+        displayName:
+          type: string
+          description: The name of the asset as it will appear in the StreetMetrics platform.
+        assetStatus:
+          enum:
+          - ACTIVE
+          - INACTIVE
+          - RETIRED
+          type: string
+          description: The status of the asset.
+    ErrorResponseDto:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status of the response
+          example: error
+        statusCode:
+          type: number
+          description: HTTP status code
+          example: 400
+        errorCode:
+          type: string
+          description: Custom error code
+          example: ERR001
+        message:
+          type: string
+          description: Error message
+          example: Invalid input data
+        details:
+          type:
+          - object
+          - 'null'
+          description: Additional details about the error
+        timestamp:
+          type: string
+          description: Timestamp of the error
+          example: '2024-08-26T14:56:29.000Z'
+        path:
+          type: string
+          description: Request path where the error occurred
+          example: /api/v1/resource
+      required:
+      - status
+      - statusCode
+      - errorCode
+      - message
+      - details
+      - timestamp
+      - path
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+x-refined-from:
+- streetmetrics-public-api-docs-json.json
+- streetmetrics-public-api-openapi.json
+x-explorer-enabled: false
+x-proxy-enabled: false

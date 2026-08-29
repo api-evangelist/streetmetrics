@@ -1,0 +1,1496 @@
+openapi: 3.2.0
+info:
+  title: Streetmetrics Attribution Studies API
+  version: '3.0'
+  contact: {}
+  description: 'Operations tagged Attribution Studies across 2 of this provider''s published API definitions: streetmetrics-public-api-docs-json.json, streetmetrics-public-api-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://dashboard.streetmetrics.io/v3/public/
+tags:
+- name: Attribution Studies
+paths:
+  /public/attribution-studies/files/{id}:
+    get:
+      operationId: AttributionStudyController_getAttributionStudyFile
+      parameters:
+      - name: id
+        required: true
+        in: path
+        description: ID of the attribution study
+        schema:
+          type: number
+      responses:
+        '200':
+          description: File downloaded successfully
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '404':
+          description: File not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      summary: Download an attribution study file as a ZIP
+      tags:
+      - Attribution Studies
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /public/attribution-studies/{id}:
+    get:
+      operationId: AttributionStudyController_getAttributionStudy
+      parameters:
+      - name: id
+        required: true
+        in: path
+        description: ID of the attribution study
+        schema:
+          type: number
+      - name: limit
+        required: false
+        in: query
+        description: Limit the number of results (max 10000)
+        schema:
+          type: number
+      - name: sort
+        required: false
+        in: query
+        description: Field to sort by
+        schema:
+          type: string
+      - name: order
+        required: false
+        in: query
+        description: Order direction
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: cursor
+        required: false
+        in: query
+        description: "Cursor for pagination. \n      The cursor is used to fetch the next set of results in a paginated response.\n      Typically, it is provided in the 'nextCursor' field of the previous response.\n      Usage:\n      - Start by making an initial request without a cursor.\n      - In the response, you'll receive a 'nextCursor' if there are more results to fetch.\n      - Use this 'nextCursor' value as the cursor in your subsequent request to fetch the next page of results.\n      - Continue this process until the 'nextCursor' is null or not provided, indicating there are no more results.\n      Example: \n      \n    ?cursor=12345\n    "
+        schema:
+          type: string
+      - name: include
+        required: false
+        in: query
+        description: 'Entities to include in the response. Possible values: campaigns'
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: "Search query string. The syntax is 'fieldName.operation(a|o):value'.\n      The a|o (AND|OR) is optional and if not provided, it is considered as AND.\n    Additional searches can be chained with a comma.\n      Supported operations are:\n          - gt: Greater than\n          - lt: Less than\n          - gte: Greater than or equal to\n          - lte: Less than or equal to\n          - eq: Equal to\n          - ne: Not equal to\n          - ilike: Case-insensitive like\n          - like: Case-sensitive like\n          - startilike: Case-insensitive like at the start\n          - endilike: Case-insensitive like at the end\n          - startlike: Case-sensitive like at the start\n          - endlike: Case-sensitive like at the end\n        Logical operators:\n          - a: AND\n          - o: OR\n        Examples:\n          - assetRef.ilike:E62\n            Returns all assets with assetRef like E62\n          - createdAt.gte:2021-01-01\n            Returns all assets created after 2021-01-01\n          - status.eqo:PENDING,status.eqo:APPROVED\n            Returns all assets with status either PENDING OR APPROVED\n          - name.startilike:John\n            Returns all assets with name starting with John\n          - age.gtea:30,age.lt:40\n            Returns all assets with age greater than or equal to 30 and less than 40"
+        schema:
+          example: assetRef.ilike:E62,createdAt.gte:2021-01-01
+          type: string
+      responses:
+        '200':
+          description: Attribution study retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientAttributionStudyEntityDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '404':
+          description: Attribution study not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      summary: Get a specific attribution study by ID
+      tags:
+      - Attribution Studies
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /public/attribution-studies:
+    get:
+      operationId: AttributionStudyController_getAttributionStudies
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Limit the number of results (max 10000)
+        schema:
+          type: number
+      - name: sort
+        required: false
+        in: query
+        description: Field to sort by
+        schema:
+          type: string
+      - name: order
+        required: false
+        in: query
+        description: Order direction
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: cursor
+        required: false
+        in: query
+        description: "Cursor for pagination. \n      The cursor is used to fetch the next set of results in a paginated response.\n      Typically, it is provided in the 'nextCursor' field of the previous response.\n      Usage:\n      - Start by making an initial request without a cursor.\n      - In the response, you'll receive a 'nextCursor' if there are more results to fetch.\n      - Use this 'nextCursor' value as the cursor in your subsequent request to fetch the next page of results.\n      - Continue this process until the 'nextCursor' is null or not provided, indicating there are no more results.\n      Example: \n      \n    ?cursor=12345\n    "
+        schema:
+          type: string
+      - name: include
+        required: false
+        in: query
+        description: 'Entities to include in the response. Possible values: campaigns'
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: "Search query string. The syntax is 'fieldName.operation(a|o):value'.\n      The a|o (AND|OR) is optional and if not provided, it is considered as AND.\n    Additional searches can be chained with a comma.\n      Supported operations are:\n          - gt: Greater than\n          - lt: Less than\n          - gte: Greater than or equal to\n          - lte: Less than or equal to\n          - eq: Equal to\n          - ne: Not equal to\n          - ilike: Case-insensitive like\n          - like: Case-sensitive like\n          - startilike: Case-insensitive like at the start\n          - endilike: Case-insensitive like at the end\n          - startlike: Case-sensitive like at the start\n          - endlike: Case-sensitive like at the end\n        Logical operators:\n          - a: AND\n          - o: OR\n        Examples:\n          - assetRef.ilike:E62\n            Returns all assets with assetRef like E62\n          - createdAt.gte:2021-01-01\n            Returns all assets created after 2021-01-01\n          - status.eqo:PENDING,status.eqo:APPROVED\n            Returns all assets with status either PENDING OR APPROVED\n          - name.startilike:John\n            Returns all assets with name starting with John\n          - age.gtea:30,age.lt:40\n            Returns all assets with age greater than or equal to 30 and less than 40"
+        schema:
+          example: assetRef.ilike:E62,createdAt.gte:2021-01-01
+          type: string
+      responses:
+        '200':
+          description: List of attribution studies retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClientAttributionStudyEntityDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      summary: Get a list of attribution studies
+      tags:
+      - Attribution Studies
+    post:
+      description: Creates an attribution study for a campaign. For Footfall studies, the campaign must have at least one market that is not blacklisted; a request for a Footfall study against a fully-blacklisted campaign is rejected with a 400. If a Footfall campaign is partially blacklisted, the study is still created and a note about the excluded markets is appended to the response `message`. Web and Mobile studies are not subject to this blacklist check.
+      operationId: AttributionStudyController_createAttributionStudy
+      parameters: []
+      requestBody:
+        required: true
+        description: Data to create a new attribution study
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAttributionStudyDto'
+      responses:
+        '201':
+          description: Attribution study created successfully. For a partially-blacklisted Footfall campaign, the `message` field also notes which markets were excluded.
+        '400':
+          description: Footfall study requested against a campaign whose markets are all blacklisted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      summary: Create a new attribution study
+      tags:
+      - Attribution Studies
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /public/attribution-studies/conversions/date:
+    get:
+      description: Retrieves conversion data aggregated by date. When summaryBin is specified, data is grouped by time periods (week, month, day, etc.).
+      operationId: AttributionStudyController_getConversionsByDate
+      parameters:
+      - name: attributionId
+        required: true
+        in: query
+        description: Attribution study ID
+        schema:
+          type: number
+      - name: startDate
+        required: false
+        in: query
+        description: Start date as Unix timestamp in epoch seconds. If not provided, uses attribution study start date.
+        schema:
+          type: number
+      - name: endDate
+        required: false
+        in: query
+        description: End date as Unix timestamp in epoch seconds. If not provided, uses attribution study post-study end date.
+        schema:
+          type: number
+      - name: summaryBin
+        required: false
+        in: query
+        description: Optional summary bin for grouping data by time periods (WEEK, MONTH, DAY, HOUR, LIFETIME, DOW). When specified, results include summaryBinGrouping field.
+        schema:
+          type: string
+          enum:
+          - LIFETIME
+          - WEEK
+          - MONTH
+          - DAY
+          - HOUR
+          - DOW
+      - name: timezone
+        required: false
+        in: query
+        description: Timezone for date calculations
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Conversions by date retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetConversionsByDateResponseDto'
+        '400':
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      summary: Get conversions aggregated by date
+      tags:
+      - Attribution Studies
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /public/attribution-studies/conversions/ad-group:
+    get:
+      description: Retrieves conversion data aggregated by ad group (flight). When summaryBin is specified, data is grouped by both ad group and time periods.
+      operationId: AttributionStudyController_getConversionsByAdGroup
+      parameters:
+      - name: attributionId
+        required: true
+        in: query
+        description: Attribution study ID
+        schema:
+          type: number
+      - name: startDate
+        required: false
+        in: query
+        description: Start date as Unix timestamp in epoch seconds. If not provided, uses attribution study start date.
+        schema:
+          type: number
+      - name: endDate
+        required: false
+        in: query
+        description: End date as Unix timestamp in epoch seconds. If not provided, uses attribution study post-study end date.
+        schema:
+          type: number
+      - name: summaryBin
+        required: false
+        in: query
+        description: Optional summary bin for grouping data by time periods (WEEK, MONTH, DAY, HOUR, LIFETIME, DOW). When specified, results include summaryBinGrouping field.
+        schema:
+          type: string
+          enum:
+          - LIFETIME
+          - WEEK
+          - MONTH
+          - DAY
+          - HOUR
+          - DOW
+      - name: timezone
+        required: false
+        in: query
+        description: Timezone for date calculations
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Conversions by ad group retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetConversionsByAdGroupResponseDto'
+        '400':
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      summary: Get conversions aggregated by ad group
+      tags:
+      - Attribution Studies
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /public/attribution-studies/conversions/unit:
+    get:
+      description: Retrieves conversion data aggregated by unit (matchable or creative). When summaryBin is specified, data is grouped by both unit and time periods. Use useCreative=true to group by creative instead of matchable.
+      operationId: AttributionStudyController_getConversionsByUnit
+      parameters:
+      - name: attributionId
+        required: true
+        in: query
+        description: Attribution study ID
+        schema:
+          type: number
+      - name: startDate
+        required: false
+        in: query
+        description: Start date as Unix timestamp in epoch seconds. If not provided, uses attribution study start date.
+        schema:
+          type: number
+      - name: endDate
+        required: false
+        in: query
+        description: End date as Unix timestamp in epoch seconds. If not provided, uses attribution study post-study end date.
+        schema:
+          type: number
+      - name: summaryBin
+        required: false
+        in: query
+        description: Optional summary bin for grouping data by time periods (WEEK, MONTH, DAY, HOUR, LIFETIME, DOW). When specified, results include summaryBinGrouping field.
+        schema:
+          type: string
+          enum:
+          - LIFETIME
+          - WEEK
+          - MONTH
+          - DAY
+          - HOUR
+          - DOW
+      - name: timezone
+        required: false
+        in: query
+        description: Timezone for date calculations
+        schema:
+          type: string
+      - name: useCreative
+        required: false
+        in: query
+        description: When true, groups by creative fields instead of matchable fields. Only available for /unit endpoint.
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: Conversions by unit retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetConversionsByUnitResponseDto'
+        '400':
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      summary: Get conversions aggregated by unit
+      tags:
+      - Attribution Studies
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /attribution-studies/files/{id}:
+    get:
+      operationId: AttributionStudyController_getAttributionStudyFile
+      summary: Download an attribution study file as a ZIP
+      parameters:
+      - name: id
+        required: true
+        in: path
+        description: ID of the attribution study
+        schema:
+          type: number
+      responses:
+        '200':
+          description: File downloaded successfully
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '404':
+          description: File not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      tags:
+      - Attribution Studies
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /attribution-studies/{id}:
+    get:
+      operationId: AttributionStudyController_getAttributionStudy
+      summary: Get a specific attribution study by ID
+      parameters:
+      - name: id
+        required: true
+        in: path
+        description: ID of the attribution study
+        schema:
+          type: number
+      - name: limit
+        required: false
+        in: query
+        description: Limit the number of results (max 10000)
+        schema:
+          type: number
+      - name: sort
+        required: false
+        in: query
+        description: Field to sort by
+        schema:
+          type: string
+      - name: order
+        required: false
+        in: query
+        description: Order direction
+        schema:
+          enum:
+          - ASC
+          - DESC
+          type: string
+      - name: cursor
+        required: false
+        in: query
+        description: "Cursor for pagination. \n      The cursor is used to fetch the next set of results in a paginated response.\n      Typically, it is provided in the 'nextCursor' field of the previous response.\n      Usage:\n      - Start by making an initial request without a cursor.\n      - In the response, you'll receive a 'nextCursor' if there are more results to fetch.\n      - Use this 'nextCursor' value as the cursor in your subsequent request to fetch the next page of results.\n      - Continue this process until the 'nextCursor' is null or not provided, indicating there are no more results.\n      Example: \n      \n    ?cursor=12345\n    "
+        schema:
+          type: string
+      - name: include
+        required: false
+        in: query
+        description: 'Entities to include in the response. Possible values: campaigns'
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: "Search query string. The syntax is 'fieldName.operation(a|o):value'.\n      The a|o (AND|OR) is optional and if not provided, it is considered as AND.\n    Additional searches can be chained with a comma.\n      Supported operations are:\n          - gt: Greater than\n          - lt: Less than\n          - gte: Greater than or equal to\n          - lte: Less than or equal to\n          - eq: Equal to\n          - ne: Not equal to\n          - ilike: Case-insensitive like\n          - like: Case-sensitive like\n          - startilike: Case-insensitive like at the start\n          - endilike: Case-insensitive like at the end\n          - startlike: Case-sensitive like at the start\n          - endlike: Case-sensitive like at the end\n        Logical operators:\n          - a: AND\n          - o: OR\n        Examples:\n          - assetRef.ilike:E62\n            Returns all assets with assetRef like E62\n          - createdAt.gte:2021-01-01\n            Returns all assets created after 2021-01-01\n          - status.eqo:PENDING,status.eqo:APPROVED\n            Returns all assets with status either PENDING OR APPROVED\n          - name.startilike:John\n            Returns all assets with name starting with John\n          - age.gtea:30,age.lt:40\n            Returns all assets with age greater than or equal to 30 and less than 40"
+        example: assetRef.ilike:E62,createdAt.gte:2021-01-01
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Attribution study retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientAttributionStudyEntityDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '404':
+          description: Attribution study not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      tags:
+      - Attribution Studies
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /attribution-studies:
+    get:
+      operationId: AttributionStudyController_getAttributionStudies
+      summary: Get a list of attribution studies
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Limit the number of results (max 10000)
+        schema:
+          type: number
+      - name: sort
+        required: false
+        in: query
+        description: Field to sort by
+        schema:
+          type: string
+      - name: order
+        required: false
+        in: query
+        description: Order direction
+        schema:
+          enum:
+          - ASC
+          - DESC
+          type: string
+      - name: cursor
+        required: false
+        in: query
+        description: "Cursor for pagination. \n      The cursor is used to fetch the next set of results in a paginated response.\n      Typically, it is provided in the 'nextCursor' field of the previous response.\n      Usage:\n      - Start by making an initial request without a cursor.\n      - In the response, you'll receive a 'nextCursor' if there are more results to fetch.\n      - Use this 'nextCursor' value as the cursor in your subsequent request to fetch the next page of results.\n      - Continue this process until the 'nextCursor' is null or not provided, indicating there are no more results.\n      Example: \n      \n    ?cursor=12345\n    "
+        schema:
+          type: string
+      - name: include
+        required: false
+        in: query
+        description: 'Entities to include in the response. Possible values: campaigns'
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: "Search query string. The syntax is 'fieldName.operation(a|o):value'.\n      The a|o (AND|OR) is optional and if not provided, it is considered as AND.\n    Additional searches can be chained with a comma.\n      Supported operations are:\n          - gt: Greater than\n          - lt: Less than\n          - gte: Greater than or equal to\n          - lte: Less than or equal to\n          - eq: Equal to\n          - ne: Not equal to\n          - ilike: Case-insensitive like\n          - like: Case-sensitive like\n          - startilike: Case-insensitive like at the start\n          - endilike: Case-insensitive like at the end\n          - startlike: Case-sensitive like at the start\n          - endlike: Case-sensitive like at the end\n        Logical operators:\n          - a: AND\n          - o: OR\n        Examples:\n          - assetRef.ilike:E62\n            Returns all assets with assetRef like E62\n          - createdAt.gte:2021-01-01\n            Returns all assets created after 2021-01-01\n          - status.eqo:PENDING,status.eqo:APPROVED\n            Returns all assets with status either PENDING OR APPROVED\n          - name.startilike:John\n            Returns all assets with name starting with John\n          - age.gtea:30,age.lt:40\n            Returns all assets with age greater than or equal to 30 and less than 40"
+        example: assetRef.ilike:E62,createdAt.gte:2021-01-01
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of attribution studies retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClientAttributionStudyEntityDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      tags:
+      - Attribution Studies
+    post:
+      operationId: AttributionStudyController_createAttributionStudy
+      summary: Create a new attribution study
+      parameters: []
+      requestBody:
+        required: true
+        description: Data to create a new attribution study
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAttributionStudyDto_2'
+      responses:
+        '201':
+          description: Attribution study created successfully
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      tags:
+      - Attribution Studies
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /attribution-studies/conversions/date:
+    get:
+      operationId: AttributionStudyController_getConversionsByDate
+      summary: Get conversions aggregated by date
+      description: Retrieves conversion data aggregated by date. When summaryBin is specified, data is grouped by time periods (week, month, day, etc.).
+      parameters:
+      - name: attributionId
+        required: true
+        in: query
+        description: Attribution study ID
+        schema:
+          type: number
+      - name: startDate
+        required: false
+        in: query
+        description: Start date as Unix timestamp in epoch seconds. If not provided, uses attribution study start date.
+        schema:
+          type: number
+      - name: endDate
+        required: false
+        in: query
+        description: End date as Unix timestamp in epoch seconds. If not provided, uses attribution study post-study end date.
+        schema:
+          type: number
+      - name: summaryBin
+        required: false
+        in: query
+        description: Optional summary bin for grouping data by time periods (WEEK, MONTH, DAY, HOUR, LIFETIME, DOW). When specified, results include summaryBinGrouping field.
+        schema:
+          enum:
+          - LIFETIME
+          - WEEK
+          - MONTH
+          - DAY
+          - HOUR
+          - DOW
+          type: string
+      - name: timezone
+        required: false
+        in: query
+        description: Timezone for date calculations
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Conversions by date retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetConversionsByDateResponseDto'
+        '400':
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      tags:
+      - Attribution Studies
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /attribution-studies/conversions/ad-group:
+    get:
+      operationId: AttributionStudyController_getConversionsByAdGroup
+      summary: Get conversions aggregated by ad group
+      description: Retrieves conversion data aggregated by ad group (flight). When summaryBin is specified, data is grouped by both ad group and time periods.
+      parameters:
+      - name: attributionId
+        required: true
+        in: query
+        description: Attribution study ID
+        schema:
+          type: number
+      - name: startDate
+        required: false
+        in: query
+        description: Start date as Unix timestamp in epoch seconds. If not provided, uses attribution study start date.
+        schema:
+          type: number
+      - name: endDate
+        required: false
+        in: query
+        description: End date as Unix timestamp in epoch seconds. If not provided, uses attribution study post-study end date.
+        schema:
+          type: number
+      - name: summaryBin
+        required: false
+        in: query
+        description: Optional summary bin for grouping data by time periods (WEEK, MONTH, DAY, HOUR, LIFETIME, DOW). When specified, results include summaryBinGrouping field.
+        schema:
+          enum:
+          - LIFETIME
+          - WEEK
+          - MONTH
+          - DAY
+          - HOUR
+          - DOW
+          type: string
+      - name: timezone
+        required: false
+        in: query
+        description: Timezone for date calculations
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Conversions by ad group retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetConversionsByAdGroupResponseDto'
+        '400':
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      tags:
+      - Attribution Studies
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /attribution-studies/conversions/unit:
+    get:
+      operationId: AttributionStudyController_getConversionsByUnit
+      summary: Get conversions aggregated by unit
+      description: Retrieves conversion data aggregated by unit (matchable or creative). When summaryBin is specified, data is grouped by both unit and time periods. Use useCreative=true to group by creative instead of matchable.
+      parameters:
+      - name: attributionId
+        required: true
+        in: query
+        description: Attribution study ID
+        schema:
+          type: number
+      - name: startDate
+        required: false
+        in: query
+        description: Start date as Unix timestamp in epoch seconds. If not provided, uses attribution study start date.
+        schema:
+          type: number
+      - name: endDate
+        required: false
+        in: query
+        description: End date as Unix timestamp in epoch seconds. If not provided, uses attribution study post-study end date.
+        schema:
+          type: number
+      - name: summaryBin
+        required: false
+        in: query
+        description: Optional summary bin for grouping data by time periods (WEEK, MONTH, DAY, HOUR, LIFETIME, DOW). When specified, results include summaryBinGrouping field.
+        schema:
+          enum:
+          - LIFETIME
+          - WEEK
+          - MONTH
+          - DAY
+          - HOUR
+          - DOW
+          type: string
+      - name: timezone
+        required: false
+        in: query
+        description: Timezone for date calculations
+        schema:
+          type: string
+      - name: useCreative
+        required: false
+        in: query
+        description: When true, groups by creative fields instead of matchable fields. Only available for /unit endpoint.
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: Conversions by unit retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetConversionsByUnitResponseDto'
+        '400':
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      tags:
+      - Attribution Studies
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+components:
+  schemas:
+    GetConversionsByAdGroupResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          description: Conversions grouped by ad group
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientAttributionConversionsByAdGroupResponseDto'
+      required:
+      - statusCode
+      - meta
+      - data
+    GetConversionsByUnitResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          description: Conversions grouped by unit
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientAttributionConversionsByUnitResponseDto'
+      required:
+      - statusCode
+      - meta
+      - data
+    CreateAttributionStudyDto:
+      type: object
+      properties:
+        studyName:
+          type: string
+          description: Name of the attribution study
+          example: My Attribution Study
+        analysisType:
+          enum:
+          - RETARGETING
+          - CONVERSION
+          - LIFT
+          type: string
+          description: Analysis type of the attribution study
+          example: LIFT
+        studyType:
+          enum:
+          - Web
+          - Footfall
+          - Mobile
+          type: string
+          description: Study type of the attribution study
+          example: Web
+        campaignId:
+          type: number
+          minimum: 1
+          maximum: 2147483647
+          description: Campaign ID of the attribution study
+          example: 1
+        startDate:
+          type: number
+          description: Start date of the attribution study
+          example: 1715001600
+        endDate:
+          type: number
+          description: End date of the attribution study
+          example: 1715001600
+        postStudyEndDate:
+          type: number
+          description: Post study end date of the attribution study
+          example: 1715001600
+        campaignGoals:
+          type: string
+          description: Campaign goals of the attribution study
+          example: Increase website visits
+        isPartOfOtherEffort:
+          type: boolean
+          description: Is this study a part of a greater measurement effort?
+          example: true
+        pauseOtherChannels:
+          type: boolean
+          description: Is your client pausing other media channels during the operator campaigns?
+          example: true
+        brandFocused:
+          type: boolean
+          description: Are the ads brand awareness focused?
+          example: true
+        adsAligned:
+          type: boolean
+          description: Are the ads aligned with the responses we're measuring?
+          example: true
+        mediaMix:
+          items:
+            type: string
+            enum:
+            - Audio Streaming
+            - Direct Mail
+            - Email
+            - Event
+            - In-store Placement
+            - Influencer Marketing
+            - Mobile
+            - Newspapers/Magazines
+            - OOH
+            - OTT/CTV
+            - Radio
+            - SEO
+            - Television
+            - Website/Social Media
+          description: If no to pauseOtherChannels, where else is the advertiser running advertisements?
+          example:
+          - TV
+          - Digital
+          type: array
+      required:
+      - studyName
+      - analysisType
+      - studyType
+      - campaignId
+      - startDate
+      - endDate
+      - postStudyEndDate
+      - campaignGoals
+      - isPartOfOtherEffort
+      - pauseOtherChannels
+      - brandFocused
+      - adsAligned
+      - mediaMix
+    ErrorResponseDto:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status of the response
+          example: error
+        statusCode:
+          type: number
+          description: HTTP status code
+          example: 400
+        errorCode:
+          type: string
+          description: Custom error code
+          example: ERR001
+        message:
+          type: string
+          description: Error message
+          example: Invalid input data
+        details:
+          type:
+          - object
+          - 'null'
+          description: Additional details about the error
+        timestamp:
+          type: string
+          description: Timestamp of the error
+          example: '2024-08-26T14:56:29.000Z'
+        path:
+          type: string
+          description: Request path where the error occurred
+          example: /api/v1/resource
+      required:
+      - status
+      - statusCode
+      - errorCode
+      - message
+      - details
+      - timestamp
+      - path
+    ClientAttributionConversionsByUnitResponseDto:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+          description: The ID of the unit
+        ref:
+          type: string
+          example: ADG12345
+          description: The unit ref
+        type:
+          type: string
+          example: ASSET
+          description: ASSET or FRAME
+        summaryBinGrouping:
+          type:
+          - string
+          - 'null'
+          example: '2025-05-19 00:00:00.000'
+          description: Summary bin grouping value (only present when summaryBin parameter is specified)
+        observedConversionsGross:
+          type:
+          - number
+          - 'null'
+          example: 2033
+          description: Observed conversions gross
+        observedConversionsEffective:
+          type:
+          - number
+          - 'null'
+          example: 482
+          description: Observed conversions effective
+        observedConversionsViewable:
+          type:
+          - number
+          - 'null'
+          example: 1238
+          description: Observed conversions viewable
+        upsampledConversionsGross:
+          type:
+          - number
+          - 'null'
+          example: 14377
+          description: Upsampled conversions gross
+        upsampledConversionsEffective:
+          type:
+          - number
+          - 'null'
+          example: 3507
+          description: Upsampled conversions effective
+        upsampledConversionsViewable:
+          type:
+          - number
+          - 'null'
+          example: 8897
+          description: Upsampled conversions viewable
+      required:
+      - id
+      - ref
+      - type
+      - observedConversionsGross
+      - observedConversionsEffective
+      - observedConversionsViewable
+      - upsampledConversionsGross
+      - upsampledConversionsEffective
+      - upsampledConversionsViewable
+    ClientAttributionStudyEntityDto:
+      type: object
+      properties:
+        status:
+          type: string
+        attributionId:
+          type: number
+        campaignId:
+          type: number
+        studyName:
+          type: string
+        studyType:
+          type: string
+        campaignGoals:
+          type: string
+        startDate:
+          type: number
+        endDate:
+          type: number
+        postStudyEndDate:
+          type: number
+        isPartOfOtherEffort:
+          type: boolean
+        pauseOtherChannels:
+          type: boolean
+        brandFocused:
+          type: boolean
+        adsAligned:
+          type: boolean
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+        analysisType:
+          type: string
+        campaigns:
+          type: array
+          items:
+            type: object
+      required:
+      - status
+      - attributionId
+      - campaignId
+      - studyName
+      - studyType
+      - campaignGoals
+      - startDate
+      - endDate
+      - postStudyEndDate
+      - isPartOfOtherEffort
+      - pauseOtherChannels
+      - brandFocused
+      - adsAligned
+      - createdAt
+      - updatedAt
+      - analysisType
+      - campaigns
+    ClientAttributionConversionsByDateResponseDto:
+      type: object
+      properties:
+        summaryBinGrouping:
+          type:
+          - string
+          - 'null'
+          example: '2025-05-19 00:00:00.000'
+          description: Summary bin grouping value (only present when summaryBin parameter is specified)
+        observedConversionsGross:
+          type:
+          - number
+          - 'null'
+          example: 2033
+          description: Observed conversions gross
+        observedConversionsEffective:
+          type:
+          - number
+          - 'null'
+          example: 482
+          description: Observed conversions effective
+        observedConversionsViewable:
+          type:
+          - number
+          - 'null'
+          example: 1238
+          description: Observed conversions viewable
+        upsampledConversionsGross:
+          type:
+          - number
+          - 'null'
+          example: 14377
+          description: Upsampled conversions gross
+        upsampledConversionsEffective:
+          type:
+          - number
+          - 'null'
+          example: 3507
+          description: Upsampled conversions effective
+        upsampledConversionsViewable:
+          type:
+          - number
+          - 'null'
+          example: 8897
+          description: Upsampled conversions viewable
+      required:
+      - observedConversionsGross
+      - observedConversionsEffective
+      - observedConversionsViewable
+      - upsampledConversionsGross
+      - upsampledConversionsEffective
+      - upsampledConversionsViewable
+    GetConversionsByDateResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          description: Conversions grouped by date
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientAttributionConversionsByDateResponseDto'
+      required:
+      - statusCode
+      - meta
+      - data
+    ClientAttributionConversionsByAdGroupResponseDto:
+      type: object
+      properties:
+        adGroupRef:
+          type: string
+          example: Summer2025AdGroupRef
+          description: The ad group ref
+        summaryBinGrouping:
+          type:
+          - string
+          - 'null'
+          example: '2025-05-19 00:00:00.000'
+          description: Summary bin grouping value (only present when summaryBin parameter is specified)
+        observedConversionsGross:
+          type:
+          - number
+          - 'null'
+          example: 2033
+          description: Observed conversions gross
+        observedConversionsEffective:
+          type:
+          - number
+          - 'null'
+          example: 482
+          description: Observed conversions effective
+        observedConversionsViewable:
+          type:
+          - number
+          - 'null'
+          example: 1238
+          description: Observed conversions viewable
+        upsampledConversionsGross:
+          type:
+          - number
+          - 'null'
+          example: 14377
+          description: Upsampled conversions gross
+        upsampledConversionsEffective:
+          type:
+          - number
+          - 'null'
+          example: 3507
+          description: Upsampled conversions effective
+        upsampledConversionsViewable:
+          type:
+          - number
+          - 'null'
+          example: 8897
+          description: Upsampled conversions viewable
+      required:
+      - adGroupRef
+      - observedConversionsGross
+      - observedConversionsEffective
+      - observedConversionsViewable
+      - upsampledConversionsGross
+      - upsampledConversionsEffective
+      - upsampledConversionsViewable
+    CreateAttributionStudyDto_2:
+      type: object
+      properties:
+        studyName:
+          type: string
+          description: Name of the attribution study
+          example: My Attribution Study
+        analysisType:
+          enum:
+          - RETARGETING
+          - CONVERSION
+          - LIFT
+          type: string
+          description: Analysis type of the attribution study
+          example: LIFT
+        studyType:
+          enum:
+          - Web
+          - Footfall
+          - Mobile
+          type: string
+          description: Study type of the attribution study
+          example: Web
+        campaignId:
+          type: number
+          minimum: 1
+          maximum: 2147483647
+          description: Campaign ID of the attribution study
+          example: 1
+        startDate:
+          type: number
+          description: Start date of the attribution study
+          example: 1715001600
+        endDate:
+          type: number
+          description: End date of the attribution study
+          example: 1715001600
+        postStudyEndDate:
+          type: number
+          description: Post study end date of the attribution study
+          example: 1715001600
+        campaignGoals:
+          type: string
+          description: Campaign goals of the attribution study
+          example: Increase website visits
+        isPartOfOtherEffort:
+          type: boolean
+          description: Is this study a part of a greater measurement effort?
+          example: true
+        pauseOtherChannels:
+          type: boolean
+          description: Is your client pausing other media channels during the operator campaigns?
+          example: true
+        brandFocused:
+          type: boolean
+          description: Are the ads brand awareness focused?
+          example: true
+        adsAligned:
+          type: boolean
+          description: Are the ads aligned with the responses we're measuring?
+          example: true
+        mediaMix:
+          items:
+            type: array
+          description: If no to pauseOtherChannels, where else is the advertiser running advertisements?
+          example:
+          - TV
+          - Digital
+          type: array
+      required:
+      - studyName
+      - analysisType
+      - studyType
+      - campaignId
+      - startDate
+      - endDate
+      - postStudyEndDate
+      - campaignGoals
+      - isPartOfOtherEffort
+      - pauseOtherChannels
+      - brandFocused
+      - adsAligned
+      - mediaMix
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+x-refined-from:
+- streetmetrics-public-api-docs-json.json
+- streetmetrics-public-api-openapi.json
+x-explorer-enabled: false
+x-proxy-enabled: false

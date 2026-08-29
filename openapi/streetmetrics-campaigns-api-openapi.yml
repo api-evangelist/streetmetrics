@@ -1,0 +1,793 @@
+openapi: 3.2.0
+info:
+  title: Streetmetrics Campaigns API
+  version: '3.0'
+  contact: {}
+  description: 'Operations tagged Campaigns across 2 of this provider''s published API definitions: streetmetrics-public-api-docs-json.json, streetmetrics-public-api-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://dashboard.streetmetrics.io/v3/public/
+tags:
+- name: Campaigns
+paths:
+  /public/campaigns/{id}:
+    get:
+      operationId: CampaignController_getCampaign
+      parameters:
+      - name: id
+        required: true
+        in: path
+        description: The ID of the campaign to retrieve
+        schema:
+          type: number
+      - name: include
+        required: false
+        in: query
+        description: 'Specific entities to include in the Campaign response. Only valid for Campaign entities. Possible values: adGroups, markets'
+        schema:
+          example:
+          - adGroups
+          - markets
+          type: array
+          items:
+            type: string
+            enum:
+            - adGroups
+            - markets
+      responses:
+        '200':
+          description: Campaign retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCampaignResponseDto'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Campaign not found
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      summary: Get a specific campaign by ID
+      tags:
+      - Campaigns
+    patch:
+      operationId: CampaignController_patchUpdateCampaign
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Campaign updated successfully
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Campaign not found
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      summary: Update a campaign
+      tags:
+      - Campaigns
+    delete:
+      operationId: CampaignController_deleteCampaign
+      parameters:
+      - name: id
+        required: true
+        in: path
+        description: The ID of the campaign
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Campaign deleted successfully
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      summary: Delete a campaign
+      tags:
+      - Campaigns
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /public/campaigns:
+    get:
+      operationId: CampaignController_getCampaigns
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Limit the number of results (max 10000)
+        schema:
+          type: number
+      - name: sort
+        required: false
+        in: query
+        description: Field to sort by
+        schema:
+          type: string
+      - name: order
+        required: false
+        in: query
+        description: Order direction
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: cursor
+        required: false
+        in: query
+        description: "Cursor for pagination. \n      The cursor is used to fetch the next set of results in a paginated response.\n      Typically, it is provided in the 'nextCursor' field of the previous response.\n      Usage:\n      - Start by making an initial request without a cursor.\n      - In the response, you'll receive a 'nextCursor' if there are more results to fetch.\n      - Use this 'nextCursor' value as the cursor in your subsequent request to fetch the next page of results.\n      - Continue this process until the 'nextCursor' is null or not provided, indicating there are no more results.\n      Example: \n      \n    ?cursor=12345\n    "
+        schema:
+          type: string
+      - name: include
+        required: false
+        in: query
+        description: 'Specific entities to include in the Campaign response. Only valid for Campaign entities. Possible values: adGroups, markets'
+        schema:
+          example:
+          - adGroups
+          - markets
+          type: array
+          items:
+            type: string
+            enum:
+            - adGroups
+            - markets
+      - name: search
+        required: false
+        in: query
+        description: "Search query string. The syntax is 'fieldName.operation(a|o):value'.\n      The a|o (AND|OR) is optional and if not provided, it is considered as AND.\n    Additional searches can be chained with a comma.\n      Supported operations are:\n          - gt: Greater than\n          - lt: Less than\n          - gte: Greater than or equal to\n          - lte: Less than or equal to\n          - eq: Equal to\n          - ne: Not equal to\n          - ilike: Case-insensitive like\n          - like: Case-sensitive like\n          - startilike: Case-insensitive like at the start\n          - endilike: Case-insensitive like at the end\n          - startlike: Case-sensitive like at the start\n          - endlike: Case-sensitive like at the end\n        Logical operators:\n          - a: AND\n          - o: OR\n        Examples:\n          - assetRef.ilike:E62\n            Returns all assets with assetRef like E62\n          - createdAt.gte:2021-01-01\n            Returns all assets created after 2021-01-01\n          - status.eqo:PENDING,status.eqo:APPROVED\n            Returns all assets with status either PENDING OR APPROVED\n          - name.startilike:John\n            Returns all assets with name starting with John\n          - age.gtea:30,age.lt:40\n            Returns all assets with age greater than or equal to 30 and less than 40"
+        schema:
+          example: assetRef.ilike:E62,createdAt.gte:2021-01-01
+          type: string
+      responses:
+        '200':
+          description: List of campaigns retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCampaignsResponseDto'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      summary: Get a list of campaigns
+      tags:
+      - Campaigns
+    post:
+      operationId: CampaignController_createCampaign
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCampaignDto'
+      responses:
+        '201':
+          description: The id of the newly created campaign
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCampaignResponse'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      summary: Create a new campaign
+      tags:
+      - Campaigns
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /campaigns/{id}:
+    get:
+      operationId: CampaignController_getCampaign
+      summary: Get a specific campaign by ID
+      parameters:
+      - name: id
+        required: true
+        in: path
+        description: The ID of the campaign to retrieve
+        schema:
+          type: number
+      - name: include
+        required: false
+        in: query
+        description: 'Specific entities to include in the Campaign response. Only valid for Campaign entities. Possible values: adGroups, markets'
+        example:
+        - adGroups
+        - markets
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: Campaign retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCampaignResponseDto'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Campaign not found
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      tags:
+      - Campaigns
+    patch:
+      operationId: CampaignController_patchUpdateCampaign
+      summary: Update a campaign
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Campaign updated successfully
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Campaign not found
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      tags:
+      - Campaigns
+    delete:
+      operationId: CampaignController_deleteCampaign
+      summary: Delete a campaign
+      parameters:
+      - name: id
+        required: true
+        in: path
+        description: The ID of the campaign
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Campaign deleted successfully
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      tags:
+      - Campaigns
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /campaigns:
+    get:
+      operationId: CampaignController_getCampaigns
+      summary: Get a list of campaigns
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Limit the number of results (max 10000)
+        schema:
+          type: number
+      - name: sort
+        required: false
+        in: query
+        description: Field to sort by
+        schema:
+          type: string
+      - name: order
+        required: false
+        in: query
+        description: Order direction
+        schema:
+          enum:
+          - ASC
+          - DESC
+          type: string
+      - name: cursor
+        required: false
+        in: query
+        description: "Cursor for pagination. \n      The cursor is used to fetch the next set of results in a paginated response.\n      Typically, it is provided in the 'nextCursor' field of the previous response.\n      Usage:\n      - Start by making an initial request without a cursor.\n      - In the response, you'll receive a 'nextCursor' if there are more results to fetch.\n      - Use this 'nextCursor' value as the cursor in your subsequent request to fetch the next page of results.\n      - Continue this process until the 'nextCursor' is null or not provided, indicating there are no more results.\n      Example: \n      \n    ?cursor=12345\n    "
+        schema:
+          type: string
+      - name: include
+        required: false
+        in: query
+        description: 'Specific entities to include in the Campaign response. Only valid for Campaign entities. Possible values: adGroups, markets'
+        example:
+        - adGroups
+        - markets
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: "Search query string. The syntax is 'fieldName.operation(a|o):value'.\n      The a|o (AND|OR) is optional and if not provided, it is considered as AND.\n    Additional searches can be chained with a comma.\n      Supported operations are:\n          - gt: Greater than\n          - lt: Less than\n          - gte: Greater than or equal to\n          - lte: Less than or equal to\n          - eq: Equal to\n          - ne: Not equal to\n          - ilike: Case-insensitive like\n          - like: Case-sensitive like\n          - startilike: Case-insensitive like at the start\n          - endilike: Case-insensitive like at the end\n          - startlike: Case-sensitive like at the start\n          - endlike: Case-sensitive like at the end\n        Logical operators:\n          - a: AND\n          - o: OR\n        Examples:\n          - assetRef.ilike:E62\n            Returns all assets with assetRef like E62\n          - createdAt.gte:2021-01-01\n            Returns all assets created after 2021-01-01\n          - status.eqo:PENDING,status.eqo:APPROVED\n            Returns all assets with status either PENDING OR APPROVED\n          - name.startilike:John\n            Returns all assets with name starting with John\n          - age.gtea:30,age.lt:40\n            Returns all assets with age greater than or equal to 30 and less than 40"
+        example: assetRef.ilike:E62,createdAt.gte:2021-01-01
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of campaigns retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCampaignsResponseDto'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      tags:
+      - Campaigns
+    post:
+      operationId: CampaignController_createCampaign
+      summary: Create a new campaign
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCampaignDto_2'
+      responses:
+        '201':
+          description: The id of the newly created campaign
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCampaignResponse'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      tags:
+      - Campaigns
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+components:
+  schemas:
+    ClientCampaignEntityResponseDto:
+      type: object
+      properties:
+        campaignId:
+          type: number
+          example: 1
+          description: The ID of the campaign
+        campaignRef:
+          type: string
+          example: CMP12345
+          description: The reference code of the campaign
+        contractId:
+          type: string
+          example: CON12345
+          description: The reference code of the contract
+        industry:
+          type: string
+          example: Automotive
+          description: The industry of the campaign
+        activeFrom:
+          type: number
+          example: 1625097600
+          description: The start date of the campaign
+        activeTo:
+          type: number
+          example: 1625097600
+          description: The end date of the campaign
+        metaData:
+          type: object
+          example:
+            advertiser: StreetMetrics
+          description: The metadata of the campaign
+        createdAt:
+          format: date-time
+          type: string
+          example: '2023-07-29T12:34:56Z'
+          description: The date and time the campaign was created
+        updatedAt:
+          format: date-time
+          type: string
+          example: '2023-08-01T15:22:11Z'
+          description: The date and time the campaign was last updated
+        adGroups:
+          description: The ad groups of the campaign
+          type: array
+          items:
+            type: object
+      required:
+      - campaignId
+      - campaignRef
+      - contractId
+      - industry
+      - activeFrom
+      - activeTo
+      - metaData
+      - createdAt
+      - updatedAt
+    CreateCampaignDto:
+      type: object
+      properties:
+        campaignRef:
+          type: string
+          example: CMP12345
+          description: The reference code of the campaign
+        advertiser:
+          type: string
+          example: Advertiser Name
+          description: The advertiser of the campaign
+        marketId:
+          minItems: 1
+          example:
+          - 1
+          - 2
+          - 3
+          description: The market IDs of the campaign
+          type: array
+          items:
+            type: number
+            maximum: 2147483647
+            minimum: 1
+        contractId:
+          type: string
+          example: CON12345
+          description: The reference code of the contract
+        industry:
+          type: string
+          example: Automotive
+          description: The industry of the campaign
+          enum:
+          - Alcohol
+          - Automotive, Dealers & Services
+          - Cannabis
+          - Consumer Goods
+          - Education
+          - Employment
+          - Entertainment
+          - Financial
+          - Government, Politics & Organizations
+          - Healthcare
+          - Insurance
+          - Lottery
+          - Legal
+          - Non-Profit
+          - Other
+          - Real Estate
+          - Restaurants
+          - Retail
+          - Service Providers
+          - Technology
+          - Travel
+          - Utilities
+        goal:
+          type: number
+          minimum: 0
+          example: 1000
+          description: The goal of the campaign
+        activeFrom:
+          type: number
+          example: 1625097600
+          description: 'The start date of the campaign (NOTE: Please refrain from passing this value directly, as it will automatically be set each day based on its ad groups)'
+        activeTo:
+          type: number
+          example: 1625097600
+          description: 'The end date of the campaign (NOTE: Please refrain from passing this value directly, as it will automatically be set each day based on its ad groups)'
+        displayName:
+          type: string
+          example: Campaign Display Name
+          description: The display name of the campaign
+        budget:
+          type: number
+          minimum: 0
+          example: 1000
+          description: The budget of the campaign
+        cpm:
+          type: number
+          minimum: 0
+          example: 1000
+          description: The CPM of the campaign
+      required:
+      - campaignRef
+      - advertiser
+      - marketId
+    ErrorResponseDto:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status of the response
+          example: error
+        statusCode:
+          type: number
+          description: HTTP status code
+          example: 400
+        errorCode:
+          type: string
+          description: Custom error code
+          example: ERR001
+        message:
+          type: string
+          description: Error message
+          example: Invalid input data
+        details:
+          type:
+          - object
+          - 'null'
+          description: Additional details about the error
+        timestamp:
+          type: string
+          description: Timestamp of the error
+          example: '2024-08-26T14:56:29.000Z'
+        path:
+          type: string
+          description: Request path where the error occurred
+          example: /api/v1/resource
+      required:
+      - status
+      - statusCode
+      - errorCode
+      - message
+      - details
+      - timestamp
+      - path
+    GetCampaignsResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientCampaignEntityResponseDto'
+      required:
+      - statusCode
+      - meta
+      - data
+    CreateCampaignResponse:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          type: number
+          description: The ID of the created campaign
+      required:
+      - statusCode
+      - meta
+      - data
+    GetCampaignResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          $ref: '#/components/schemas/ClientCampaignEntityResponseDto'
+      required:
+      - statusCode
+      - meta
+      - data
+    CreateCampaignDto_2:
+      type: object
+      properties:
+        campaignRef:
+          type: string
+          example: CMP12345
+          description: The reference code of the campaign
+        advertiser:
+          type: string
+          example: Advertiser Name
+          description: The advertiser of the campaign
+        marketId:
+          example:
+          - 1
+          - 2
+          - 3
+          description: The market IDs of the campaign
+          type: array
+          items:
+            type: number
+            maximum: 2147483647
+            minimum: 1
+        contractId:
+          type: string
+          example: CON12345
+          description: The reference code of the contract
+        industry:
+          type: string
+          example: Automotive
+          description: The industry of the campaign
+          enum:
+          - Alcohol
+          - Automotive, Dealers & Services
+          - Cannabis
+          - Consumer Goods
+          - Education
+          - Employment
+          - Entertainment
+          - Financial
+          - Government, Politics & Organizations
+          - Healthcare
+          - Insurance
+          - Lottery
+          - Legal
+          - Non-Profit
+          - Other
+          - Real Estate
+          - Restaurants
+          - Retail
+          - Service Providers
+          - Technology
+          - Travel
+          - Utilities
+        goal:
+          type: number
+          minimum: 0
+          example: 1000
+          description: The goal of the campaign
+        activeFrom:
+          type: number
+          example: 1625097600
+          description: 'The start date of the campaign (NOTE: Please refrain from passing this value directly, as it will automatically be set each day based on its ad groups)'
+        activeTo:
+          type: number
+          example: 1625097600
+          description: 'The end date of the campaign (NOTE: Please refrain from passing this value directly, as it will automatically be set each day based on its ad groups)'
+        displayName:
+          type: string
+          example: Campaign Display Name
+          description: The display name of the campaign
+        budget:
+          type: number
+          minimum: 0
+          example: 1000
+          description: The budget of the campaign
+        cpm:
+          type: number
+          minimum: 0
+          example: 1000
+          description: The CPM of the campaign
+      required:
+      - campaignRef
+      - advertiser
+      - marketId
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+x-refined-from:
+- streetmetrics-public-api-docs-json.json
+- streetmetrics-public-api-openapi.json
+x-explorer-enabled: false
+x-proxy-enabled: false

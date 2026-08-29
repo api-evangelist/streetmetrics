@@ -1,0 +1,830 @@
+openapi: 3.2.0
+info:
+  title: Streetmetrics Pixels API
+  version: '3.0'
+  contact: {}
+  description: 'Operations tagged Pixels across 2 of this provider''s published API definitions: streetmetrics-public-api-docs-json.json, streetmetrics-public-api-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://dashboard.streetmetrics.io/v3/public/
+tags:
+- name: Pixels
+paths:
+  /public/pixels:
+    post:
+      operationId: PixelController_createPixel
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePixelDto'
+      responses:
+        '201':
+          description: The id of the newly created pixel
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatePixelResponse'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+      summary: Create a new pixel
+      tags:
+      - Pixels
+    get:
+      operationId: PixelController_getPixels
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Limit the number of results (max 10000)
+        schema:
+          type: number
+      - name: sort
+        required: false
+        in: query
+        description: Field to sort by
+        schema:
+          type: string
+      - name: order
+        required: false
+        in: query
+        description: Order direction
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: cursor
+        required: false
+        in: query
+        description: "Cursor for pagination. \n      The cursor is used to fetch the next set of results in a paginated response.\n      Typically, it is provided in the 'nextCursor' field of the previous response.\n      Usage:\n      - Start by making an initial request without a cursor.\n      - In the response, you'll receive a 'nextCursor' if there are more results to fetch.\n      - Use this 'nextCursor' value as the cursor in your subsequent request to fetch the next page of results.\n      - Continue this process until the 'nextCursor' is null or not provided, indicating there are no more results.\n      Example: \n      \n    ?cursor=12345\n    "
+        schema:
+          type: string
+      - name: include
+        required: false
+        in: query
+        description: 'Specific entities to include in the Pixel response. Only valid for Pixel entities. Possible values: campaign'
+        schema:
+          example:
+          - campaign
+          type: array
+          items:
+            type: string
+      - name: search
+        required: false
+        in: query
+        description: "Search query string. The syntax is 'fieldName.operation(a|o):value'.\n      The a|o (AND|OR) is optional and if not provided, it is considered as AND.\n    Additional searches can be chained with a comma.\n      Supported operations are:\n          - gt: Greater than\n          - lt: Less than\n          - gte: Greater than or equal to\n          - lte: Less than or equal to\n          - eq: Equal to\n          - ne: Not equal to\n          - ilike: Case-insensitive like\n          - like: Case-sensitive like\n          - startilike: Case-insensitive like at the start\n          - endilike: Case-insensitive like at the end\n          - startlike: Case-sensitive like at the start\n          - endlike: Case-sensitive like at the end\n        Logical operators:\n          - a: AND\n          - o: OR\n        Examples:\n          - assetRef.ilike:E62\n            Returns all assets with assetRef like E62\n          - createdAt.gte:2021-01-01\n            Returns all assets created after 2021-01-01\n          - status.eqo:PENDING,status.eqo:APPROVED\n            Returns all assets with status either PENDING OR APPROVED\n          - name.startilike:John\n            Returns all assets with name starting with John\n          - age.gtea:30,age.lt:40\n            Returns all assets with age greater than or equal to 30 and less than 40"
+        schema:
+          example: assetRef.ilike:E62,createdAt.gte:2021-01-01
+          type: string
+      responses:
+        '200':
+          description: List of pixels retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetPixelsResponseDto'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+      summary: Get a list of pixels
+      tags:
+      - Pixels
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /public/pixels/{pixelId}:
+    get:
+      operationId: PixelController_getPixel
+      parameters:
+      - name: pixelId
+        required: true
+        in: path
+        schema:
+          type: number
+      - name: limit
+        required: false
+        in: query
+        description: Limit the number of results (max 10000)
+        schema:
+          type: number
+      - name: sort
+        required: false
+        in: query
+        description: Field to sort by
+        schema:
+          type: string
+      - name: order
+        required: false
+        in: query
+        description: Order direction
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: cursor
+        required: false
+        in: query
+        description: "Cursor for pagination. \n      The cursor is used to fetch the next set of results in a paginated response.\n      Typically, it is provided in the 'nextCursor' field of the previous response.\n      Usage:\n      - Start by making an initial request without a cursor.\n      - In the response, you'll receive a 'nextCursor' if there are more results to fetch.\n      - Use this 'nextCursor' value as the cursor in your subsequent request to fetch the next page of results.\n      - Continue this process until the 'nextCursor' is null or not provided, indicating there are no more results.\n      Example: \n      \n    ?cursor=12345\n    "
+        schema:
+          type: string
+      - name: include
+        required: false
+        in: query
+        description: 'Specific entities to include in the Pixel response. Only valid for Pixel entities. Possible values: campaign'
+        schema:
+          example:
+          - campaign
+          type: array
+          items:
+            type: string
+      - name: search
+        required: false
+        in: query
+        description: "Search query string. The syntax is 'fieldName.operation(a|o):value'.\n      The a|o (AND|OR) is optional and if not provided, it is considered as AND.\n    Additional searches can be chained with a comma.\n      Supported operations are:\n          - gt: Greater than\n          - lt: Less than\n          - gte: Greater than or equal to\n          - lte: Less than or equal to\n          - eq: Equal to\n          - ne: Not equal to\n          - ilike: Case-insensitive like\n          - like: Case-sensitive like\n          - startilike: Case-insensitive like at the start\n          - endilike: Case-insensitive like at the end\n          - startlike: Case-sensitive like at the start\n          - endlike: Case-sensitive like at the end\n        Logical operators:\n          - a: AND\n          - o: OR\n        Examples:\n          - assetRef.ilike:E62\n            Returns all assets with assetRef like E62\n          - createdAt.gte:2021-01-01\n            Returns all assets created after 2021-01-01\n          - status.eqo:PENDING,status.eqo:APPROVED\n            Returns all assets with status either PENDING OR APPROVED\n          - name.startilike:John\n            Returns all assets with name starting with John\n          - age.gtea:30,age.lt:40\n            Returns all assets with age greater than or equal to 30 and less than 40"
+        schema:
+          example: assetRef.ilike:E62,createdAt.gte:2021-01-01
+          type: string
+      responses:
+        '200':
+          description: Pixel fetched successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetPixelResponseDto'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+      summary: Get a single pixel
+      tags:
+      - Pixels
+    patch:
+      operationId: PixelController_updatePixel
+      parameters:
+      - name: pixelId
+        required: true
+        in: path
+        schema:
+          type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePixelDto'
+      responses:
+        '200':
+          description: Pixel updated successfully
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+      summary: Update a pixel
+      tags:
+      - Pixels
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /public/pixels/{pixelId}/campaign:
+    patch:
+      operationId: PixelController_attachCampaignToPixel
+      parameters:
+      - name: pixelId
+        required: true
+        in: path
+        schema:
+          type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AttachCampaignToPixelDto'
+      responses:
+        '200':
+          description: Campaign attached to pixel successfully
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+      summary: Attach a campaign to a pixel
+      tags:
+      - Pixels
+    delete:
+      operationId: PixelController_detachCampaignFromPixel
+      parameters:
+      - name: pixelId
+        required: true
+        in: path
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Campaign detached from pixel successfully
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+      summary: Detach a campaign from a pixel
+      tags:
+      - Pixels
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /public/pixels/{pixelId}/attribution-study:
+    patch:
+      operationId: PixelController_attachAttributionStudyToPixel
+      parameters:
+      - name: pixelId
+        required: true
+        in: path
+        schema:
+          type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AttachAttributionStudyToPixelDto'
+      responses:
+        '200':
+          description: Attribution study attached to pixel successfully
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+      summary: Attach an attribution study to a pixel
+      tags:
+      - Pixels
+    delete:
+      operationId: PixelController_detachAttributionStudyFromPixel
+      parameters:
+      - name: pixelId
+        required: true
+        in: path
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Attribution study detached from pixel successfully
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+      summary: Detach an attribution study from a pixel
+      tags:
+      - Pixels
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /pixels:
+    post:
+      operationId: PixelController_createPixel
+      summary: Create a new pixel
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePixelDto_2'
+      responses:
+        '201':
+          description: The id of the newly created pixel
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatePixelResponse_2'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+      tags:
+      - Pixels
+    get:
+      operationId: PixelController_getPixels
+      summary: Get a list of pixels
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Limit the number of results (max 10000)
+        schema:
+          type: number
+      - name: sort
+        required: false
+        in: query
+        description: Field to sort by
+        schema:
+          type: string
+      - name: order
+        required: false
+        in: query
+        description: Order direction
+        schema:
+          enum:
+          - ASC
+          - DESC
+          type: string
+      - name: cursor
+        required: false
+        in: query
+        description: "Cursor for pagination. \n      The cursor is used to fetch the next set of results in a paginated response.\n      Typically, it is provided in the 'nextCursor' field of the previous response.\n      Usage:\n      - Start by making an initial request without a cursor.\n      - In the response, you'll receive a 'nextCursor' if there are more results to fetch.\n      - Use this 'nextCursor' value as the cursor in your subsequent request to fetch the next page of results.\n      - Continue this process until the 'nextCursor' is null or not provided, indicating there are no more results.\n      Example: \n      \n    ?cursor=12345\n    "
+        schema:
+          type: string
+      - name: include
+        required: false
+        in: query
+        description: 'Specific entities to include in the Pixel response. Only valid for Pixel entities. Possible values: campaign'
+        example:
+        - campaign
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: "Search query string. The syntax is 'fieldName.operation(a|o):value'.\n      The a|o (AND|OR) is optional and if not provided, it is considered as AND.\n    Additional searches can be chained with a comma.\n      Supported operations are:\n          - gt: Greater than\n          - lt: Less than\n          - gte: Greater than or equal to\n          - lte: Less than or equal to\n          - eq: Equal to\n          - ne: Not equal to\n          - ilike: Case-insensitive like\n          - like: Case-sensitive like\n          - startilike: Case-insensitive like at the start\n          - endilike: Case-insensitive like at the end\n          - startlike: Case-sensitive like at the start\n          - endlike: Case-sensitive like at the end\n        Logical operators:\n          - a: AND\n          - o: OR\n        Examples:\n          - assetRef.ilike:E62\n            Returns all assets with assetRef like E62\n          - createdAt.gte:2021-01-01\n            Returns all assets created after 2021-01-01\n          - status.eqo:PENDING,status.eqo:APPROVED\n            Returns all assets with status either PENDING OR APPROVED\n          - name.startilike:John\n            Returns all assets with name starting with John\n          - age.gtea:30,age.lt:40\n            Returns all assets with age greater than or equal to 30 and less than 40"
+        example: assetRef.ilike:E62,createdAt.gte:2021-01-01
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of pixels retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetPixelsResponseDto_2'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+      tags:
+      - Pixels
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /pixels/{pixelId}:
+    get:
+      operationId: PixelController_getPixel
+      summary: Get a single pixel
+      parameters:
+      - name: pixelId
+        required: true
+        in: path
+        schema:
+          type: number
+      - name: limit
+        required: false
+        in: query
+        description: Limit the number of results (max 10000)
+        schema:
+          type: number
+      - name: sort
+        required: false
+        in: query
+        description: Field to sort by
+        schema:
+          type: string
+      - name: order
+        required: false
+        in: query
+        description: Order direction
+        schema:
+          enum:
+          - ASC
+          - DESC
+          type: string
+      - name: cursor
+        required: false
+        in: query
+        description: "Cursor for pagination. \n      The cursor is used to fetch the next set of results in a paginated response.\n      Typically, it is provided in the 'nextCursor' field of the previous response.\n      Usage:\n      - Start by making an initial request without a cursor.\n      - In the response, you'll receive a 'nextCursor' if there are more results to fetch.\n      - Use this 'nextCursor' value as the cursor in your subsequent request to fetch the next page of results.\n      - Continue this process until the 'nextCursor' is null or not provided, indicating there are no more results.\n      Example: \n      \n    ?cursor=12345\n    "
+        schema:
+          type: string
+      - name: include
+        required: false
+        in: query
+        description: 'Specific entities to include in the Pixel response. Only valid for Pixel entities. Possible values: campaign'
+        example:
+        - campaign
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: "Search query string. The syntax is 'fieldName.operation(a|o):value'.\n      The a|o (AND|OR) is optional and if not provided, it is considered as AND.\n    Additional searches can be chained with a comma.\n      Supported operations are:\n          - gt: Greater than\n          - lt: Less than\n          - gte: Greater than or equal to\n          - lte: Less than or equal to\n          - eq: Equal to\n          - ne: Not equal to\n          - ilike: Case-insensitive like\n          - like: Case-sensitive like\n          - startilike: Case-insensitive like at the start\n          - endilike: Case-insensitive like at the end\n          - startlike: Case-sensitive like at the start\n          - endlike: Case-sensitive like at the end\n        Logical operators:\n          - a: AND\n          - o: OR\n        Examples:\n          - assetRef.ilike:E62\n            Returns all assets with assetRef like E62\n          - createdAt.gte:2021-01-01\n            Returns all assets created after 2021-01-01\n          - status.eqo:PENDING,status.eqo:APPROVED\n            Returns all assets with status either PENDING OR APPROVED\n          - name.startilike:John\n            Returns all assets with name starting with John\n          - age.gtea:30,age.lt:40\n            Returns all assets with age greater than or equal to 30 and less than 40"
+        example: assetRef.ilike:E62,createdAt.gte:2021-01-01
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Pixel fetched successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetPixelResponseDto_2'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+      tags:
+      - Pixels
+    patch:
+      operationId: PixelController_updatePixel
+      summary: Update a pixel
+      parameters:
+      - name: pixelId
+        required: true
+        in: path
+        schema:
+          type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePixelDto_2'
+      responses:
+        '200':
+          description: Pixel updated successfully
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+      tags:
+      - Pixels
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /pixels/{pixelId}/campaign:
+    patch:
+      operationId: PixelController_attachCampaignToPixel
+      summary: Attach a campaign to a pixel
+      parameters:
+      - name: pixelId
+        required: true
+        in: path
+        schema:
+          type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AttachCampaignToPixelDto'
+      responses:
+        '200':
+          description: Campaign attached to pixel successfully
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+      tags:
+      - Pixels
+    delete:
+      operationId: PixelController_detachCampaignFromPixel
+      summary: Detach a campaign from a pixel
+      parameters:
+      - name: pixelId
+        required: true
+        in: path
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Campaign detached from pixel successfully
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+      tags:
+      - Pixels
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /pixels/{pixelId}/attribution-study:
+    patch:
+      operationId: PixelController_attachAttributionStudyToPixel
+      summary: Attach an attribution study to a pixel
+      parameters:
+      - name: pixelId
+        required: true
+        in: path
+        schema:
+          type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AttachAttributionStudyToPixelDto'
+      responses:
+        '200':
+          description: Attribution study attached to pixel successfully
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+      tags:
+      - Pixels
+    delete:
+      operationId: PixelController_detachAttributionStudyFromPixel
+      summary: Detach an attribution study from a pixel
+      parameters:
+      - name: pixelId
+        required: true
+        in: path
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Attribution study detached from pixel successfully
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+      tags:
+      - Pixels
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+components:
+  schemas:
+    AttachAttributionStudyToPixelDto:
+      type: object
+      properties:
+        attributionId:
+          type: number
+      required:
+      - attributionId
+    CreatePixelDto:
+      type: object
+      properties:
+        campaignId:
+          type: number
+        displayName:
+          type: string
+        page:
+          enum:
+          - Checkout Page
+          - Contact Us Page
+          - Directory Page
+          - Education Page
+          - Homepage
+          - Landing Page
+          - Location Page
+          - Product Page
+          type: string
+          description: 'Page must be a valid page type. Possible values: Checkout Page, Contact Us Page, Directory Page, Education Page, Homepage, Landing Page, Location Page, Product Page'
+        funnelStage:
+          enum:
+          - Visit Page
+          - Consideration Page
+          - Conversion Page
+          type: string
+          description: 'Funnel stage must be a valid funnel stage. Possible values: Visit Page, Consideration Page, Conversion Page'
+        url:
+          type: string
+          format: uri
+        notes:
+          type: string
+      required:
+      - displayName
+      - page
+      - funnelStage
+    AttachCampaignToPixelDto:
+      type: object
+      properties:
+        campaignId:
+          type: number
+      required:
+      - campaignId
+    GetPixelResponseDto:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ClientPixelEntity'
+        message:
+          type: string
+        meta:
+          type: object
+          properties: {}
+          required: []
+      required:
+      - data
+      - message
+      - meta
+    ClientPixelEntity:
+      type: object
+      properties:
+        pixelId:
+          type: number
+        pixelUUID:
+          type: string
+        campaign:
+          type: object
+          additionalProperties: true
+        campaignId:
+          type: number
+        metaData:
+          type: object
+          additionalProperties: true
+      required:
+      - pixelId
+      - pixelUUID
+      - campaign
+      - campaignId
+      - metaData
+    CreatePixelResponse:
+      type: object
+      properties:
+        data:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+          properties: {}
+          required: []
+      required:
+      - data
+      - message
+      - meta
+    GetPixelsResponseDto:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientPixelEntity'
+        message:
+          type: string
+        meta:
+          type: object
+          properties: {}
+          required: []
+      required:
+      - data
+      - message
+      - meta
+    UpdatePixelDto:
+      type: object
+      properties:
+        displayName:
+          type: string
+        page:
+          enum:
+          - Checkout Page
+          - Contact Us Page
+          - Directory Page
+          - Education Page
+          - Homepage
+          - Landing Page
+          - Location Page
+          - Product Page
+          type: string
+          description: 'Page must be a valid page type. Possible values: Checkout Page, Contact Us Page, Directory Page, Education Page, Homepage, Landing Page, Location Page, Product Page'
+        funnelStage:
+          enum:
+          - Visit Page
+          - Consideration Page
+          - Conversion Page
+          type: string
+          description: 'Funnel stage must be a valid funnel stage. Possible values: Visit Page, Consideration Page, Conversion Page'
+        url:
+          type: string
+          format: uri
+        notes:
+          type: string
+    CreatePixelDto_2:
+      type: object
+      properties:
+        campaignId:
+          type: number
+        displayName:
+          type: string
+        page:
+          enum:
+          - Checkout Page
+          - Contact Us Page
+          - Directory Page
+          - Education Page
+          - Homepage
+          - Landing Page
+          - Location Page
+          - Product Page
+          type: string
+          description: 'Page must be a valid page type. Possible values: Checkout Page, Contact Us Page, Directory Page, Education Page, Homepage, Landing Page, Location Page, Product Page'
+        funnelStage:
+          enum:
+          - Visit Page
+          - Consideration Page
+          - Conversion Page
+          type: string
+          description: 'Funnel stage must be a valid funnel stage. Possible values: Visit Page, Consideration Page, Conversion Page'
+        url:
+          type: string
+        notes:
+          type: string
+      required:
+      - displayName
+      - page
+      - funnelStage
+    GetPixelResponseDto_2:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ClientPixelEntity_2'
+        message:
+          type: string
+        meta:
+          type: object
+          properties: {}
+      required:
+      - data
+      - message
+      - meta
+    ClientPixelEntity_2:
+      type: object
+      properties:
+        pixelId:
+          type: number
+        pixelUUID:
+          type: string
+        campaign:
+          type: object
+        campaignId:
+          type: number
+        metaData:
+          type: object
+      required:
+      - pixelId
+      - pixelUUID
+      - campaign
+      - campaignId
+      - metaData
+    CreatePixelResponse_2:
+      type: object
+      properties:
+        data:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+          properties: {}
+      required:
+      - data
+      - message
+      - meta
+    GetPixelsResponseDto_2:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientPixelEntity_2'
+        message:
+          type: string
+        meta:
+          type: object
+          properties: {}
+      required:
+      - data
+      - message
+      - meta
+    UpdatePixelDto_2:
+      type: object
+      properties:
+        displayName:
+          type: string
+        page:
+          enum:
+          - Checkout Page
+          - Contact Us Page
+          - Directory Page
+          - Education Page
+          - Homepage
+          - Landing Page
+          - Location Page
+          - Product Page
+          type: string
+          description: 'Page must be a valid page type. Possible values: Checkout Page, Contact Us Page, Directory Page, Education Page, Homepage, Landing Page, Location Page, Product Page'
+        funnelStage:
+          enum:
+          - Visit Page
+          - Consideration Page
+          - Conversion Page
+          type: string
+          description: 'Funnel stage must be a valid funnel stage. Possible values: Visit Page, Consideration Page, Conversion Page'
+        url:
+          type: string
+        notes:
+          type: string
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+x-refined-from:
+- streetmetrics-public-api-docs-json.json
+- streetmetrics-public-api-openapi.json
+x-explorer-enabled: false
+x-proxy-enabled: false

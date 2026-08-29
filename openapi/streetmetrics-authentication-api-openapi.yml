@@ -1,0 +1,112 @@
+openapi: 3.2.0
+info:
+  title: Streetmetrics Authentication API
+  version: '3.0'
+  contact: {}
+  description: 'Operations tagged Authentication across 2 of this provider''s published API definitions: streetmetrics-public-api-docs-json.json, streetmetrics-public-api-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://dashboard.streetmetrics.io/v3/public/
+tags:
+- name: Authentication
+paths:
+  /public/auth/authenticate:
+    post:
+      operationId: AuthController_authenticate
+      parameters:
+      - name: api-key
+        required: true
+        in: header
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthDto'
+      responses:
+        '201':
+          description: User authenticated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+      summary: Authenticate a user
+      tags:
+      - Authentication
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /auth/authenticate:
+    post:
+      operationId: AuthController_authenticate
+      summary: Authenticate a user
+      parameters:
+      - name: api-key
+        required: true
+        in: header
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthDto_2'
+      responses:
+        '201':
+          description: User authenticated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+      tags:
+      - Authentication
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+components:
+  schemas:
+    AuthResponse:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          type: string
+          description: The token to attach to subsequent requests
+      required:
+      - statusCode
+      - meta
+      - data
+    AuthDto:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+      required:
+      - email
+    AuthDto_2:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      required:
+      - email
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+x-refined-from:
+- streetmetrics-public-api-docs-json.json
+- streetmetrics-public-api-openapi.json
+x-explorer-enabled: false
+x-proxy-enabled: false

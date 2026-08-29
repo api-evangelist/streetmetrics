@@ -1,0 +1,203 @@
+openapi: 3.2.0
+info:
+  title: Streetmetrics Media API
+  version: '3.0'
+  contact: {}
+  description: 'Operations tagged Media across 2 of this provider''s published API definitions: streetmetrics-public-api-docs-json.json, streetmetrics-public-api-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://dashboard.streetmetrics.io/v3/public/
+tags:
+- name: Media
+paths:
+  /public/media/product-types:
+    get:
+      operationId: MediaController_getProductTypes
+      parameters: []
+      responses:
+        '200':
+          description: Product types retrieved successfully
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      summary: Get a list of product types
+      tags:
+      - Media
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /public/media:
+    get:
+      operationId: MediaController_getMedia
+      parameters:
+      - name: include
+        required: false
+        in: query
+        description: 'Specific entities to include in the Media response. Only valid for Media entities. Possible values: face'
+        schema:
+          example:
+          - face
+          type: array
+          items:
+            type: string
+            enum:
+            - face
+      responses:
+        '200':
+          description: Media retrieved successfully
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      summary: Get a list of media
+      tags:
+      - Media
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /media/product-types:
+    get:
+      operationId: MediaController_getProductTypes
+      summary: Get a list of product types
+      parameters: []
+      responses:
+        '200':
+          description: Product types retrieved successfully
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      tags:
+      - Media
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+  /media:
+    get:
+      operationId: MediaController_getMedia
+      summary: Get a list of media
+      parameters:
+      - name: include
+        required: false
+        in: query
+        description: 'Specific entities to include in the Media response. Only valid for Media entities. Possible values: face'
+        example:
+        - face
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Media retrieved successfully
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+      tags:
+      - Media
+    servers:
+    - url: https://dashboard.streetmetrics.io/v3/public/
+components:
+  schemas:
+    ErrorResponseDto:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status of the response
+          example: error
+        statusCode:
+          type: number
+          description: HTTP status code
+          example: 400
+        errorCode:
+          type: string
+          description: Custom error code
+          example: ERR001
+        message:
+          type: string
+          description: Error message
+          example: Invalid input data
+        details:
+          type:
+          - object
+          - 'null'
+          description: Additional details about the error
+        timestamp:
+          type: string
+          description: Timestamp of the error
+          example: '2024-08-26T14:56:29.000Z'
+        path:
+          type: string
+          description: Request path where the error occurred
+          example: /api/v1/resource
+      required:
+      - status
+      - statusCode
+      - errorCode
+      - message
+      - details
+      - timestamp
+      - path
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+x-refined-from:
+- streetmetrics-public-api-docs-json.json
+- streetmetrics-public-api-openapi.json
+x-explorer-enabled: false
+x-proxy-enabled: false
