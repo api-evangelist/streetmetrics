@@ -13,16 +13,18 @@ deliveryModel:
   method: derived
 accessModel:
   pricing: unknown
-  onboarding: sales-gate
+  onboarding: approval
   trial: false
   try_now: false
-  public: true
-  label: Public API, platform credentials required
+  public: false
+  label: Requires approval
   confidence: medium
   source:
+  - plans
   - authentication
-  - docs
-  generated: '2026-08-12'
+  - rate-limits
+  - security
+  generated: '2026-09-03'
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/streetmetrics.png
 name: StreetMetrics
