@@ -222,6 +222,8 @@ apis:
   humanURL: https://docs.streetmetrics.com/reference/ad-groups
   baseURL: https://dashboard.streetmetrics.io/v3/public/
   tags:
+  - Creative
+  tags_raw:
   - Creatives
   properties:
   - type: OpenAPI
