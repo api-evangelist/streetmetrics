@@ -993,7 +993,19 @@ paths:
     - url: https://dashboard.streetmetrics.io/v3/public/
 components:
   schemas:
-    GetAdGroupsResponseDto:
+    PutUpdateAttachedAssetsDto:
+      type: object
+      properties:
+        assetIds:
+          uniqueItems: true
+          type: array
+          items:
+            type: number
+            maximum: 2147483647
+            minimum: 1
+      required:
+      - assetIds
+    AttachAssetsToAdGroupResponse:
       type: object
       properties:
         statusCode:
@@ -1003,55 +1015,57 @@ components:
         meta:
           type: object
         data:
-          description: List of ad groups
-          allOf:
-          - $ref: '#/components/schemas/ClientAdGroupEntityResponseDto'
+          type: boolean
+          description: Whether the assets were successfully attached to the ad group
       required:
       - statusCode
       - meta
       - data
-    ClientFrameEntityDto:
+    AttachCreativesToAdGroupDto:
       type: object
       properties:
-        frameId:
-          type: number
-          description: Unique identifier for the frame entity
-        frameRef:
-          type: string
-          description: Reference for the frame
-        frameWidth:
-          type: number
-          description: Width of the frame
-        frameHeight:
-          type: number
-          description: Height of the frame
-        frameElevation:
-          type: number
-          description: Elevation of the frame
-        frameType:
-          type: string
-          description: Type of the frame
-        expositionAngle:
-          type: number
-          description: Exposition angle of the frame
-        expositionWidth:
-          type: number
-          description: Exposition width of the frame
-        market:
-          type:
-          - object
-          - 'null'
-          description: Market information for the frame
+        creativeIds:
+          minItems: 1
+          uniqueItems: true
+          type: array
+          items:
+            type: number
+            maximum: 2147483647
+            minimum: 1
       required:
-      - frameId
-      - frameRef
-      - frameWidth
-      - frameHeight
-      - frameElevation
-      - frameType
-      - expositionAngle
-      - expositionWidth
-      - market
+      - creativeIds
+    ClientMediaFaceEntityDto:
+      type: object
+      properties:
+        mediaId:
+          type: number
+          description: Unique identifier for the media entity
+        facePosition:
+          type: string
+          description: Position of the face on the media
+        faceDimension:
+          type: object
+          description: Dimensions of the face
+      required:
+      - mediaId
+      - facePosition
+      - faceDimension
+    CreateAdGroupResponse:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          type: number
+          description: The ID of the created ad group
+      required:
+      - statusCode
+      - meta
+      - data
     ClientMediaEntityDto:
       type: object
       properties:
@@ -1094,35 +1108,6 @@ components:
       - mediaFormat
       - mediaPlacement
       - faces
-    GetAdGroupResponseDto:
-      type: object
-      properties:
-        statusCode:
-          type: number
-        message:
-          type: string
-        meta:
-          type: object
-        data:
-          description: The retrieved Ad Group
-          allOf:
-          - $ref: '#/components/schemas/ClientAdGroupEntityResponseDto'
-      required:
-      - statusCode
-      - meta
-      - data
-    PutUpdateAttachedAssetsDto:
-      type: object
-      properties:
-        assetIds:
-          uniqueItems: true
-          type: array
-          items:
-            type: number
-            maximum: 2147483647
-            minimum: 1
-      required:
-      - assetIds
     AttachCreativesToAdGroupResponse:
       type: object
       properties:
@@ -1139,115 +1124,6 @@ components:
       - statusCode
       - meta
       - data
-    AttachAssetsToAdGroupResponse:
-      type: object
-      properties:
-        statusCode:
-          type: number
-        message:
-          type: string
-        meta:
-          type: object
-        data:
-          type: boolean
-          description: Whether the assets were successfully attached to the ad group
-      required:
-      - statusCode
-      - meta
-      - data
-    ErrorResponseDto:
-      type: object
-      properties:
-        status:
-          type: string
-          description: Status of the response
-          example: error
-        statusCode:
-          type: number
-          description: HTTP status code
-          example: 400
-        errorCode:
-          type: string
-          description: Custom error code
-          example: ERR001
-        message:
-          type: string
-          description: Error message
-          example: Invalid input data
-        details:
-          type:
-          - object
-          - 'null'
-          description: Additional details about the error
-        timestamp:
-          type: string
-          description: Timestamp of the error
-          example: '2024-08-26T14:56:29.000Z'
-        path:
-          type: string
-          description: Request path where the error occurred
-          example: /api/v1/resource
-      required:
-      - status
-      - statusCode
-      - errorCode
-      - message
-      - details
-      - timestamp
-      - path
-    AttachFramesToAdGroupResponse:
-      type: object
-      properties:
-        statusCode:
-          type: number
-        message:
-          type: string
-        meta:
-          type: object
-        data:
-          type: boolean
-          description: Whether the frames were successfully attached to the ad group
-      required:
-      - statusCode
-      - meta
-      - data
-    CreateStationaryAdGroupDto:
-      type: object
-      properties:
-        flightRef:
-          type: string
-        activeFrom:
-          type: number
-        activeTo:
-          type: number
-        campaignId:
-          type: number
-          maximum: 2147483647
-          minimum: 1
-        type:
-          type: string
-          enum:
-          - STATIC
-          - DIGITAL
-      required:
-      - flightRef
-      - activeFrom
-      - activeTo
-      - campaignId
-      - type
-    AttachAssetsToAdGroupDto:
-      type: object
-      properties:
-        assetIds:
-          minItems: 1
-          uniqueItems: true
-          type: array
-          items:
-            type: number
-            maximum: 2147483647
-            minimum: 1
-      required:
-      - assetIds
     AttachFramesToAdGroupDto:
       type: object
       properties:
@@ -1261,22 +1137,19 @@ components:
             minimum: 1
       required:
       - frameIds
-    CreateAdGroupResponse:
+    AttachAssetsToAdGroupDto:
       type: object
       properties:
-        statusCode:
-          type: number
-        message:
-          type: string
-        meta:
-          type: object
-        data:
-          type: number
-          description: The ID of the created ad group
+        assetIds:
+          minItems: 1
+          uniqueItems: true
+          type: array
+          items:
+            type: number
+            maximum: 2147483647
+            minimum: 1
       required:
-      - statusCode
-      - meta
-      - data
+      - assetIds
     ClientAdGroupEntityResponseDto:
       type: object
       properties:
@@ -1368,22 +1241,23 @@ components:
       - metaData
       - createdAt
       - updatedAt
-    ClientMediaFaceEntityDto:
+    GetAdGroupResponseDto:
       type: object
       properties:
-        mediaId:
+        statusCode:
           type: number
-          description: Unique identifier for the media entity
-        facePosition:
+        message:
           type: string
-          description: Position of the face on the media
-        faceDimension:
+        meta:
           type: object
-          description: Dimensions of the face
+        data:
+          description: The retrieved Ad Group
+          allOf:
+          - $ref: '#/components/schemas/ClientAdGroupEntityResponseDto'
       required:
-      - mediaId
-      - facePosition
-      - faceDimension
+      - statusCode
+      - meta
+      - data
     CreateTransitAdGroupDto:
       type: object
       properties:
@@ -1427,6 +1301,23 @@ components:
       - activeTo
       - campaignId
       - type
+    GetAdGroupsResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          description: List of ad groups
+          allOf:
+          - $ref: '#/components/schemas/ClientAdGroupEntityResponseDto'
+      required:
+      - statusCode
+      - meta
+      - data
     ClientAssetEntityDto:
       type: object
       properties:
@@ -1451,31 +1342,7 @@ components:
         metaData:
           type: object
           description: The metadata of the asset.
-    AttachCreativesToAdGroupDto:
-      type: object
-      properties:
-        creativeIds:
-          minItems: 1
-          uniqueItems: true
-          type: array
-          items:
-            type: number
-            maximum: 2147483647
-            minimum: 1
-      required:
-      - creativeIds
-    PutUpdateAttachedAssetsDto_2:
-      type: object
-      properties:
-        assetIds:
-          type: array
-          items:
-            type: number
-            maximum: 2147483647
-            minimum: 1
-      required:
-      - assetIds
-    CreateStationaryAdGroupDto_2:
+    CreateStationaryAdGroupDto:
       type: object
       properties:
         flightRef:
@@ -1487,6 +1354,7 @@ components:
         campaignId:
           type: number
           maximum: 2147483647
+          minimum: 1
         type:
           type: string
           enum:
@@ -1498,7 +1366,105 @@ components:
       - activeTo
       - campaignId
       - type
-    AttachAssetsToAdGroupDto_2:
+    AttachFramesToAdGroupResponse:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          type: boolean
+          description: Whether the frames were successfully attached to the ad group
+      required:
+      - statusCode
+      - meta
+      - data
+    ErrorResponseDto:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status of the response
+          example: error
+        statusCode:
+          type: number
+          description: HTTP status code
+          example: 400
+        errorCode:
+          type: string
+          description: Custom error code
+          example: ERR001
+        message:
+          type: string
+          description: Error message
+          example: Invalid input data
+        details:
+          type:
+          - object
+          - 'null'
+          description: Additional details about the error
+        timestamp:
+          type: string
+          description: Timestamp of the error
+          example: '2024-08-26T14:56:29.000Z'
+        path:
+          type: string
+          description: Request path where the error occurred
+          example: /api/v1/resource
+      required:
+      - status
+      - statusCode
+      - errorCode
+      - message
+      - details
+      - timestamp
+      - path
+    ClientFrameEntityDto:
+      type: object
+      properties:
+        frameId:
+          type: number
+          description: Unique identifier for the frame entity
+        frameRef:
+          type: string
+          description: Reference for the frame
+        frameWidth:
+          type: number
+          description: Width of the frame
+        frameHeight:
+          type: number
+          description: Height of the frame
+        frameElevation:
+          type: number
+          description: Elevation of the frame
+        frameType:
+          type: string
+          description: Type of the frame
+        expositionAngle:
+          type: number
+          description: Exposition angle of the frame
+        expositionWidth:
+          type: number
+          description: Exposition width of the frame
+        market:
+          type:
+          - object
+          - 'null'
+          description: Market information for the frame
+      required:
+      - frameId
+      - frameRef
+      - frameWidth
+      - frameHeight
+      - frameElevation
+      - frameType
+      - expositionAngle
+      - expositionWidth
+      - market
+    PutUpdateAttachedAssetsDto_2:
       type: object
       properties:
         assetIds:
@@ -1509,6 +1475,17 @@ components:
             minimum: 1
       required:
       - assetIds
+    AttachCreativesToAdGroupDto_2:
+      type: object
+      properties:
+        creativeIds:
+          type: array
+          items:
+            type: number
+            maximum: 2147483647
+            minimum: 1
+      required:
+      - creativeIds
     AttachFramesToAdGroupDto_2:
       type: object
       properties:
@@ -1520,6 +1497,17 @@ components:
             minimum: 1
       required:
       - frameIds
+    AttachAssetsToAdGroupDto_2:
+      type: object
+      properties:
+        assetIds:
+          type: array
+          items:
+            type: number
+            maximum: 2147483647
+            minimum: 1
+      required:
+      - assetIds
     CreateTransitAdGroupDto_2:
       type: object
       properties:
@@ -1560,17 +1548,29 @@ components:
       - activeTo
       - campaignId
       - type
-    AttachCreativesToAdGroupDto_2:
+    CreateStationaryAdGroupDto_2:
       type: object
       properties:
-        creativeIds:
-          type: array
-          items:
-            type: number
-            maximum: 2147483647
-            minimum: 1
+        flightRef:
+          type: string
+        activeFrom:
+          type: number
+        activeTo:
+          type: number
+        campaignId:
+          type: number
+          maximum: 2147483647
+        type:
+          type: string
+          enum:
+          - STATIC
+          - DIGITAL
       required:
-      - creativeIds
+      - flightRef
+      - activeFrom
+      - activeTo
+      - campaignId
+      - type
   securitySchemes:
     bearer:
       scheme: bearer

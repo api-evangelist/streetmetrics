@@ -547,13 +547,6 @@ paths:
     - url: https://dashboard.streetmetrics.io/v3/public/
 components:
   schemas:
-    AttachAttributionStudyToPixelDto:
-      type: object
-      properties:
-        attributionId:
-          type: number
-      required:
-      - attributionId
     CreatePixelDto:
       type: object
       properties:
@@ -589,18 +582,57 @@ components:
       - displayName
       - page
       - funnelStage
-    AttachCampaignToPixelDto:
+    UpdatePixelDto:
       type: object
       properties:
-        campaignId:
-          type: number
-      required:
-      - campaignId
-    GetPixelResponseDto:
+        displayName:
+          type: string
+        page:
+          enum:
+          - Checkout Page
+          - Contact Us Page
+          - Directory Page
+          - Education Page
+          - Homepage
+          - Landing Page
+          - Location Page
+          - Product Page
+          type: string
+          description: 'Page must be a valid page type. Possible values: Checkout Page, Contact Us Page, Directory Page, Education Page, Homepage, Landing Page, Location Page, Product Page'
+        funnelStage:
+          enum:
+          - Visit Page
+          - Consideration Page
+          - Conversion Page
+          type: string
+          description: 'Funnel stage must be a valid funnel stage. Possible values: Visit Page, Consideration Page, Conversion Page'
+        url:
+          type: string
+          format: uri
+        notes:
+          type: string
+    GetPixelsResponseDto:
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/ClientPixelEntity'
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientPixelEntity'
+        message:
+          type: string
+        meta:
+          type: object
+          properties: {}
+          required: []
+      required:
+      - data
+      - message
+      - meta
+    CreatePixelResponse:
+      type: object
+      properties:
+        data:
+          type: number
         message:
           type: string
         meta:
@@ -632,28 +664,18 @@ components:
       - campaign
       - campaignId
       - metaData
-    CreatePixelResponse:
+    AttachCampaignToPixelDto:
       type: object
       properties:
-        data:
+        campaignId:
           type: number
-        message:
-          type: string
-        meta:
-          type: object
-          properties: {}
-          required: []
       required:
-      - data
-      - message
-      - meta
-    GetPixelsResponseDto:
+      - campaignId
+    GetPixelResponseDto:
       type: object
       properties:
         data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientPixelEntity'
+          $ref: '#/components/schemas/ClientPixelEntity'
         message:
           type: string
         meta:
@@ -664,35 +686,13 @@ components:
       - data
       - message
       - meta
-    UpdatePixelDto:
+    AttachAttributionStudyToPixelDto:
       type: object
       properties:
-        displayName:
-          type: string
-        page:
-          enum:
-          - Checkout Page
-          - Contact Us Page
-          - Directory Page
-          - Education Page
-          - Homepage
-          - Landing Page
-          - Location Page
-          - Product Page
-          type: string
-          description: 'Page must be a valid page type. Possible values: Checkout Page, Contact Us Page, Directory Page, Education Page, Homepage, Landing Page, Location Page, Product Page'
-        funnelStage:
-          enum:
-          - Visit Page
-          - Consideration Page
-          - Conversion Page
-          type: string
-          description: 'Funnel stage must be a valid funnel stage. Possible values: Visit Page, Consideration Page, Conversion Page'
-        url:
-          type: string
-          format: uri
-        notes:
-          type: string
+        attributionId:
+          type: number
+      required:
+      - attributionId
     CreatePixelDto_2:
       type: object
       properties:
@@ -727,69 +727,6 @@ components:
       - displayName
       - page
       - funnelStage
-    GetPixelResponseDto_2:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/ClientPixelEntity_2'
-        message:
-          type: string
-        meta:
-          type: object
-          properties: {}
-      required:
-      - data
-      - message
-      - meta
-    ClientPixelEntity_2:
-      type: object
-      properties:
-        pixelId:
-          type: number
-        pixelUUID:
-          type: string
-        campaign:
-          type: object
-        campaignId:
-          type: number
-        metaData:
-          type: object
-      required:
-      - pixelId
-      - pixelUUID
-      - campaign
-      - campaignId
-      - metaData
-    CreatePixelResponse_2:
-      type: object
-      properties:
-        data:
-          type: number
-        message:
-          type: string
-        meta:
-          type: object
-          properties: {}
-      required:
-      - data
-      - message
-      - meta
-    GetPixelsResponseDto_2:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientPixelEntity_2'
-        message:
-          type: string
-        meta:
-          type: object
-          properties: {}
-      required:
-      - data
-      - message
-      - meta
     UpdatePixelDto_2:
       type: object
       properties:
@@ -818,6 +755,69 @@ components:
           type: string
         notes:
           type: string
+    GetPixelsResponseDto_2:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientPixelEntity_2'
+        message:
+          type: string
+        meta:
+          type: object
+          properties: {}
+      required:
+      - data
+      - message
+      - meta
+    CreatePixelResponse_2:
+      type: object
+      properties:
+        data:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+          properties: {}
+      required:
+      - data
+      - message
+      - meta
+    ClientPixelEntity_2:
+      type: object
+      properties:
+        pixelId:
+          type: number
+        pixelUUID:
+          type: string
+        campaign:
+          type: object
+        campaignId:
+          type: number
+        metaData:
+          type: object
+      required:
+      - pixelId
+      - pixelUUID
+      - campaign
+      - campaignId
+      - metaData
+    GetPixelResponseDto_2:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ClientPixelEntity_2'
+        message:
+          type: string
+        meta:
+          type: object
+          properties: {}
+      required:
+      - data
+      - message
+      - meta
   securitySchemes:
     bearer:
       scheme: bearer

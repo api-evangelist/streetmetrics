@@ -173,20 +173,6 @@ components:
       - statusCode
       - meta
       - data
-    ClientMarketEntityDto:
-      type: object
-      properties:
-        marketId:
-          type: number
-          example: 1
-          description: The ID of the market
-        marketName:
-          type: string
-          example: New York
-          description: The name of the market
-      required:
-      - marketId
-      - marketName
     ErrorResponseDto:
       type: object
       properties:
@@ -227,6 +213,20 @@ components:
       - details
       - timestamp
       - path
+    ClientMarketEntityDto:
+      type: object
+      properties:
+        marketId:
+          type: number
+          example: 1
+          description: The ID of the market
+        marketName:
+          type: string
+          example: New York
+          description: The name of the market
+      required:
+      - marketId
+      - marketName
   securitySchemes:
     bearer:
       scheme: bearer

@@ -65,6 +65,16 @@ paths:
     - url: https://dashboard.streetmetrics.io/v3/public/
 components:
   schemas:
+    AuthDto:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+      required:
+      - email
     AuthResponse:
       type: object
       properties:
@@ -81,16 +91,6 @@ components:
       - statusCode
       - meta
       - data
-    AuthDto:
-      type: object
-      properties:
-        email:
-          type: string
-          format: email
-        password:
-          type: string
-      required:
-      - email
     AuthDto_2:
       type: object
       properties:

@@ -891,40 +891,6 @@ paths:
     - url: https://dashboard.streetmetrics.io/v3/public/
 components:
   schemas:
-    ClientReportingImpressionsByAdGroupResponseDto:
-      type: object
-      properties:
-        adGroupId:
-          type: number
-          example: 1
-          description: The ID of the ad group
-        adGroupRef:
-          type: string
-          example: ADG12345
-          description: The reference code of the ad group
-        impressions:
-          type: number
-          example: 500
-          description: Number of impressions for the ad group
-        summaryBinGrouping:
-          type: object
-          example: LIFETIME
-          description: The summary bin date grouping
-        impressionsLts:
-          type: number
-          example: 100
-          description: Number of LTS impressions for the given ad group. Currently available for stationary, only.
-        impressionsOts:
-          type: number
-          example: 200
-          description: Number of OTS impressions for the given ad group. Currently available for stationary, only.
-      required:
-      - adGroupId
-      - adGroupRef
-      - impressions
-      - summaryBinGrouping
-      - impressionsLts
-      - impressionsOts
     ClientReportingImpressionsByUnitResponseDto:
       type: object
       properties:
@@ -969,6 +935,136 @@ components:
       - summaryBinGrouping
       - impressionsLts
       - impressionsOts
+    GetImpressionsByUnitResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          description: Impressions grouped by unit
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientReportingImpressionsByUnitResponseDto'
+      required:
+      - statusCode
+      - meta
+      - data
+    ClientReportingImpressionsByAdGroupResponseDto:
+      type: object
+      properties:
+        adGroupId:
+          type: number
+          example: 1
+          description: The ID of the ad group
+        adGroupRef:
+          type: string
+          example: ADG12345
+          description: The reference code of the ad group
+        impressions:
+          type: number
+          example: 500
+          description: Number of impressions for the ad group
+        summaryBinGrouping:
+          type: object
+          example: LIFETIME
+          description: The summary bin date grouping
+        impressionsLts:
+          type: number
+          example: 100
+          description: Number of LTS impressions for the given ad group. Currently available for stationary, only.
+        impressionsOts:
+          type: number
+          example: 200
+          description: Number of OTS impressions for the given ad group. Currently available for stationary, only.
+      required:
+      - adGroupId
+      - adGroupRef
+      - impressions
+      - summaryBinGrouping
+      - impressionsLts
+      - impressionsOts
+    ClientReportingDemographicsResponseDto:
+      type: object
+      properties:
+        category:
+          type: string
+          example: CATEGORY
+          description: The category of the demographics
+        group:
+          type: string
+          example: GROUP
+          description: The group of the demographics
+        deviceCount:
+          type: number
+          example: 100
+          description: The number of devices for the demographics
+        percent:
+          type: number
+          example: 50
+          description: The percentage of the demographics
+      required:
+      - category
+      - group
+      - deviceCount
+      - percent
+    ClientReportingAffinitiesResponseDto:
+      type: object
+      properties:
+        category:
+          type: string
+          example: CATEGORY
+          description: The category of the affinities
+        group:
+          type: string
+          example: GROUP
+          description: The group of the affinities
+        deviceCount:
+          type: number
+          example: 100
+          description: The number of devices for the affinities
+        percent:
+          type: number
+          example: 50
+          description: The percentage of the affinities (gross composition)
+        ltsPercent:
+          type: number
+          example: 45
+          description: The LTS percentage of the affinities
+        otsPercent:
+          type: number
+          example: 55
+          description: The OTS percentage of the affinities
+        grossPercent:
+          type: number
+          example: 50
+          description: The gross percentage of the affinities
+        ltsComposition:
+          type: number
+          example: 45
+          description: The LTS composition of the affinities
+        otsComposition:
+          type: number
+          example: 55
+          description: The OTS composition of the affinities
+        grossComposition:
+          type: number
+          example: 50
+          description: The gross composition of the affinities
+      required:
+      - category
+      - group
+      - deviceCount
+      - percent
+      - ltsPercent
+      - otsPercent
+      - grossPercent
+      - ltsComposition
+      - otsComposition
+      - grossComposition
     ClientReportingUfResponseDto:
       type: object
       properties:
@@ -1018,6 +1114,60 @@ components:
       - frequencyOts
       - uniquesLts
       - frequencyLts
+    ClientReportingUfResponseDtoUnit:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+          description: The ID of the Unit
+        ref:
+          type: string
+          example: ADG12345
+          description: The reference code of the Unit
+        date:
+          type: string
+          example: '2021-01-01'
+          description: The date of the uniques and frequency data
+        uniquesGross:
+          type: number
+          example: 100
+          description: The number of uniques gross
+        frequencyGross:
+          type: number
+          example: 100
+          description: The number of frequency gross
+        uniquesOts:
+          type: number
+          example: 100
+          description: The number of uniques OTS
+        frequencyOts:
+          type: number
+          example: 100
+          description: The number of frequency OTS
+        uniquesLts:
+          type: number
+          example: 100
+          description: The number of uniques LTS
+        frequencyLts:
+          type: number
+          example: 100
+          description: The number of frequency LTS
+        type:
+          type: string
+          example: ASSET
+          description: ASSET or FRAME
+      required:
+      - id
+      - ref
+      - date
+      - uniquesGross
+      - frequencyGross
+      - uniquesOts
+      - frequencyOts
+      - uniquesLts
+      - frequencyLts
+      - type
     GetAffinitiesResponseDto:
       type: object
       properties:
@@ -1085,6 +1235,84 @@ components:
       - frequencyOts
       - uniquesLts
       - frequencyLts
+    GetDemographicsResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          description: Demographics data grouped by campaign
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientReportingDemographicsResponseDto'
+      required:
+      - statusCode
+      - meta
+      - data
+    GetImpressionsByDateResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          description: Impressions grouped by date
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientReportingImpressionsByDateResponseDto'
+      required:
+      - statusCode
+      - meta
+      - data
+    GetImpressionsByAdGroupResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          description: Impressions grouped by ad group
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientReportingImpressionsByAdGroupResponseDto'
+      required:
+      - statusCode
+      - meta
+      - data
+    ClientReportingImpressionsByDateResponseDto:
+      type: object
+      properties:
+        summaryBinGrouping:
+          type: object
+          example: '2021-01-01'
+          description: Date in string format
+        impressions:
+          type: number
+          example: 1000
+          description: Number of impressions for the given date
+        impressionsLts:
+          type: number
+          example: 100
+          description: Number of LTS impressions for the given date. Currently available for stationary, only.
+        impressionsOts:
+          type: number
+          example: 200
+          description: Number of OTS impressions for the given date. Currently available for stationary, only.
+      required:
+      - summaryBinGrouping
+      - impressions
+      - impressionsLts
+      - impressionsOts
     ErrorResponseDto:
       type: object
       properties:
@@ -1125,234 +1353,6 @@ components:
       - details
       - timestamp
       - path
-    GetImpressionsByDateResponseDto:
-      type: object
-      properties:
-        statusCode:
-          type: number
-        message:
-          type: string
-        meta:
-          type: object
-        data:
-          description: Impressions grouped by date
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientReportingImpressionsByDateResponseDto'
-      required:
-      - statusCode
-      - meta
-      - data
-    GetImpressionsByAdGroupResponseDto:
-      type: object
-      properties:
-        statusCode:
-          type: number
-        message:
-          type: string
-        meta:
-          type: object
-        data:
-          description: Impressions grouped by ad group
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientReportingImpressionsByAdGroupResponseDto'
-      required:
-      - statusCode
-      - meta
-      - data
-    ClientReportingDemographicsResponseDto:
-      type: object
-      properties:
-        category:
-          type: string
-          example: CATEGORY
-          description: The category of the demographics
-        group:
-          type: string
-          example: GROUP
-          description: The group of the demographics
-        deviceCount:
-          type: number
-          example: 100
-          description: The number of devices for the demographics
-        percent:
-          type: number
-          example: 50
-          description: The percentage of the demographics
-      required:
-      - category
-      - group
-      - deviceCount
-      - percent
-    GetDemographicsResponseDto:
-      type: object
-      properties:
-        statusCode:
-          type: number
-        message:
-          type: string
-        meta:
-          type: object
-        data:
-          description: Demographics data grouped by campaign
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientReportingDemographicsResponseDto'
-      required:
-      - statusCode
-      - meta
-      - data
-    ClientReportingAffinitiesResponseDto:
-      type: object
-      properties:
-        category:
-          type: string
-          example: CATEGORY
-          description: The category of the affinities
-        group:
-          type: string
-          example: GROUP
-          description: The group of the affinities
-        deviceCount:
-          type: number
-          example: 100
-          description: The number of devices for the affinities
-        percent:
-          type: number
-          example: 50
-          description: The percentage of the affinities (gross composition)
-        ltsPercent:
-          type: number
-          example: 45
-          description: The LTS percentage of the affinities
-        otsPercent:
-          type: number
-          example: 55
-          description: The OTS percentage of the affinities
-        grossPercent:
-          type: number
-          example: 50
-          description: The gross percentage of the affinities
-        ltsComposition:
-          type: number
-          example: 45
-          description: The LTS composition of the affinities
-        otsComposition:
-          type: number
-          example: 55
-          description: The OTS composition of the affinities
-        grossComposition:
-          type: number
-          example: 50
-          description: The gross composition of the affinities
-      required:
-      - category
-      - group
-      - deviceCount
-      - percent
-      - ltsPercent
-      - otsPercent
-      - grossPercent
-      - ltsComposition
-      - otsComposition
-      - grossComposition
-    GetImpressionsByUnitResponseDto:
-      type: object
-      properties:
-        statusCode:
-          type: number
-        message:
-          type: string
-        meta:
-          type: object
-        data:
-          description: Impressions grouped by unit
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientReportingImpressionsByUnitResponseDto'
-      required:
-      - statusCode
-      - meta
-      - data
-    ClientReportingUfResponseDtoUnit:
-      type: object
-      properties:
-        id:
-          type: number
-          example: 1
-          description: The ID of the Unit
-        ref:
-          type: string
-          example: ADG12345
-          description: The reference code of the Unit
-        date:
-          type: string
-          example: '2021-01-01'
-          description: The date of the uniques and frequency data
-        uniquesGross:
-          type: number
-          example: 100
-          description: The number of uniques gross
-        frequencyGross:
-          type: number
-          example: 100
-          description: The number of frequency gross
-        uniquesOts:
-          type: number
-          example: 100
-          description: The number of uniques OTS
-        frequencyOts:
-          type: number
-          example: 100
-          description: The number of frequency OTS
-        uniquesLts:
-          type: number
-          example: 100
-          description: The number of uniques LTS
-        frequencyLts:
-          type: number
-          example: 100
-          description: The number of frequency LTS
-        type:
-          type: string
-          example: ASSET
-          description: ASSET or FRAME
-      required:
-      - id
-      - ref
-      - date
-      - uniquesGross
-      - frequencyGross
-      - uniquesOts
-      - frequencyOts
-      - uniquesLts
-      - frequencyLts
-      - type
-    ClientReportingImpressionsByDateResponseDto:
-      type: object
-      properties:
-        summaryBinGrouping:
-          type: object
-          example: '2021-01-01'
-          description: Date in string format
-        impressions:
-          type: number
-          example: 1000
-          description: Number of impressions for the given date
-        impressionsLts:
-          type: number
-          example: 100
-          description: Number of LTS impressions for the given date. Currently available for stationary, only.
-        impressionsOts:
-          type: number
-          example: 200
-          description: Number of OTS impressions for the given date. Currently available for stationary, only.
-      required:
-      - summaryBinGrouping
-      - impressions
-      - impressionsLts
-      - impressionsOts
   securitySchemes:
     bearer:
       scheme: bearer

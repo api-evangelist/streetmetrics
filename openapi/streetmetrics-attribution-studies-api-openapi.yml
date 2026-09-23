@@ -974,6 +974,24 @@ paths:
     - url: https://dashboard.streetmetrics.io/v3/public/
 components:
   schemas:
+    GetConversionsByDateResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          description: Conversions grouped by date
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientAttributionConversionsByDateResponseDto'
+      required:
+      - statusCode
+      - meta
+      - data
     GetConversionsByAdGroupResponseDto:
       type: object
       properties:
@@ -992,162 +1010,6 @@ components:
       - statusCode
       - meta
       - data
-    GetConversionsByUnitResponseDto:
-      type: object
-      properties:
-        statusCode:
-          type: number
-        message:
-          type: string
-        meta:
-          type: object
-        data:
-          description: Conversions grouped by unit
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientAttributionConversionsByUnitResponseDto'
-      required:
-      - statusCode
-      - meta
-      - data
-    CreateAttributionStudyDto:
-      type: object
-      properties:
-        studyName:
-          type: string
-          description: Name of the attribution study
-          example: My Attribution Study
-        analysisType:
-          enum:
-          - RETARGETING
-          - CONVERSION
-          - LIFT
-          type: string
-          description: Analysis type of the attribution study
-          example: LIFT
-        studyType:
-          enum:
-          - Web
-          - Footfall
-          - Mobile
-          type: string
-          description: Study type of the attribution study
-          example: Web
-        campaignId:
-          type: number
-          minimum: 1
-          maximum: 2147483647
-          description: Campaign ID of the attribution study
-          example: 1
-        startDate:
-          type: number
-          description: Start date of the attribution study
-          example: 1715001600
-        endDate:
-          type: number
-          description: End date of the attribution study
-          example: 1715001600
-        postStudyEndDate:
-          type: number
-          description: Post study end date of the attribution study
-          example: 1715001600
-        campaignGoals:
-          type: string
-          description: Campaign goals of the attribution study
-          example: Increase website visits
-        isPartOfOtherEffort:
-          type: boolean
-          description: Is this study a part of a greater measurement effort?
-          example: true
-        pauseOtherChannels:
-          type: boolean
-          description: Is your client pausing other media channels during the operator campaigns?
-          example: true
-        brandFocused:
-          type: boolean
-          description: Are the ads brand awareness focused?
-          example: true
-        adsAligned:
-          type: boolean
-          description: Are the ads aligned with the responses we're measuring?
-          example: true
-        mediaMix:
-          items:
-            type: string
-            enum:
-            - Audio Streaming
-            - Direct Mail
-            - Email
-            - Event
-            - In-store Placement
-            - Influencer Marketing
-            - Mobile
-            - Newspapers/Magazines
-            - OOH
-            - OTT/CTV
-            - Radio
-            - SEO
-            - Television
-            - Website/Social Media
-          description: If no to pauseOtherChannels, where else is the advertiser running advertisements?
-          example:
-          - TV
-          - Digital
-          type: array
-      required:
-      - studyName
-      - analysisType
-      - studyType
-      - campaignId
-      - startDate
-      - endDate
-      - postStudyEndDate
-      - campaignGoals
-      - isPartOfOtherEffort
-      - pauseOtherChannels
-      - brandFocused
-      - adsAligned
-      - mediaMix
-    ErrorResponseDto:
-      type: object
-      properties:
-        status:
-          type: string
-          description: Status of the response
-          example: error
-        statusCode:
-          type: number
-          description: HTTP status code
-          example: 400
-        errorCode:
-          type: string
-          description: Custom error code
-          example: ERR001
-        message:
-          type: string
-          description: Error message
-          example: Invalid input data
-        details:
-          type:
-          - object
-          - 'null'
-          description: Additional details about the error
-        timestamp:
-          type: string
-          description: Timestamp of the error
-          example: '2024-08-26T14:56:29.000Z'
-        path:
-          type: string
-          description: Request path where the error occurred
-          example: /api/v1/resource
-      required:
-      - status
-      - statusCode
-      - errorCode
-      - message
-      - details
-      - timestamp
-      - path
     ClientAttributionConversionsByUnitResponseDto:
       type: object
       properties:
@@ -1274,6 +1136,122 @@ components:
       - updatedAt
       - analysisType
       - campaigns
+    GetConversionsByUnitResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          description: Conversions grouped by unit
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientAttributionConversionsByUnitResponseDto'
+      required:
+      - statusCode
+      - meta
+      - data
+    CreateAttributionStudyDto:
+      type: object
+      properties:
+        studyName:
+          type: string
+          description: Name of the attribution study
+          example: My Attribution Study
+        analysisType:
+          enum:
+          - RETARGETING
+          - CONVERSION
+          - LIFT
+          type: string
+          description: Analysis type of the attribution study
+          example: LIFT
+        studyType:
+          enum:
+          - Web
+          - Footfall
+          - Mobile
+          type: string
+          description: Study type of the attribution study
+          example: Web
+        campaignId:
+          type: number
+          minimum: 1
+          maximum: 2147483647
+          description: Campaign ID of the attribution study
+          example: 1
+        startDate:
+          type: number
+          description: Start date of the attribution study
+          example: 1715001600
+        endDate:
+          type: number
+          description: End date of the attribution study
+          example: 1715001600
+        postStudyEndDate:
+          type: number
+          description: Post study end date of the attribution study
+          example: 1715001600
+        campaignGoals:
+          type: string
+          description: Campaign goals of the attribution study
+          example: Increase website visits
+        isPartOfOtherEffort:
+          type: boolean
+          description: Is this study a part of a greater measurement effort?
+          example: true
+        pauseOtherChannels:
+          type: boolean
+          description: Is your client pausing other media channels during the operator campaigns?
+          example: true
+        brandFocused:
+          type: boolean
+          description: Are the ads brand awareness focused?
+          example: true
+        adsAligned:
+          type: boolean
+          description: Are the ads aligned with the responses we're measuring?
+          example: true
+        mediaMix:
+          items:
+            type: string
+            enum:
+            - Audio Streaming
+            - Direct Mail
+            - Email
+            - Event
+            - In-store Placement
+            - Influencer Marketing
+            - Mobile
+            - Newspapers/Magazines
+            - OOH
+            - OTT/CTV
+            - Radio
+            - SEO
+            - Television
+            - Website/Social Media
+          description: If no to pauseOtherChannels, where else is the advertiser running advertisements?
+          example:
+          - TV
+          - Digital
+          type: array
+      required:
+      - studyName
+      - analysisType
+      - studyType
+      - campaignId
+      - startDate
+      - endDate
+      - postStudyEndDate
+      - campaignGoals
+      - isPartOfOtherEffort
+      - pauseOtherChannels
+      - brandFocused
+      - adsAligned
+      - mediaMix
     ClientAttributionConversionsByDateResponseDto:
       type: object
       properties:
@@ -1326,24 +1304,46 @@ components:
       - upsampledConversionsGross
       - upsampledConversionsEffective
       - upsampledConversionsViewable
-    GetConversionsByDateResponseDto:
+    ErrorResponseDto:
       type: object
       properties:
+        status:
+          type: string
+          description: Status of the response
+          example: error
         statusCode:
           type: number
+          description: HTTP status code
+          example: 400
+        errorCode:
+          type: string
+          description: Custom error code
+          example: ERR001
         message:
           type: string
-        meta:
-          type: object
-        data:
-          description: Conversions grouped by date
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientAttributionConversionsByDateResponseDto'
+          description: Error message
+          example: Invalid input data
+        details:
+          type:
+          - object
+          - 'null'
+          description: Additional details about the error
+        timestamp:
+          type: string
+          description: Timestamp of the error
+          example: '2024-08-26T14:56:29.000Z'
+        path:
+          type: string
+          description: Request path where the error occurred
+          example: /api/v1/resource
       required:
+      - status
       - statusCode
-      - meta
-      - data
+      - errorCode
+      - message
+      - details
+      - timestamp
+      - path
     ClientAttributionConversionsByAdGroupResponseDto:
       type: object
       properties:

@@ -499,283 +499,6 @@ paths:
     - url: https://dashboard.streetmetrics.io/v3/public/
 components:
   schemas:
-    ClientFrameEntityDto:
-      type: object
-      properties:
-        frameId:
-          type: number
-          description: Unique identifier for the frame entity
-        frameRef:
-          type: string
-          description: Reference for the frame
-        frameWidth:
-          type: number
-          description: Width of the frame
-        frameHeight:
-          type: number
-          description: Height of the frame
-        frameElevation:
-          type: number
-          description: Elevation of the frame
-        frameType:
-          type: string
-          description: Type of the frame
-        expositionAngle:
-          type: number
-          description: Exposition angle of the frame
-        expositionWidth:
-          type: number
-          description: Exposition width of the frame
-        market:
-          type:
-          - object
-          - 'null'
-          description: Market information for the frame
-      required:
-      - frameId
-      - frameRef
-      - frameWidth
-      - frameHeight
-      - frameElevation
-      - frameType
-      - expositionAngle
-      - expositionWidth
-      - market
-    CreateFrameDto:
-      type: object
-      properties:
-        frameRef:
-          type: string
-          description: Unique reference for the frame
-        frameType:
-          type: string
-          enum:
-          - digital
-          - static
-          description: Type of frame
-        frameMedia:
-          type: string
-          enum:
-          - bulletin
-          - poster
-          - place
-          - junior poster
-          - panel
-          - display
-          - wall
-          - permanent bulletin
-          - junior bulletin
-          - spectacular
-          - custom
-          description: Media type of the frame
-        frameWidth:
-          type: number
-          description: Width of the frame in specified metrics
-        frameHeight:
-          type: number
-          description: Height of the frame in specified metrics
-        frameElevation:
-          type: number
-          description: Elevation of the frame
-        expositionAngle:
-          description: Angle of exposition (cardinal direction or 0 to 360)
-          oneOf:
-          - type: string
-            enum:
-            - n
-            - ne
-            - e
-            - se
-            - s
-            - sw
-            - w
-            - nw
-          - type: number
-            minimum: 0
-            maximum: 360
-        city:
-          type: string
-          description: City where the frame is located
-        county:
-          type: string
-          description: County where the frame is located
-        flipDuration:
-          type: number
-          description: Duration of flip for digital frames
-        frameMetrics:
-          type: string
-          enum:
-          - feet
-          - meters
-          description: Measurement unit
-        frameName:
-          type: string
-          description: Display name for the frame
-        frameOwner:
-          type: string
-          description: Owner of the frame
-        geopathId:
-          type: string
-          description: Geopath ID if available
-        neighborhood:
-          type: string
-          description: Neighborhood where frame is located
-        postalCode:
-          type: string
-          description: Postal code of frame location
-        primaryRead:
-          type: string
-          enum:
-          - left
-          - right
-          - parallel
-          - perpendicular
-          - center
-          description: Primary read type
-        primaryRoad:
-          type: string
-          description: Primary road near the frame
-        siteAddress:
-          type: string
-          description: Street address of the frame
-        siteType:
-          type: string
-          enum:
-          - freestanding
-          - exterior wall
-          - furniture
-          - place
-          description: Type of site
-        siteLat:
-          type: number
-          description: Latitude of frame location
-          minimum: -90
-          maximum: 90
-        siteLon:
-          type: number
-          description: Longitude of frame location
-          minimum: -180
-          maximum: 180
-        siteName:
-          type: string
-          description: Name of the site
-        siteRef:
-          type: string
-          description: Reference ID for the site
-        stateProvince:
-          type: string
-          enum:
-          - alabama
-          - alaska
-          - arizona
-          - arkansas
-          - california
-          - colorado
-          - connecticut
-          - delaware
-          - district of columbia
-          - florida
-          - georgia
-          - hawaii
-          - idaho
-          - illinois
-          - indiana
-          - iowa
-          - kansas
-          - kentucky
-          - louisiana
-          - maine
-          - maryland
-          - massachusetts
-          - michigan
-          - minnesota
-          - mississippi
-          - missouri
-          - montana
-          - nebraska
-          - nevada
-          - new hampshire
-          - new jersey
-          - new mexico
-          - new york
-          - north carolina
-          - north dakota
-          - ohio
-          - oklahoma
-          - oregon
-          - pennsylvania
-          - rhode island
-          - south carolina
-          - south dakota
-          - tennessee
-          - texas
-          - utah
-          - vermont
-          - virginia
-          - washington
-          - west virginia
-          - wisconsin
-          - wyoming
-          description: State/Province
-        totalSlots:
-          type: number
-          description: Total number of slots
-        illuminationStart:
-          type: string
-          description: Time when illumination starts (HH:mm)
-        illuminationEnd:
-          type: string
-          description: Time when illumination ends (HH:mm)
-        mediaCustom:
-          type: string
-          description: Custom media information
-        expositionWidth:
-          type:
-          - number
-          - 'null'
-          description: Width of exposition
-        polygon:
-          type: string
-          description: WKT polygon string representing the frame area
-        inventoryType:
-          type: string
-          enum:
-          - Billboards
-          - Street Level
-          - Place-Based
-          - Rail/Subway Station
-          description: Inventory type
-        inventorySubtype:
-          type: string
-          description: Inventory subtype (single value; stored as a one-element array)
-        ownerInventorySubtype:
-          type: string
-          description: Owner inventory subtype
-        inventoryClass:
-          type: string
-          enum:
-          - Place-Based
-          - Transit
-          - Stationary
-          description: Inventory class (auto-set to Place-Based for place media)
-        marketId:
-          type: number
-          description: Manually-set market ID; overrides the geojson market lookup when the site falls outside any market polygon
-      required:
-      - frameRef
-      - frameType
-      - frameMedia
-      - frameWidth
-      - frameHeight
-      - expositionAngle
-      - city
-      - frameMetrics
-      - frameOwner
-      - postalCode
-      - siteType
-      - siteLat
-      - siteLon
-      - stateProvince
     PatchFrameDto:
       type: object
       properties:
@@ -1036,6 +759,481 @@ components:
       - details
       - timestamp
       - path
+    CreateFrameDto:
+      type: object
+      properties:
+        frameRef:
+          type: string
+          description: Unique reference for the frame
+        frameType:
+          type: string
+          enum:
+          - digital
+          - static
+          description: Type of frame
+        frameMedia:
+          type: string
+          enum:
+          - bulletin
+          - poster
+          - place
+          - junior poster
+          - panel
+          - display
+          - wall
+          - permanent bulletin
+          - junior bulletin
+          - spectacular
+          - custom
+          description: Media type of the frame
+        frameWidth:
+          type: number
+          description: Width of the frame in specified metrics
+        frameHeight:
+          type: number
+          description: Height of the frame in specified metrics
+        frameElevation:
+          type: number
+          description: Elevation of the frame
+        expositionAngle:
+          description: Angle of exposition (cardinal direction or 0 to 360)
+          oneOf:
+          - type: string
+            enum:
+            - n
+            - ne
+            - e
+            - se
+            - s
+            - sw
+            - w
+            - nw
+          - type: number
+            minimum: 0
+            maximum: 360
+        city:
+          type: string
+          description: City where the frame is located
+        county:
+          type: string
+          description: County where the frame is located
+        flipDuration:
+          type: number
+          description: Duration of flip for digital frames
+        frameMetrics:
+          type: string
+          enum:
+          - feet
+          - meters
+          description: Measurement unit
+        frameName:
+          type: string
+          description: Display name for the frame
+        frameOwner:
+          type: string
+          description: Owner of the frame
+        geopathId:
+          type: string
+          description: Geopath ID if available
+        neighborhood:
+          type: string
+          description: Neighborhood where frame is located
+        postalCode:
+          type: string
+          description: Postal code of frame location
+        primaryRead:
+          type: string
+          enum:
+          - left
+          - right
+          - parallel
+          - perpendicular
+          - center
+          description: Primary read type
+        primaryRoad:
+          type: string
+          description: Primary road near the frame
+        siteAddress:
+          type: string
+          description: Street address of the frame
+        siteType:
+          type: string
+          enum:
+          - freestanding
+          - exterior wall
+          - furniture
+          - place
+          description: Type of site
+        siteLat:
+          type: number
+          description: Latitude of frame location
+          minimum: -90
+          maximum: 90
+        siteLon:
+          type: number
+          description: Longitude of frame location
+          minimum: -180
+          maximum: 180
+        siteName:
+          type: string
+          description: Name of the site
+        siteRef:
+          type: string
+          description: Reference ID for the site
+        stateProvince:
+          type: string
+          enum:
+          - alabama
+          - alaska
+          - arizona
+          - arkansas
+          - california
+          - colorado
+          - connecticut
+          - delaware
+          - district of columbia
+          - florida
+          - georgia
+          - hawaii
+          - idaho
+          - illinois
+          - indiana
+          - iowa
+          - kansas
+          - kentucky
+          - louisiana
+          - maine
+          - maryland
+          - massachusetts
+          - michigan
+          - minnesota
+          - mississippi
+          - missouri
+          - montana
+          - nebraska
+          - nevada
+          - new hampshire
+          - new jersey
+          - new mexico
+          - new york
+          - north carolina
+          - north dakota
+          - ohio
+          - oklahoma
+          - oregon
+          - pennsylvania
+          - rhode island
+          - south carolina
+          - south dakota
+          - tennessee
+          - texas
+          - utah
+          - vermont
+          - virginia
+          - washington
+          - west virginia
+          - wisconsin
+          - wyoming
+          description: State/Province
+        totalSlots:
+          type: number
+          description: Total number of slots
+        illuminationStart:
+          type: string
+          description: Time when illumination starts (HH:mm)
+        illuminationEnd:
+          type: string
+          description: Time when illumination ends (HH:mm)
+        mediaCustom:
+          type: string
+          description: Custom media information
+        expositionWidth:
+          type:
+          - number
+          - 'null'
+          description: Width of exposition
+        polygon:
+          type: string
+          description: WKT polygon string representing the frame area
+        inventoryType:
+          type: string
+          enum:
+          - Billboards
+          - Street Level
+          - Place-Based
+          - Rail/Subway Station
+          description: Inventory type
+        inventorySubtype:
+          type: string
+          description: Inventory subtype (single value; stored as a one-element array)
+        ownerInventorySubtype:
+          type: string
+          description: Owner inventory subtype
+        inventoryClass:
+          type: string
+          enum:
+          - Place-Based
+          - Transit
+          - Stationary
+          description: Inventory class (auto-set to Place-Based for place media)
+        marketId:
+          type: number
+          description: Manually-set market ID; overrides the geojson market lookup when the site falls outside any market polygon
+      required:
+      - frameRef
+      - frameType
+      - frameMedia
+      - frameWidth
+      - frameHeight
+      - expositionAngle
+      - city
+      - frameMetrics
+      - frameOwner
+      - postalCode
+      - siteType
+      - siteLat
+      - siteLon
+      - stateProvince
+    ClientFrameEntityDto:
+      type: object
+      properties:
+        frameId:
+          type: number
+          description: Unique identifier for the frame entity
+        frameRef:
+          type: string
+          description: Reference for the frame
+        frameWidth:
+          type: number
+          description: Width of the frame
+        frameHeight:
+          type: number
+          description: Height of the frame
+        frameElevation:
+          type: number
+          description: Elevation of the frame
+        frameType:
+          type: string
+          description: Type of the frame
+        expositionAngle:
+          type: number
+          description: Exposition angle of the frame
+        expositionWidth:
+          type: number
+          description: Exposition width of the frame
+        market:
+          type:
+          - object
+          - 'null'
+          description: Market information for the frame
+      required:
+      - frameId
+      - frameRef
+      - frameWidth
+      - frameHeight
+      - frameElevation
+      - frameType
+      - expositionAngle
+      - expositionWidth
+      - market
+    PatchFrameDto_2:
+      type: object
+      properties:
+        frameRef:
+          type: string
+          description: Unique reference for the frame
+        frameType:
+          type: string
+          description: Type of frame
+          enum:
+          - digital
+          - static
+        frameMedia:
+          type: string
+          description: Media type of the frame
+          enum:
+          - bulletin
+          - poster
+          - place
+          - junior poster
+          - panel
+          - display
+          - wall
+          - permanent bulletin
+          - junior bulletin
+          - spectacular
+          - custom
+        frameWidth:
+          type: number
+          description: Width of the frame in specified metrics
+        frameHeight:
+          type: number
+          description: Height of the frame in specified metrics
+        frameElevation:
+          type: number
+          description: Elevation of the frame
+        expositionAngle:
+          description: Angle of exposition (cardinal direction or 0 to 360)
+          oneOf:
+          - type: string
+            enum:
+            - n
+            - ne
+            - e
+            - se
+            - s
+            - sw
+            - w
+            - nw
+          - type: number
+            minimum: 0
+            maximum: 360
+        city:
+          type: string
+          description: City where the frame is located
+        county:
+          type: string
+          description: County where the frame is located
+        flipDuration:
+          type: number
+          description: Duration of flip for digital frames
+        frameMetrics:
+          type: string
+          description: Measurement unit
+          enum:
+          - feet
+          - meters
+        frameName:
+          type: string
+          description: Display name for the frame
+        frameOwner:
+          type: string
+          description: Owner of the frame
+        geopathId:
+          type: string
+          description: Geopath ID if available
+        neighborhood:
+          type: string
+          description: Neighborhood where frame is located
+        postalCode:
+          type: string
+          description: Postal code of frame location
+        primaryRead:
+          type: string
+          description: Primary read type
+          enum:
+          - left
+          - right
+          - parallel
+          - perpendicular
+          - center
+        primaryRoad:
+          type: string
+          description: Primary road near the frame
+        siteAddress:
+          type: string
+          description: Street address of the frame
+        siteType:
+          type: string
+          description: Type of site
+          enum:
+          - freestanding
+          - exterior wall
+          - furniture
+          - place
+        siteLat:
+          type: number
+          description: Latitude of frame location
+          minimum: -90
+          maximum: 90
+        siteLon:
+          type: number
+          description: Longitude of frame location
+          minimum: -180
+          maximum: 180
+        siteName:
+          type: string
+          description: Name of the site
+        siteRef:
+          type: string
+          description: Reference ID for the site
+        stateProvince:
+          type: string
+          description: State/Province
+          enum:
+          - alabama
+          - alaska
+          - arizona
+          - arkansas
+          - california
+          - colorado
+          - connecticut
+          - delaware
+          - district of columbia
+          - florida
+          - georgia
+          - hawaii
+          - idaho
+          - illinois
+          - indiana
+          - iowa
+          - kansas
+          - kentucky
+          - louisiana
+          - maine
+          - maryland
+          - massachusetts
+          - michigan
+          - minnesota
+          - mississippi
+          - missouri
+          - montana
+          - nebraska
+          - nevada
+          - new hampshire
+          - new jersey
+          - new mexico
+          - new york
+          - north carolina
+          - north dakota
+          - ohio
+          - oklahoma
+          - oregon
+          - pennsylvania
+          - rhode island
+          - south carolina
+          - south dakota
+          - tennessee
+          - texas
+          - utah
+          - vermont
+          - virginia
+          - washington
+          - west virginia
+          - wisconsin
+          - wyoming
+        totalSlots:
+          type: number
+          description: Total number of slots
+        illuminationStart:
+          type: string
+          description: Time when illumination starts (HH:mm)
+        illuminationEnd:
+          type: string
+          description: Time when illumination ends (HH:mm)
+        mediaCustom:
+          type: string
+          description: Custom media information
+        expositionWidth:
+          type:
+          - number
+          - 'null'
+          description: Width of exposition
+        polygon:
+          type: string
+          description: WKT polygon string representing the frame area
+        marketId:
+          type: number
     CreateFrameDto_2:
       type: object
       properties:
@@ -1249,204 +1447,6 @@ components:
       - siteLat
       - siteLon
       - stateProvince
-    PatchFrameDto_2:
-      type: object
-      properties:
-        frameRef:
-          type: string
-          description: Unique reference for the frame
-        frameType:
-          type: string
-          description: Type of frame
-          enum:
-          - digital
-          - static
-        frameMedia:
-          type: string
-          description: Media type of the frame
-          enum:
-          - bulletin
-          - poster
-          - place
-          - junior poster
-          - panel
-          - display
-          - wall
-          - permanent bulletin
-          - junior bulletin
-          - spectacular
-          - custom
-        frameWidth:
-          type: number
-          description: Width of the frame in specified metrics
-        frameHeight:
-          type: number
-          description: Height of the frame in specified metrics
-        frameElevation:
-          type: number
-          description: Elevation of the frame
-        expositionAngle:
-          description: Angle of exposition (cardinal direction or 0 to 360)
-          oneOf:
-          - type: string
-            enum:
-            - n
-            - ne
-            - e
-            - se
-            - s
-            - sw
-            - w
-            - nw
-          - type: number
-            minimum: 0
-            maximum: 360
-        city:
-          type: string
-          description: City where the frame is located
-        county:
-          type: string
-          description: County where the frame is located
-        flipDuration:
-          type: number
-          description: Duration of flip for digital frames
-        frameMetrics:
-          type: string
-          description: Measurement unit
-          enum:
-          - feet
-          - meters
-        frameName:
-          type: string
-          description: Display name for the frame
-        frameOwner:
-          type: string
-          description: Owner of the frame
-        geopathId:
-          type: string
-          description: Geopath ID if available
-        neighborhood:
-          type: string
-          description: Neighborhood where frame is located
-        postalCode:
-          type: string
-          description: Postal code of frame location
-        primaryRead:
-          type: string
-          description: Primary read type
-          enum:
-          - left
-          - right
-          - parallel
-          - perpendicular
-          - center
-        primaryRoad:
-          type: string
-          description: Primary road near the frame
-        siteAddress:
-          type: string
-          description: Street address of the frame
-        siteType:
-          type: string
-          description: Type of site
-          enum:
-          - freestanding
-          - exterior wall
-          - furniture
-          - place
-        siteLat:
-          type: number
-          description: Latitude of frame location
-          minimum: -90
-          maximum: 90
-        siteLon:
-          type: number
-          description: Longitude of frame location
-          minimum: -180
-          maximum: 180
-        siteName:
-          type: string
-          description: Name of the site
-        siteRef:
-          type: string
-          description: Reference ID for the site
-        stateProvince:
-          type: string
-          description: State/Province
-          enum:
-          - alabama
-          - alaska
-          - arizona
-          - arkansas
-          - california
-          - colorado
-          - connecticut
-          - delaware
-          - district of columbia
-          - florida
-          - georgia
-          - hawaii
-          - idaho
-          - illinois
-          - indiana
-          - iowa
-          - kansas
-          - kentucky
-          - louisiana
-          - maine
-          - maryland
-          - massachusetts
-          - michigan
-          - minnesota
-          - mississippi
-          - missouri
-          - montana
-          - nebraska
-          - nevada
-          - new hampshire
-          - new jersey
-          - new mexico
-          - new york
-          - north carolina
-          - north dakota
-          - ohio
-          - oklahoma
-          - oregon
-          - pennsylvania
-          - rhode island
-          - south carolina
-          - south dakota
-          - tennessee
-          - texas
-          - utah
-          - vermont
-          - virginia
-          - washington
-          - west virginia
-          - wisconsin
-          - wyoming
-        totalSlots:
-          type: number
-          description: Total number of slots
-        illuminationStart:
-          type: string
-          description: Time when illumination starts (HH:mm)
-        illuminationEnd:
-          type: string
-          description: Time when illumination ends (HH:mm)
-        mediaCustom:
-          type: string
-          description: Custom media information
-        expositionWidth:
-          type:
-          - number
-          - 'null'
-          description: Width of exposition
-        polygon:
-          type: string
-          description: WKT polygon string representing the frame area
-        marketId:
-          type: number
   securitySchemes:
     bearer:
       scheme: bearer

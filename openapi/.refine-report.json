@@ -56,7 +56,8 @@
     "tag 'Markets' spans 2 source specs (streetmetrics-public-api-docs-json.json, streetmetrics-public-api-openapi.json): per-path servers applied",
     "tag 'Media' spans 2 source specs (streetmetrics-public-api-docs-json.json, streetmetrics-public-api-openapi.json): per-path servers applied",
     "tag 'Pixels' spans 2 source specs (streetmetrics-public-api-docs-json.json, streetmetrics-public-api-openapi.json): per-path servers applied",
-    "tag 'Reporting' spans 2 source specs (streetmetrics-public-api-docs-json.json, streetmetrics-public-api-openapi.json): per-path servers applied"
+    "tag 'Reporting' spans 2 source specs (streetmetrics-public-api-docs-json.json, streetmetrics-public-api-openapi.json): per-path servers applied",
+    "apis.yml register: already-registered"
   ],
   "skipped": [
     "streetmetrics-ad-groups-api-openapi.yml: previously refined output, superseded by openapi/_original/",

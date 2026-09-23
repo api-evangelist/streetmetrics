@@ -524,6 +524,37 @@ components:
       - metaData
       - createdAt
       - updatedAt
+    CreateCampaignResponse:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          type: number
+          description: The ID of the created campaign
+      required:
+      - statusCode
+      - meta
+      - data
+    GetCampaignResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          $ref: '#/components/schemas/ClientCampaignEntityResponseDto'
+      required:
+      - statusCode
+      - meta
+      - data
     CreateCampaignDto:
       type: object
       properties:
@@ -609,6 +640,23 @@ components:
       - campaignRef
       - advertiser
       - marketId
+    GetCampaignsResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientCampaignEntityResponseDto'
+      required:
+      - statusCode
+      - meta
+      - data
     ErrorResponseDto:
       type: object
       properties:
@@ -649,54 +697,6 @@ components:
       - details
       - timestamp
       - path
-    GetCampaignsResponseDto:
-      type: object
-      properties:
-        statusCode:
-          type: number
-        message:
-          type: string
-        meta:
-          type: object
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientCampaignEntityResponseDto'
-      required:
-      - statusCode
-      - meta
-      - data
-    CreateCampaignResponse:
-      type: object
-      properties:
-        statusCode:
-          type: number
-        message:
-          type: string
-        meta:
-          type: object
-        data:
-          type: number
-          description: The ID of the created campaign
-      required:
-      - statusCode
-      - meta
-      - data
-    GetCampaignResponseDto:
-      type: object
-      properties:
-        statusCode:
-          type: number
-        message:
-          type: string
-        meta:
-          type: object
-        data:
-          $ref: '#/components/schemas/ClientCampaignEntityResponseDto'
-      required:
-      - statusCode
-      - meta
-      - data
     CreateCampaignDto_2:
       type: object
       properties:
