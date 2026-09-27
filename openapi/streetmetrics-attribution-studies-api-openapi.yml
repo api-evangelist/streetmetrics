@@ -496,7 +496,7 @@ paths:
     - url: https://dashboard.streetmetrics.io/v3/public/
   /attribution-studies/files/{id}:
     get:
-      operationId: AttributionStudyController_getAttributionStudyFile
+      operationId: getAttributionStudiesFilesById
       summary: Download an attribution study file as a ZIP
       parameters:
       - name: id
@@ -534,11 +534,13 @@ paths:
                 $ref: '#/components/schemas/ErrorResponseDto'
       tags:
       - Attribution Studies
+      x-operation-id-source: normalized
+      x-operation-id-original: AttributionStudyController_getAttributionStudyFile
     servers:
     - url: https://dashboard.streetmetrics.io/v3/public/
   /attribution-studies/{id}:
     get:
-      operationId: AttributionStudyController_getAttributionStudy
+      operationId: getAttributionStudiesById
       summary: Get a specific attribution study by ID
       parameters:
       - name: id
@@ -620,11 +622,13 @@ paths:
                 $ref: '#/components/schemas/ErrorResponseDto'
       tags:
       - Attribution Studies
+      x-operation-id-source: normalized
+      x-operation-id-original: AttributionStudyController_getAttributionStudy
     servers:
     - url: https://dashboard.streetmetrics.io/v3/public/
   /attribution-studies:
     get:
-      operationId: AttributionStudyController_getAttributionStudies
+      operationId: getAttributionStudies
       summary: Get a list of attribution studies
       parameters:
       - name: limit
@@ -696,8 +700,10 @@ paths:
                 $ref: '#/components/schemas/ErrorResponseDto'
       tags:
       - Attribution Studies
+      x-operation-id-source: normalized
+      x-operation-id-original: AttributionStudyController_getAttributionStudies
     post:
-      operationId: AttributionStudyController_createAttributionStudy
+      operationId: postAttributionStudies
       summary: Create a new attribution study
       parameters: []
       requestBody:
@@ -730,11 +736,13 @@ paths:
                 $ref: '#/components/schemas/ErrorResponseDto'
       tags:
       - Attribution Studies
+      x-operation-id-source: normalized
+      x-operation-id-original: AttributionStudyController_createAttributionStudy
     servers:
     - url: https://dashboard.streetmetrics.io/v3/public/
   /attribution-studies/conversions/date:
     get:
-      operationId: AttributionStudyController_getConversionsByDate
+      operationId: getAttributionStudiesConversionsDate
       summary: Get conversions aggregated by date
       description: Retrieves conversion data aggregated by date. When summaryBin is specified, data is grouped by time periods (week, month, day, etc.).
       parameters:
@@ -808,11 +816,13 @@ paths:
                 $ref: '#/components/schemas/ErrorResponseDto'
       tags:
       - Attribution Studies
+      x-operation-id-source: normalized
+      x-operation-id-original: AttributionStudyController_getConversionsByDate
     servers:
     - url: https://dashboard.streetmetrics.io/v3/public/
   /attribution-studies/conversions/ad-group:
     get:
-      operationId: AttributionStudyController_getConversionsByAdGroup
+      operationId: getAttributionStudiesConversionsAdGroup
       summary: Get conversions aggregated by ad group
       description: Retrieves conversion data aggregated by ad group (flight). When summaryBin is specified, data is grouped by both ad group and time periods.
       parameters:
@@ -886,11 +896,13 @@ paths:
                 $ref: '#/components/schemas/ErrorResponseDto'
       tags:
       - Attribution Studies
+      x-operation-id-source: normalized
+      x-operation-id-original: AttributionStudyController_getConversionsByAdGroup
     servers:
     - url: https://dashboard.streetmetrics.io/v3/public/
   /attribution-studies/conversions/unit:
     get:
-      operationId: AttributionStudyController_getConversionsByUnit
+      operationId: getAttributionStudiesConversionsUnit
       summary: Get conversions aggregated by unit
       description: Retrieves conversion data aggregated by unit (matchable or creative). When summaryBin is specified, data is grouped by both unit and time periods. Use useCreative=true to group by creative instead of matchable.
       parameters:
@@ -970,10 +982,127 @@ paths:
                 $ref: '#/components/schemas/ErrorResponseDto'
       tags:
       - Attribution Studies
+      x-operation-id-source: normalized
+      x-operation-id-original: AttributionStudyController_getConversionsByUnit
     servers:
     - url: https://dashboard.streetmetrics.io/v3/public/
 components:
   schemas:
+    ErrorResponseDto:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status of the response
+          example: error
+        statusCode:
+          type: number
+          description: HTTP status code
+          example: 400
+        errorCode:
+          type: string
+          description: Custom error code
+          example: ERR001
+        message:
+          type: string
+          description: Error message
+          example: Invalid input data
+        details:
+          type:
+          - object
+          - 'null'
+          description: Additional details about the error
+        timestamp:
+          type: string
+          description: Timestamp of the error
+          example: '2024-08-26T14:56:29.000Z'
+        path:
+          type: string
+          description: Request path where the error occurred
+          example: /api/v1/resource
+      required:
+      - status
+      - statusCode
+      - errorCode
+      - message
+      - details
+      - timestamp
+      - path
+    ClientAttributionConversionsByAdGroupResponseDto:
+      type: object
+      properties:
+        adGroupRef:
+          type: string
+          example: Summer2025AdGroupRef
+          description: The ad group ref
+        summaryBinGrouping:
+          type:
+          - string
+          - 'null'
+          example: '2025-05-19 00:00:00.000'
+          description: Summary bin grouping value (only present when summaryBin parameter is specified)
+        observedConversionsGross:
+          type:
+          - number
+          - 'null'
+          example: 2033
+          description: Observed conversions gross
+        observedConversionsEffective:
+          type:
+          - number
+          - 'null'
+          example: 482
+          description: Observed conversions effective
+        observedConversionsViewable:
+          type:
+          - number
+          - 'null'
+          example: 1238
+          description: Observed conversions viewable
+        upsampledConversionsGross:
+          type:
+          - number
+          - 'null'
+          example: 14377
+          description: Upsampled conversions gross
+        upsampledConversionsEffective:
+          type:
+          - number
+          - 'null'
+          example: 3507
+          description: Upsampled conversions effective
+        upsampledConversionsViewable:
+          type:
+          - number
+          - 'null'
+          example: 8897
+          description: Upsampled conversions viewable
+      required:
+      - adGroupRef
+      - observedConversionsGross
+      - observedConversionsEffective
+      - observedConversionsViewable
+      - upsampledConversionsGross
+      - upsampledConversionsEffective
+      - upsampledConversionsViewable
+    GetConversionsByUnitResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          description: Conversions grouped by unit
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientAttributionConversionsByUnitResponseDto'
+      required:
+      - statusCode
+      - meta
+      - data
     GetConversionsByDateResponseDto:
       type: object
       properties:
@@ -988,24 +1117,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ClientAttributionConversionsByDateResponseDto'
-      required:
-      - statusCode
-      - meta
-      - data
-    GetConversionsByAdGroupResponseDto:
-      type: object
-      properties:
-        statusCode:
-          type: number
-        message:
-          type: string
-        meta:
-          type: object
-        data:
-          description: Conversions grouped by ad group
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientAttributionConversionsByAdGroupResponseDto'
       required:
       - statusCode
       - meta
@@ -1136,24 +1247,6 @@ components:
       - updatedAt
       - analysisType
       - campaigns
-    GetConversionsByUnitResponseDto:
-      type: object
-      properties:
-        statusCode:
-          type: number
-        message:
-          type: string
-        meta:
-          type: object
-        data:
-          description: Conversions grouped by unit
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientAttributionConversionsByUnitResponseDto'
-      required:
-      - statusCode
-      - meta
-      - data
     CreateAttributionStudyDto:
       type: object
       properties:
@@ -1252,6 +1345,24 @@ components:
       - brandFocused
       - adsAligned
       - mediaMix
+    GetConversionsByAdGroupResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          description: Conversions grouped by ad group
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientAttributionConversionsByAdGroupResponseDto'
+      required:
+      - statusCode
+      - meta
+      - data
     ClientAttributionConversionsByDateResponseDto:
       type: object
       properties:
@@ -1298,103 +1409,6 @@ components:
           example: 8897
           description: Upsampled conversions viewable
       required:
-      - observedConversionsGross
-      - observedConversionsEffective
-      - observedConversionsViewable
-      - upsampledConversionsGross
-      - upsampledConversionsEffective
-      - upsampledConversionsViewable
-    ErrorResponseDto:
-      type: object
-      properties:
-        status:
-          type: string
-          description: Status of the response
-          example: error
-        statusCode:
-          type: number
-          description: HTTP status code
-          example: 400
-        errorCode:
-          type: string
-          description: Custom error code
-          example: ERR001
-        message:
-          type: string
-          description: Error message
-          example: Invalid input data
-        details:
-          type:
-          - object
-          - 'null'
-          description: Additional details about the error
-        timestamp:
-          type: string
-          description: Timestamp of the error
-          example: '2024-08-26T14:56:29.000Z'
-        path:
-          type: string
-          description: Request path where the error occurred
-          example: /api/v1/resource
-      required:
-      - status
-      - statusCode
-      - errorCode
-      - message
-      - details
-      - timestamp
-      - path
-    ClientAttributionConversionsByAdGroupResponseDto:
-      type: object
-      properties:
-        adGroupRef:
-          type: string
-          example: Summer2025AdGroupRef
-          description: The ad group ref
-        summaryBinGrouping:
-          type:
-          - string
-          - 'null'
-          example: '2025-05-19 00:00:00.000'
-          description: Summary bin grouping value (only present when summaryBin parameter is specified)
-        observedConversionsGross:
-          type:
-          - number
-          - 'null'
-          example: 2033
-          description: Observed conversions gross
-        observedConversionsEffective:
-          type:
-          - number
-          - 'null'
-          example: 482
-          description: Observed conversions effective
-        observedConversionsViewable:
-          type:
-          - number
-          - 'null'
-          example: 1238
-          description: Observed conversions viewable
-        upsampledConversionsGross:
-          type:
-          - number
-          - 'null'
-          example: 14377
-          description: Upsampled conversions gross
-        upsampledConversionsEffective:
-          type:
-          - number
-          - 'null'
-          example: 3507
-          description: Upsampled conversions effective
-        upsampledConversionsViewable:
-          type:
-          - number
-          - 'null'
-          example: 8897
-          description: Upsampled conversions viewable
-      required:
-      - adGroupRef
       - observedConversionsGross
       - observedConversionsEffective
       - observedConversionsViewable

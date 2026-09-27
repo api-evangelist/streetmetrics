@@ -83,7 +83,7 @@ paths:
     - url: https://dashboard.streetmetrics.io/v3/public/
   /markets:
     get:
-      operationId: MarketController_getMarkets
+      operationId: getMarkets
       summary: Get a list of markets
       parameters:
       - name: limit
@@ -151,28 +151,26 @@ paths:
                 $ref: '#/components/schemas/ErrorResponseDto'
       tags:
       - Markets
+      x-operation-id-source: normalized
+      x-operation-id-original: MarketController_getMarkets
     servers:
     - url: https://dashboard.streetmetrics.io/v3/public/
 components:
   schemas:
-    GetMarketsResponseDto:
+    ClientMarketEntityDto:
       type: object
       properties:
-        statusCode:
+        marketId:
           type: number
-        message:
+          example: 1
+          description: The ID of the market
+        marketName:
           type: string
-        meta:
-          type: object
-        data:
-          description: List of markets
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientMarketEntityDto'
+          example: New York
+          description: The name of the market
       required:
-      - statusCode
-      - meta
-      - data
+      - marketId
+      - marketName
     ErrorResponseDto:
       type: object
       properties:
@@ -213,20 +211,24 @@ components:
       - details
       - timestamp
       - path
-    ClientMarketEntityDto:
+    GetMarketsResponseDto:
       type: object
       properties:
-        marketId:
+        statusCode:
           type: number
-          example: 1
-          description: The ID of the market
-        marketName:
+        message:
           type: string
-          example: New York
-          description: The name of the market
+        meta:
+          type: object
+        data:
+          description: List of markets
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientMarketEntityDto'
       required:
-      - marketId
-      - marketName
+      - statusCode
+      - meta
+      - data
   securitySchemes:
     bearer:
       scheme: bearer

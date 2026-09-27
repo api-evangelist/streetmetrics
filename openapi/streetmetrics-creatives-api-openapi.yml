@@ -145,7 +145,7 @@ paths:
     - url: https://dashboard.streetmetrics.io/v3/public/
   /creatives:
     get:
-      operationId: PublicCreativesController_getCreatives
+      operationId: getCreatives
       summary: Get a list of creatives
       parameters:
       - name: limit
@@ -223,11 +223,13 @@ paths:
                 $ref: '#/components/schemas/ErrorResponseDto'
       tags:
       - Creatives
+      x-operation-id-source: normalized
+      x-operation-id-original: PublicCreativesController_getCreatives
     servers:
     - url: https://dashboard.streetmetrics.io/v3/public/
   /creatives/{id}:
     get:
-      operationId: PublicCreativesController_getCreativeById
+      operationId: getCreativesById
       summary: Get a specific creative by ID
       parameters:
       - name: id
@@ -275,29 +277,30 @@ paths:
                 $ref: '#/components/schemas/ErrorResponseDto'
       tags:
       - Creatives
+      x-operation-id-source: normalized
+      x-operation-id-original: PublicCreativesController_getCreativeById
     servers:
     - url: https://dashboard.streetmetrics.io/v3/public/
 components:
   schemas:
-    CreativeResponseDto:
+    GetCreativesResponseDto:
       type: object
       properties:
-        creativeId:
+        statusCode:
           type: number
-          description: Unique identifier for the creative
-          example: 123
-        creativeRef:
+        message:
           type: string
-          description: Creative reference string
-          example: summer-campaign-banner
-        displayName:
-          type: string
-          description: Display name of the creative
-          example: Summer Campaign Banner
+        meta:
+          type: object
+        data:
+          description: Array of creative objects
+          type: array
+          items:
+            $ref: '#/components/schemas/CreativeResponseDto'
       required:
-      - creativeId
-      - creativeRef
-      - displayName
+      - statusCode
+      - meta
+      - data
     ErrorResponseDto:
       type: object
       properties:
@@ -338,24 +341,6 @@ components:
       - details
       - timestamp
       - path
-    GetCreativesResponseDto:
-      type: object
-      properties:
-        statusCode:
-          type: number
-        message:
-          type: string
-        meta:
-          type: object
-        data:
-          description: Array of creative objects
-          type: array
-          items:
-            $ref: '#/components/schemas/CreativeResponseDto'
-      required:
-      - statusCode
-      - meta
-      - data
     GetCreativeByIdResponseDto:
       type: object
       properties:
@@ -373,6 +358,25 @@ components:
       - statusCode
       - meta
       - data
+    CreativeResponseDto:
+      type: object
+      properties:
+        creativeId:
+          type: number
+          description: Unique identifier for the creative
+          example: 123
+        creativeRef:
+          type: string
+          description: Creative reference string
+          example: summer-campaign-banner
+        displayName:
+          type: string
+          description: Display name of the creative
+          example: Summer Campaign Banner
+      required:
+      - creativeId
+      - creativeRef
+      - displayName
   securitySchemes:
     bearer:
       scheme: bearer

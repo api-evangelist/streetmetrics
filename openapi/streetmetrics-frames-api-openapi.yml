@@ -258,7 +258,7 @@ paths:
     - url: https://dashboard.streetmetrics.io/v3/public/
   /frames:
     get:
-      operationId: FramesController_getFrames
+      operationId: getFrames
       summary: Get a list of frames
       parameters:
       - name: limit
@@ -330,8 +330,10 @@ paths:
                 $ref: '#/components/schemas/ErrorResponseDto'
       tags:
       - Frames
+      x-operation-id-source: normalized
+      x-operation-id-original: FramesController_getFrames
     post:
-      operationId: FramesController_createFrame
+      operationId: postFrames
       summary: Create a frame
       parameters: []
       requestBody:
@@ -370,11 +372,13 @@ paths:
                 $ref: '#/components/schemas/ErrorResponseDto'
       tags:
       - Frames
+      x-operation-id-source: normalized
+      x-operation-id-original: FramesController_createFrame
     servers:
     - url: https://dashboard.streetmetrics.io/v3/public/
   /frames/{id}:
     get:
-      operationId: FramesController_getFrameById
+      operationId: getFramesById
       summary: Get a frame by ID
       parameters:
       - name: limit
@@ -453,8 +457,10 @@ paths:
                 $ref: '#/components/schemas/ErrorResponseDto'
       tags:
       - Frames
+      x-operation-id-source: normalized
+      x-operation-id-original: FramesController_getFrameById
     patch:
-      operationId: FramesController_patchFrame
+      operationId: patchFramesById
       summary: Patch a frame by ID
       parameters:
       - name: id
@@ -495,6 +501,8 @@ paths:
                 $ref: '#/components/schemas/ErrorResponseDto'
       tags:
       - Frames
+      x-operation-id-source: normalized
+      x-operation-id-original: FramesController_patchFrame
     servers:
     - url: https://dashboard.streetmetrics.io/v3/public/
 components:
@@ -759,6 +767,48 @@ components:
       - details
       - timestamp
       - path
+    ClientFrameEntityDto:
+      type: object
+      properties:
+        frameId:
+          type: number
+          description: Unique identifier for the frame entity
+        frameRef:
+          type: string
+          description: Reference for the frame
+        frameWidth:
+          type: number
+          description: Width of the frame
+        frameHeight:
+          type: number
+          description: Height of the frame
+        frameElevation:
+          type: number
+          description: Elevation of the frame
+        frameType:
+          type: string
+          description: Type of the frame
+        expositionAngle:
+          type: number
+          description: Exposition angle of the frame
+        expositionWidth:
+          type: number
+          description: Exposition width of the frame
+        market:
+          type:
+          - object
+          - 'null'
+          description: Market information for the frame
+      required:
+      - frameId
+      - frameRef
+      - frameWidth
+      - frameHeight
+      - frameElevation
+      - frameType
+      - expositionAngle
+      - expositionWidth
+      - market
     CreateFrameDto:
       type: object
       properties:
@@ -994,48 +1044,6 @@ components:
       - siteLat
       - siteLon
       - stateProvince
-    ClientFrameEntityDto:
-      type: object
-      properties:
-        frameId:
-          type: number
-          description: Unique identifier for the frame entity
-        frameRef:
-          type: string
-          description: Reference for the frame
-        frameWidth:
-          type: number
-          description: Width of the frame
-        frameHeight:
-          type: number
-          description: Height of the frame
-        frameElevation:
-          type: number
-          description: Elevation of the frame
-        frameType:
-          type: string
-          description: Type of the frame
-        expositionAngle:
-          type: number
-          description: Exposition angle of the frame
-        expositionWidth:
-          type: number
-          description: Exposition width of the frame
-        market:
-          type:
-          - object
-          - 'null'
-          description: Market information for the frame
-      required:
-      - frameId
-      - frameRef
-      - frameWidth
-      - frameHeight
-      - frameElevation
-      - frameType
-      - expositionAngle
-      - expositionWidth
-      - market
     PatchFrameDto_2:
       type: object
       properties:

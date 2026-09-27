@@ -351,7 +351,7 @@ paths:
     - url: https://dashboard.streetmetrics.io/v3/public/
   /assets/{id}:
     get:
-      operationId: AssetController_getAssetById
+      operationId: getAssetsById
       summary: Get asset by ID
       parameters:
       - name: id
@@ -388,8 +388,10 @@ paths:
                 $ref: '#/components/schemas/ErrorResponseDto'
       tags:
       - Assets
+      x-operation-id-source: normalized
+      x-operation-id-original: AssetController_getAssetById
     patch:
-      operationId: AssetController_patchUpdateAsset
+      operationId: patchAssetsById
       summary: Update asset
       parameters:
       - name: id
@@ -438,11 +440,13 @@ paths:
                 $ref: '#/components/schemas/ErrorResponseDto'
       tags:
       - Assets
+      x-operation-id-source: normalized
+      x-operation-id-original: AssetController_patchUpdateAsset
     servers:
     - url: https://dashboard.streetmetrics.io/v3/public/
   /assets:
     get:
-      operationId: AssetController_getAssets
+      operationId: getAssets
       summary: Get assets
       parameters:
       - name: limit
@@ -508,11 +512,13 @@ paths:
                 $ref: '#/components/schemas/ErrorResponseDto'
       tags:
       - Assets
+      x-operation-id-source: normalized
+      x-operation-id-original: AssetController_getAssets
     servers:
     - url: https://dashboard.streetmetrics.io/v3/public/
   /assets/asset-owners:
     get:
-      operationId: AssetController_getAssetOwners
+      operationId: getAssetsAssetOwners
       summary: Get asset owners
       parameters: []
       responses:
@@ -544,11 +550,13 @@ paths:
                 $ref: '#/components/schemas/ErrorResponseDto'
       tags:
       - Assets
+      x-operation-id-source: normalized
+      x-operation-id-original: AssetController_getAssetOwners
     servers:
     - url: https://dashboard.streetmetrics.io/v3/public/
   /assets/compatible:
     get:
-      operationId: AssetController_getCompatibleAssets
+      operationId: getAssetsCompatible
       summary: Get compatible assets
       parameters:
       - name: limit
@@ -646,11 +654,13 @@ paths:
                 $ref: '#/components/schemas/ErrorResponseDto'
       tags:
       - Assets
+      x-operation-id-source: normalized
+      x-operation-id-original: AssetController_getCompatibleAssets
     servers:
     - url: https://dashboard.streetmetrics.io/v3/public/
   /assets/ad-group/{adGroupId}/compatible:
     get:
-      operationId: AssetController_getCompatibleAssetsByAdGroupId
+      operationId: getAssetsAdGroupByAdGroupIdCompatible
       summary: Get compatible assets by ad group ID
       parameters:
       - name: adGroupId
@@ -687,6 +697,8 @@ paths:
                 $ref: '#/components/schemas/ErrorResponseDto'
       tags:
       - Assets
+      x-operation-id-source: normalized
+      x-operation-id-original: AssetController_getCompatibleAssetsByAdGroupId
     servers:
     - url: https://dashboard.streetmetrics.io/v3/public/
 components:

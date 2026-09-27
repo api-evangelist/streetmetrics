@@ -38,7 +38,7 @@ paths:
     - url: https://dashboard.streetmetrics.io/v3/public/
   /auth/authenticate:
     post:
-      operationId: AuthController_authenticate
+      operationId: postAuthAuthenticate
       summary: Authenticate a user
       parameters:
       - name: api-key
@@ -61,20 +61,12 @@ paths:
                 $ref: '#/components/schemas/AuthResponse'
       tags:
       - Authentication
+      x-operation-id-source: normalized
+      x-operation-id-original: AuthController_authenticate
     servers:
     - url: https://dashboard.streetmetrics.io/v3/public/
 components:
   schemas:
-    AuthDto:
-      type: object
-      properties:
-        email:
-          type: string
-          format: email
-        password:
-          type: string
-      required:
-      - email
     AuthResponse:
       type: object
       properties:
@@ -91,6 +83,16 @@ components:
       - statusCode
       - meta
       - data
+    AuthDto:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+      required:
+      - email
     AuthDto_2:
       type: object
       properties:

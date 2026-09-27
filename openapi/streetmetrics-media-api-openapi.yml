@@ -83,7 +83,7 @@ paths:
     - url: https://dashboard.streetmetrics.io/v3/public/
   /media/product-types:
     get:
-      operationId: MediaController_getProductTypes
+      operationId: getMediaProductTypes
       summary: Get a list of product types
       parameters: []
       responses:
@@ -109,11 +109,13 @@ paths:
                 $ref: '#/components/schemas/ErrorResponseDto'
       tags:
       - Media
+      x-operation-id-source: normalized
+      x-operation-id-original: MediaController_getProductTypes
     servers:
     - url: https://dashboard.streetmetrics.io/v3/public/
   /media:
     get:
-      operationId: MediaController_getMedia
+      operationId: getMedia
       summary: Get a list of media
       parameters:
       - name: include
@@ -147,6 +149,8 @@ paths:
                 $ref: '#/components/schemas/ErrorResponseDto'
       tags:
       - Media
+      x-operation-id-source: normalized
+      x-operation-id-original: MediaController_getMedia
     servers:
     - url: https://dashboard.streetmetrics.io/v3/public/
 components:

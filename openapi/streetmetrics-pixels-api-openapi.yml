@@ -281,7 +281,7 @@ paths:
     - url: https://dashboard.streetmetrics.io/v3/public/
   /pixels:
     post:
-      operationId: PixelController_createPixel
+      operationId: postPixels
       summary: Create a new pixel
       parameters: []
       requestBody:
@@ -303,8 +303,10 @@ paths:
           description: Unauthorized
       tags:
       - Pixels
+      x-operation-id-source: normalized
+      x-operation-id-original: PixelController_createPixel
     get:
-      operationId: PixelController_getPixels
+      operationId: getPixels
       summary: Get a list of pixels
       parameters:
       - name: limit
@@ -362,11 +364,13 @@ paths:
           description: Unauthorized
       tags:
       - Pixels
+      x-operation-id-source: normalized
+      x-operation-id-original: PixelController_getPixels
     servers:
     - url: https://dashboard.streetmetrics.io/v3/public/
   /pixels/{pixelId}:
     get:
-      operationId: PixelController_getPixel
+      operationId: getPixelsByPixelId
       summary: Get a single pixel
       parameters:
       - name: pixelId
@@ -429,8 +433,10 @@ paths:
           description: Unauthorized
       tags:
       - Pixels
+      x-operation-id-source: normalized
+      x-operation-id-original: PixelController_getPixel
     patch:
-      operationId: PixelController_updatePixel
+      operationId: patchPixelsByPixelId
       summary: Update a pixel
       parameters:
       - name: pixelId
@@ -453,11 +459,13 @@ paths:
           description: Unauthorized
       tags:
       - Pixels
+      x-operation-id-source: normalized
+      x-operation-id-original: PixelController_updatePixel
     servers:
     - url: https://dashboard.streetmetrics.io/v3/public/
   /pixels/{pixelId}/campaign:
     patch:
-      operationId: PixelController_attachCampaignToPixel
+      operationId: patchPixelsByPixelIdCampaign
       summary: Attach a campaign to a pixel
       parameters:
       - name: pixelId
@@ -480,8 +488,10 @@ paths:
           description: Unauthorized
       tags:
       - Pixels
+      x-operation-id-source: normalized
+      x-operation-id-original: PixelController_attachCampaignToPixel
     delete:
-      operationId: PixelController_detachCampaignFromPixel
+      operationId: deletePixelsByPixelIdCampaign
       summary: Detach a campaign from a pixel
       parameters:
       - name: pixelId
@@ -498,11 +508,13 @@ paths:
           description: Unauthorized
       tags:
       - Pixels
+      x-operation-id-source: normalized
+      x-operation-id-original: PixelController_detachCampaignFromPixel
     servers:
     - url: https://dashboard.streetmetrics.io/v3/public/
   /pixels/{pixelId}/attribution-study:
     patch:
-      operationId: PixelController_attachAttributionStudyToPixel
+      operationId: patchPixelsByPixelIdAttributionStudy
       summary: Attach an attribution study to a pixel
       parameters:
       - name: pixelId
@@ -525,8 +537,10 @@ paths:
           description: Unauthorized
       tags:
       - Pixels
+      x-operation-id-source: normalized
+      x-operation-id-original: PixelController_attachAttributionStudyToPixel
     delete:
-      operationId: PixelController_detachAttributionStudyFromPixel
+      operationId: deletePixelsByPixelIdAttributionStudy
       summary: Detach an attribution study from a pixel
       parameters:
       - name: pixelId
@@ -543,10 +557,19 @@ paths:
           description: Unauthorized
       tags:
       - Pixels
+      x-operation-id-source: normalized
+      x-operation-id-original: PixelController_detachAttributionStudyFromPixel
     servers:
     - url: https://dashboard.streetmetrics.io/v3/public/
 components:
   schemas:
+    AttachCampaignToPixelDto:
+      type: object
+      properties:
+        campaignId:
+          type: number
+      required:
+      - campaignId
     CreatePixelDto:
       type: object
       properties:
@@ -582,35 +605,6 @@ components:
       - displayName
       - page
       - funnelStage
-    UpdatePixelDto:
-      type: object
-      properties:
-        displayName:
-          type: string
-        page:
-          enum:
-          - Checkout Page
-          - Contact Us Page
-          - Directory Page
-          - Education Page
-          - Homepage
-          - Landing Page
-          - Location Page
-          - Product Page
-          type: string
-          description: 'Page must be a valid page type. Possible values: Checkout Page, Contact Us Page, Directory Page, Education Page, Homepage, Landing Page, Location Page, Product Page'
-        funnelStage:
-          enum:
-          - Visit Page
-          - Consideration Page
-          - Conversion Page
-          type: string
-          description: 'Funnel stage must be a valid funnel stage. Possible values: Visit Page, Consideration Page, Conversion Page'
-        url:
-          type: string
-          format: uri
-        notes:
-          type: string
     GetPixelsResponseDto:
       type: object
       properties:
@@ -618,21 +612,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ClientPixelEntity'
-        message:
-          type: string
-        meta:
-          type: object
-          properties: {}
-          required: []
-      required:
-      - data
-      - message
-      - meta
-    CreatePixelResponse:
-      type: object
-      properties:
-        data:
-          type: number
         message:
           type: string
         meta:
@@ -664,13 +643,50 @@ components:
       - campaign
       - campaignId
       - metaData
-    AttachCampaignToPixelDto:
+    CreatePixelResponse:
       type: object
       properties:
-        campaignId:
+        data:
           type: number
+        message:
+          type: string
+        meta:
+          type: object
+          properties: {}
+          required: []
       required:
-      - campaignId
+      - data
+      - message
+      - meta
+    UpdatePixelDto:
+      type: object
+      properties:
+        displayName:
+          type: string
+        page:
+          enum:
+          - Checkout Page
+          - Contact Us Page
+          - Directory Page
+          - Education Page
+          - Homepage
+          - Landing Page
+          - Location Page
+          - Product Page
+          type: string
+          description: 'Page must be a valid page type. Possible values: Checkout Page, Contact Us Page, Directory Page, Education Page, Homepage, Landing Page, Location Page, Product Page'
+        funnelStage:
+          enum:
+          - Visit Page
+          - Consideration Page
+          - Conversion Page
+          type: string
+          description: 'Funnel stage must be a valid funnel stage. Possible values: Visit Page, Consideration Page, Conversion Page'
+        url:
+          type: string
+          format: uri
+        notes:
+          type: string
     GetPixelResponseDto:
       type: object
       properties:
@@ -727,34 +743,6 @@ components:
       - displayName
       - page
       - funnelStage
-    UpdatePixelDto_2:
-      type: object
-      properties:
-        displayName:
-          type: string
-        page:
-          enum:
-          - Checkout Page
-          - Contact Us Page
-          - Directory Page
-          - Education Page
-          - Homepage
-          - Landing Page
-          - Location Page
-          - Product Page
-          type: string
-          description: 'Page must be a valid page type. Possible values: Checkout Page, Contact Us Page, Directory Page, Education Page, Homepage, Landing Page, Location Page, Product Page'
-        funnelStage:
-          enum:
-          - Visit Page
-          - Consideration Page
-          - Conversion Page
-          type: string
-          description: 'Funnel stage must be a valid funnel stage. Possible values: Visit Page, Consideration Page, Conversion Page'
-        url:
-          type: string
-        notes:
-          type: string
     GetPixelsResponseDto_2:
       type: object
       properties:
@@ -762,20 +750,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ClientPixelEntity_2'
-        message:
-          type: string
-        meta:
-          type: object
-          properties: {}
-      required:
-      - data
-      - message
-      - meta
-    CreatePixelResponse_2:
-      type: object
-      properties:
-        data:
-          type: number
         message:
           type: string
         meta:
@@ -804,6 +778,48 @@ components:
       - campaign
       - campaignId
       - metaData
+    CreatePixelResponse_2:
+      type: object
+      properties:
+        data:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+          properties: {}
+      required:
+      - data
+      - message
+      - meta
+    UpdatePixelDto_2:
+      type: object
+      properties:
+        displayName:
+          type: string
+        page:
+          enum:
+          - Checkout Page
+          - Contact Us Page
+          - Directory Page
+          - Education Page
+          - Homepage
+          - Landing Page
+          - Location Page
+          - Product Page
+          type: string
+          description: 'Page must be a valid page type. Possible values: Checkout Page, Contact Us Page, Directory Page, Education Page, Homepage, Landing Page, Location Page, Product Page'
+        funnelStage:
+          enum:
+          - Visit Page
+          - Consideration Page
+          - Conversion Page
+          type: string
+          description: 'Funnel stage must be a valid funnel stage. Possible values: Visit Page, Consideration Page, Conversion Page'
+        url:
+          type: string
+        notes:
+          type: string
     GetPixelResponseDto_2:
       type: object
       properties:

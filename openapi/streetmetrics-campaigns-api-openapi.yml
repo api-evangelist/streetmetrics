@@ -243,7 +243,7 @@ paths:
     - url: https://dashboard.streetmetrics.io/v3/public/
   /campaigns/{id}:
     get:
-      operationId: CampaignController_getCampaign
+      operationId: getCampaignsById
       summary: Get a specific campaign by ID
       parameters:
       - name: id
@@ -288,8 +288,10 @@ paths:
                 $ref: '#/components/schemas/ErrorResponseDto'
       tags:
       - Campaigns
+      x-operation-id-source: normalized
+      x-operation-id-original: CampaignController_getCampaign
     patch:
-      operationId: CampaignController_patchUpdateCampaign
+      operationId: patchCampaignsById
       summary: Update a campaign
       parameters:
       - name: id
@@ -320,8 +322,10 @@ paths:
                 $ref: '#/components/schemas/ErrorResponseDto'
       tags:
       - Campaigns
+      x-operation-id-source: normalized
+      x-operation-id-original: CampaignController_patchUpdateCampaign
     delete:
-      operationId: CampaignController_deleteCampaign
+      operationId: deleteCampaignsById
       summary: Delete a campaign
       parameters:
       - name: id
@@ -353,11 +357,13 @@ paths:
                 $ref: '#/components/schemas/ErrorResponseDto'
       tags:
       - Campaigns
+      x-operation-id-source: normalized
+      x-operation-id-original: CampaignController_deleteCampaign
     servers:
     - url: https://dashboard.streetmetrics.io/v3/public/
   /campaigns:
     get:
-      operationId: CampaignController_getCampaigns
+      operationId: getCampaigns
       summary: Get a list of campaigns
       parameters:
       - name: limit
@@ -428,8 +434,10 @@ paths:
                 $ref: '#/components/schemas/ErrorResponseDto'
       tags:
       - Campaigns
+      x-operation-id-source: normalized
+      x-operation-id-original: CampaignController_getCampaigns
     post:
-      operationId: CampaignController_createCampaign
+      operationId: postCampaigns
       summary: Create a new campaign
       parameters: []
       requestBody:
@@ -463,67 +471,52 @@ paths:
                 $ref: '#/components/schemas/ErrorResponseDto'
       tags:
       - Campaigns
+      x-operation-id-source: normalized
+      x-operation-id-original: CampaignController_createCampaign
     servers:
     - url: https://dashboard.streetmetrics.io/v3/public/
 components:
   schemas:
-    ClientCampaignEntityResponseDto:
+    ErrorResponseDto:
       type: object
       properties:
-        campaignId:
+        status:
+          type: string
+          description: Status of the response
+          example: error
+        statusCode:
           type: number
-          example: 1
-          description: The ID of the campaign
-        campaignRef:
+          description: HTTP status code
+          example: 400
+        errorCode:
           type: string
-          example: CMP12345
-          description: The reference code of the campaign
-        contractId:
+          description: Custom error code
+          example: ERR001
+        message:
           type: string
-          example: CON12345
-          description: The reference code of the contract
-        industry:
+          description: Error message
+          example: Invalid input data
+        details:
+          type:
+          - object
+          - 'null'
+          description: Additional details about the error
+        timestamp:
           type: string
-          example: Automotive
-          description: The industry of the campaign
-        activeFrom:
-          type: number
-          example: 1625097600
-          description: The start date of the campaign
-        activeTo:
-          type: number
-          example: 1625097600
-          description: The end date of the campaign
-        metaData:
-          type: object
-          example:
-            advertiser: StreetMetrics
-          description: The metadata of the campaign
-        createdAt:
-          format: date-time
+          description: Timestamp of the error
+          example: '2024-08-26T14:56:29.000Z'
+        path:
           type: string
-          example: '2023-07-29T12:34:56Z'
-          description: The date and time the campaign was created
-        updatedAt:
-          format: date-time
-          type: string
-          example: '2023-08-01T15:22:11Z'
-          description: The date and time the campaign was last updated
-        adGroups:
-          description: The ad groups of the campaign
-          type: array
-          items:
-            type: object
+          description: Request path where the error occurred
+          example: /api/v1/resource
       required:
-      - campaignId
-      - campaignRef
-      - contractId
-      - industry
-      - activeFrom
-      - activeTo
-      - metaData
-      - createdAt
-      - updatedAt
+      - status
+      - statusCode
+      - errorCode
+      - message
+      - details
+      - timestamp
+      - path
     CreateCampaignResponse:
       type: object
       properties:
@@ -540,7 +533,7 @@ components:
       - statusCode
       - meta
       - data
-    GetCampaignResponseDto:
+    GetCampaignsResponseDto:
       type: object
       properties:
         statusCode:
@@ -550,7 +543,9 @@ components:
         meta:
           type: object
         data:
-          $ref: '#/components/schemas/ClientCampaignEntityResponseDto'
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientCampaignEntityResponseDto'
       required:
       - statusCode
       - meta
@@ -640,7 +635,7 @@ components:
       - campaignRef
       - advertiser
       - marketId
-    GetCampaignsResponseDto:
+    GetCampaignResponseDto:
       type: object
       properties:
         statusCode:
@@ -650,53 +645,68 @@ components:
         meta:
           type: object
         data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientCampaignEntityResponseDto'
+          $ref: '#/components/schemas/ClientCampaignEntityResponseDto'
       required:
       - statusCode
       - meta
       - data
-    ErrorResponseDto:
+    ClientCampaignEntityResponseDto:
       type: object
       properties:
-        status:
-          type: string
-          description: Status of the response
-          example: error
-        statusCode:
+        campaignId:
           type: number
-          description: HTTP status code
-          example: 400
-        errorCode:
+          example: 1
+          description: The ID of the campaign
+        campaignRef:
           type: string
-          description: Custom error code
-          example: ERR001
-        message:
+          example: CMP12345
+          description: The reference code of the campaign
+        contractId:
           type: string
-          description: Error message
-          example: Invalid input data
-        details:
-          type:
-          - object
-          - 'null'
-          description: Additional details about the error
-        timestamp:
+          example: CON12345
+          description: The reference code of the contract
+        industry:
           type: string
-          description: Timestamp of the error
-          example: '2024-08-26T14:56:29.000Z'
-        path:
+          example: Automotive
+          description: The industry of the campaign
+        activeFrom:
+          type: number
+          example: 1625097600
+          description: The start date of the campaign
+        activeTo:
+          type: number
+          example: 1625097600
+          description: The end date of the campaign
+        metaData:
+          type: object
+          example:
+            advertiser: StreetMetrics
+          description: The metadata of the campaign
+        createdAt:
+          format: date-time
           type: string
-          description: Request path where the error occurred
-          example: /api/v1/resource
+          example: '2023-07-29T12:34:56Z'
+          description: The date and time the campaign was created
+        updatedAt:
+          format: date-time
+          type: string
+          example: '2023-08-01T15:22:11Z'
+          description: The date and time the campaign was last updated
+        adGroups:
+          description: The ad groups of the campaign
+          type: array
+          items:
+            type: object
       required:
-      - status
-      - statusCode
-      - errorCode
-      - message
-      - details
-      - timestamp
-      - path
+      - campaignId
+      - campaignRef
+      - contractId
+      - industry
+      - activeFrom
+      - activeTo
+      - metaData
+      - createdAt
+      - updatedAt
     CreateCampaignDto_2:
       type: object
       properties:
