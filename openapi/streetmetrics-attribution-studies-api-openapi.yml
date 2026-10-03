@@ -988,6 +988,76 @@ paths:
     - url: https://dashboard.streetmetrics.io/v3/public/
 components:
   schemas:
+    GetConversionsByUnitResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          description: Conversions grouped by unit
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientAttributionConversionsByUnitResponseDto'
+      required:
+      - statusCode
+      - meta
+      - data
+    ClientAttributionConversionsByDateResponseDto:
+      type: object
+      properties:
+        summaryBinGrouping:
+          type:
+          - string
+          - 'null'
+          example: '2025-05-19 00:00:00.000'
+          description: Summary bin grouping value (only present when summaryBin parameter is specified)
+        observedConversionsGross:
+          type:
+          - number
+          - 'null'
+          example: 2033
+          description: Observed conversions gross
+        observedConversionsEffective:
+          type:
+          - number
+          - 'null'
+          example: 482
+          description: Observed conversions effective
+        observedConversionsViewable:
+          type:
+          - number
+          - 'null'
+          example: 1238
+          description: Observed conversions viewable
+        upsampledConversionsGross:
+          type:
+          - number
+          - 'null'
+          example: 14377
+          description: Upsampled conversions gross
+        upsampledConversionsEffective:
+          type:
+          - number
+          - 'null'
+          example: 3507
+          description: Upsampled conversions effective
+        upsampledConversionsViewable:
+          type:
+          - number
+          - 'null'
+          example: 8897
+          description: Upsampled conversions viewable
+      required:
+      - observedConversionsGross
+      - observedConversionsEffective
+      - observedConversionsViewable
+      - upsampledConversionsGross
+      - upsampledConversionsEffective
+      - upsampledConversionsViewable
     ErrorResponseDto:
       type: object
       properties:
@@ -1028,6 +1098,24 @@ components:
       - details
       - timestamp
       - path
+    GetConversionsByAdGroupResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          description: Conversions grouped by ad group
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientAttributionConversionsByAdGroupResponseDto'
+      required:
+      - statusCode
+      - meta
+      - data
     ClientAttributionConversionsByAdGroupResponseDto:
       type: object
       properties:
@@ -1079,109 +1167,6 @@ components:
           description: Upsampled conversions viewable
       required:
       - adGroupRef
-      - observedConversionsGross
-      - observedConversionsEffective
-      - observedConversionsViewable
-      - upsampledConversionsGross
-      - upsampledConversionsEffective
-      - upsampledConversionsViewable
-    GetConversionsByUnitResponseDto:
-      type: object
-      properties:
-        statusCode:
-          type: number
-        message:
-          type: string
-        meta:
-          type: object
-        data:
-          description: Conversions grouped by unit
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientAttributionConversionsByUnitResponseDto'
-      required:
-      - statusCode
-      - meta
-      - data
-    GetConversionsByDateResponseDto:
-      type: object
-      properties:
-        statusCode:
-          type: number
-        message:
-          type: string
-        meta:
-          type: object
-        data:
-          description: Conversions grouped by date
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientAttributionConversionsByDateResponseDto'
-      required:
-      - statusCode
-      - meta
-      - data
-    ClientAttributionConversionsByUnitResponseDto:
-      type: object
-      properties:
-        id:
-          type: number
-          example: 1
-          description: The ID of the unit
-        ref:
-          type: string
-          example: ADG12345
-          description: The unit ref
-        type:
-          type: string
-          example: ASSET
-          description: ASSET or FRAME
-        summaryBinGrouping:
-          type:
-          - string
-          - 'null'
-          example: '2025-05-19 00:00:00.000'
-          description: Summary bin grouping value (only present when summaryBin parameter is specified)
-        observedConversionsGross:
-          type:
-          - number
-          - 'null'
-          example: 2033
-          description: Observed conversions gross
-        observedConversionsEffective:
-          type:
-          - number
-          - 'null'
-          example: 482
-          description: Observed conversions effective
-        observedConversionsViewable:
-          type:
-          - number
-          - 'null'
-          example: 1238
-          description: Observed conversions viewable
-        upsampledConversionsGross:
-          type:
-          - number
-          - 'null'
-          example: 14377
-          description: Upsampled conversions gross
-        upsampledConversionsEffective:
-          type:
-          - number
-          - 'null'
-          example: 3507
-          description: Upsampled conversions effective
-        upsampledConversionsViewable:
-          type:
-          - number
-          - 'null'
-          example: 8897
-          description: Upsampled conversions viewable
-      required:
-      - id
-      - ref
-      - type
       - observedConversionsGross
       - observedConversionsEffective
       - observedConversionsViewable
@@ -1247,6 +1232,24 @@ components:
       - updatedAt
       - analysisType
       - campaigns
+    GetConversionsByDateResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          description: Conversions grouped by date
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientAttributionConversionsByDateResponseDto'
+      required:
+      - statusCode
+      - meta
+      - data
     CreateAttributionStudyDto:
       type: object
       properties:
@@ -1345,27 +1348,21 @@ components:
       - brandFocused
       - adsAligned
       - mediaMix
-    GetConversionsByAdGroupResponseDto:
+    ClientAttributionConversionsByUnitResponseDto:
       type: object
       properties:
-        statusCode:
+        id:
           type: number
-        message:
+          example: 1
+          description: The ID of the unit
+        ref:
           type: string
-        meta:
-          type: object
-        data:
-          description: Conversions grouped by ad group
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientAttributionConversionsByAdGroupResponseDto'
-      required:
-      - statusCode
-      - meta
-      - data
-    ClientAttributionConversionsByDateResponseDto:
-      type: object
-      properties:
+          example: ADG12345
+          description: The unit ref
+        type:
+          type: string
+          example: ASSET
+          description: ASSET or FRAME
         summaryBinGrouping:
           type:
           - string
@@ -1409,6 +1406,9 @@ components:
           example: 8897
           description: Upsampled conversions viewable
       required:
+      - id
+      - ref
+      - type
       - observedConversionsGross
       - observedConversionsEffective
       - observedConversionsViewable

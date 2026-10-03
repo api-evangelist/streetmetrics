@@ -477,6 +477,21 @@ paths:
     - url: https://dashboard.streetmetrics.io/v3/public/
 components:
   schemas:
+    GetCampaignResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          $ref: '#/components/schemas/ClientCampaignEntityResponseDto'
+      required:
+      - statusCode
+      - meta
+      - data
     ErrorResponseDto:
       type: object
       properties:
@@ -517,22 +532,6 @@ components:
       - details
       - timestamp
       - path
-    CreateCampaignResponse:
-      type: object
-      properties:
-        statusCode:
-          type: number
-        message:
-          type: string
-        meta:
-          type: object
-        data:
-          type: number
-          description: The ID of the created campaign
-      required:
-      - statusCode
-      - meta
-      - data
     GetCampaignsResponseDto:
       type: object
       properties:
@@ -550,6 +549,79 @@ components:
       - statusCode
       - meta
       - data
+    CreateCampaignResponse:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          type: number
+          description: The ID of the created campaign
+      required:
+      - statusCode
+      - meta
+      - data
+    ClientCampaignEntityResponseDto:
+      type: object
+      properties:
+        campaignId:
+          type: number
+          example: 1
+          description: The ID of the campaign
+        campaignRef:
+          type: string
+          example: CMP12345
+          description: The reference code of the campaign
+        contractId:
+          type: string
+          example: CON12345
+          description: The reference code of the contract
+        industry:
+          type: string
+          example: Automotive
+          description: The industry of the campaign
+        activeFrom:
+          type: number
+          example: 1625097600
+          description: The start date of the campaign
+        activeTo:
+          type: number
+          example: 1625097600
+          description: The end date of the campaign
+        metaData:
+          type: object
+          example:
+            advertiser: StreetMetrics
+          description: The metadata of the campaign
+        createdAt:
+          format: date-time
+          type: string
+          example: '2023-07-29T12:34:56Z'
+          description: The date and time the campaign was created
+        updatedAt:
+          format: date-time
+          type: string
+          example: '2023-08-01T15:22:11Z'
+          description: The date and time the campaign was last updated
+        adGroups:
+          description: The ad groups of the campaign
+          type: array
+          items:
+            type: object
+      required:
+      - campaignId
+      - campaignRef
+      - contractId
+      - industry
+      - activeFrom
+      - activeTo
+      - metaData
+      - createdAt
+      - updatedAt
     CreateCampaignDto:
       type: object
       properties:
@@ -635,78 +707,6 @@ components:
       - campaignRef
       - advertiser
       - marketId
-    GetCampaignResponseDto:
-      type: object
-      properties:
-        statusCode:
-          type: number
-        message:
-          type: string
-        meta:
-          type: object
-        data:
-          $ref: '#/components/schemas/ClientCampaignEntityResponseDto'
-      required:
-      - statusCode
-      - meta
-      - data
-    ClientCampaignEntityResponseDto:
-      type: object
-      properties:
-        campaignId:
-          type: number
-          example: 1
-          description: The ID of the campaign
-        campaignRef:
-          type: string
-          example: CMP12345
-          description: The reference code of the campaign
-        contractId:
-          type: string
-          example: CON12345
-          description: The reference code of the contract
-        industry:
-          type: string
-          example: Automotive
-          description: The industry of the campaign
-        activeFrom:
-          type: number
-          example: 1625097600
-          description: The start date of the campaign
-        activeTo:
-          type: number
-          example: 1625097600
-          description: The end date of the campaign
-        metaData:
-          type: object
-          example:
-            advertiser: StreetMetrics
-          description: The metadata of the campaign
-        createdAt:
-          format: date-time
-          type: string
-          example: '2023-07-29T12:34:56Z'
-          description: The date and time the campaign was created
-        updatedAt:
-          format: date-time
-          type: string
-          example: '2023-08-01T15:22:11Z'
-          description: The date and time the campaign was last updated
-        adGroups:
-          description: The ad groups of the campaign
-          type: array
-          items:
-            type: object
-      required:
-      - campaignId
-      - campaignRef
-      - contractId
-      - industry
-      - activeFrom
-      - activeTo
-      - metaData
-      - createdAt
-      - updatedAt
     CreateCampaignDto_2:
       type: object
       properties:
