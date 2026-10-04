@@ -703,46 +703,6 @@ paths:
     - url: https://dashboard.streetmetrics.io/v3/public/
 components:
   schemas:
-    ErrorResponseDto:
-      type: object
-      properties:
-        status:
-          type: string
-          description: Status of the response
-          example: error
-        statusCode:
-          type: number
-          description: HTTP status code
-          example: 400
-        errorCode:
-          type: string
-          description: Custom error code
-          example: ERR001
-        message:
-          type: string
-          description: Error message
-          example: Invalid input data
-        details:
-          type:
-          - object
-          - 'null'
-          description: Additional details about the error
-        timestamp:
-          type: string
-          description: Timestamp of the error
-          example: '2024-08-26T14:56:29.000Z'
-        path:
-          type: string
-          description: Request path where the error occurred
-          example: /api/v1/resource
-      required:
-      - status
-      - statusCode
-      - errorCode
-      - message
-      - details
-      - timestamp
-      - path
     AssetPatchUpdateDto:
       type: object
       properties:
@@ -786,6 +746,46 @@ components:
           - RETIRED
           type: string
           description: The status of the asset.
+    ErrorResponseDto:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status of the response
+          example: error
+        statusCode:
+          type: number
+          description: HTTP status code
+          example: 400
+        errorCode:
+          type: string
+          description: Custom error code
+          example: ERR001
+        message:
+          type: string
+          description: Error message
+          example: Invalid input data
+        details:
+          type:
+          - object
+          - 'null'
+          description: Additional details about the error
+        timestamp:
+          type: string
+          description: Timestamp of the error
+          example: '2024-08-26T14:56:29.000Z'
+        path:
+          type: string
+          description: Request path where the error occurred
+          example: /api/v1/resource
+      required:
+      - status
+      - statusCode
+      - errorCode
+      - message
+      - details
+      - timestamp
+      - path
   securitySchemes:
     bearer:
       scheme: bearer

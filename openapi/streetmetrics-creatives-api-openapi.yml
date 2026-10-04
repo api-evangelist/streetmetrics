@@ -283,6 +283,24 @@ paths:
     - url: https://dashboard.streetmetrics.io/v3/public/
 components:
   schemas:
+    GetCreativesResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          description: Array of creative objects
+          type: array
+          items:
+            $ref: '#/components/schemas/CreativeResponseDto'
+      required:
+      - statusCode
+      - meta
+      - data
     ErrorResponseDto:
       type: object
       properties:
@@ -323,6 +341,23 @@ components:
       - details
       - timestamp
       - path
+    GetCreativeByIdResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          description: Creative object
+          allOf:
+          - $ref: '#/components/schemas/CreativeResponseDto'
+      required:
+      - statusCode
+      - meta
+      - data
     CreativeResponseDto:
       type: object
       properties:
@@ -342,41 +377,6 @@ components:
       - creativeId
       - creativeRef
       - displayName
-    GetCreativesResponseDto:
-      type: object
-      properties:
-        statusCode:
-          type: number
-        message:
-          type: string
-        meta:
-          type: object
-        data:
-          description: Array of creative objects
-          type: array
-          items:
-            $ref: '#/components/schemas/CreativeResponseDto'
-      required:
-      - statusCode
-      - meta
-      - data
-    GetCreativeByIdResponseDto:
-      type: object
-      properties:
-        statusCode:
-          type: number
-        message:
-          type: string
-        meta:
-          type: object
-        data:
-          description: Creative object
-          allOf:
-          - $ref: '#/components/schemas/CreativeResponseDto'
-      required:
-      - statusCode
-      - meta
-      - data
   securitySchemes:
     bearer:
       scheme: bearer

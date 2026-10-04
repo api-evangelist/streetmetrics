@@ -988,191 +988,6 @@ paths:
     - url: https://dashboard.streetmetrics.io/v3/public/
 components:
   schemas:
-    GetConversionsByUnitResponseDto:
-      type: object
-      properties:
-        statusCode:
-          type: number
-        message:
-          type: string
-        meta:
-          type: object
-        data:
-          description: Conversions grouped by unit
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientAttributionConversionsByUnitResponseDto'
-      required:
-      - statusCode
-      - meta
-      - data
-    ClientAttributionConversionsByDateResponseDto:
-      type: object
-      properties:
-        summaryBinGrouping:
-          type:
-          - string
-          - 'null'
-          example: '2025-05-19 00:00:00.000'
-          description: Summary bin grouping value (only present when summaryBin parameter is specified)
-        observedConversionsGross:
-          type:
-          - number
-          - 'null'
-          example: 2033
-          description: Observed conversions gross
-        observedConversionsEffective:
-          type:
-          - number
-          - 'null'
-          example: 482
-          description: Observed conversions effective
-        observedConversionsViewable:
-          type:
-          - number
-          - 'null'
-          example: 1238
-          description: Observed conversions viewable
-        upsampledConversionsGross:
-          type:
-          - number
-          - 'null'
-          example: 14377
-          description: Upsampled conversions gross
-        upsampledConversionsEffective:
-          type:
-          - number
-          - 'null'
-          example: 3507
-          description: Upsampled conversions effective
-        upsampledConversionsViewable:
-          type:
-          - number
-          - 'null'
-          example: 8897
-          description: Upsampled conversions viewable
-      required:
-      - observedConversionsGross
-      - observedConversionsEffective
-      - observedConversionsViewable
-      - upsampledConversionsGross
-      - upsampledConversionsEffective
-      - upsampledConversionsViewable
-    ErrorResponseDto:
-      type: object
-      properties:
-        status:
-          type: string
-          description: Status of the response
-          example: error
-        statusCode:
-          type: number
-          description: HTTP status code
-          example: 400
-        errorCode:
-          type: string
-          description: Custom error code
-          example: ERR001
-        message:
-          type: string
-          description: Error message
-          example: Invalid input data
-        details:
-          type:
-          - object
-          - 'null'
-          description: Additional details about the error
-        timestamp:
-          type: string
-          description: Timestamp of the error
-          example: '2024-08-26T14:56:29.000Z'
-        path:
-          type: string
-          description: Request path where the error occurred
-          example: /api/v1/resource
-      required:
-      - status
-      - statusCode
-      - errorCode
-      - message
-      - details
-      - timestamp
-      - path
-    GetConversionsByAdGroupResponseDto:
-      type: object
-      properties:
-        statusCode:
-          type: number
-        message:
-          type: string
-        meta:
-          type: object
-        data:
-          description: Conversions grouped by ad group
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientAttributionConversionsByAdGroupResponseDto'
-      required:
-      - statusCode
-      - meta
-      - data
-    ClientAttributionConversionsByAdGroupResponseDto:
-      type: object
-      properties:
-        adGroupRef:
-          type: string
-          example: Summer2025AdGroupRef
-          description: The ad group ref
-        summaryBinGrouping:
-          type:
-          - string
-          - 'null'
-          example: '2025-05-19 00:00:00.000'
-          description: Summary bin grouping value (only present when summaryBin parameter is specified)
-        observedConversionsGross:
-          type:
-          - number
-          - 'null'
-          example: 2033
-          description: Observed conversions gross
-        observedConversionsEffective:
-          type:
-          - number
-          - 'null'
-          example: 482
-          description: Observed conversions effective
-        observedConversionsViewable:
-          type:
-          - number
-          - 'null'
-          example: 1238
-          description: Observed conversions viewable
-        upsampledConversionsGross:
-          type:
-          - number
-          - 'null'
-          example: 14377
-          description: Upsampled conversions gross
-        upsampledConversionsEffective:
-          type:
-          - number
-          - 'null'
-          example: 3507
-          description: Upsampled conversions effective
-        upsampledConversionsViewable:
-          type:
-          - number
-          - 'null'
-          example: 8897
-          description: Upsampled conversions viewable
-      required:
-      - adGroupRef
-      - observedConversionsGross
-      - observedConversionsEffective
-      - observedConversionsViewable
-      - upsampledConversionsGross
-      - upsampledConversionsEffective
-      - upsampledConversionsViewable
     ClientAttributionStudyEntityDto:
       type: object
       properties:
@@ -1232,24 +1047,6 @@ components:
       - updatedAt
       - analysisType
       - campaigns
-    GetConversionsByDateResponseDto:
-      type: object
-      properties:
-        statusCode:
-          type: number
-        message:
-          type: string
-        meta:
-          type: object
-        data:
-          description: Conversions grouped by date
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientAttributionConversionsByDateResponseDto'
-      required:
-      - statusCode
-      - meta
-      - data
     CreateAttributionStudyDto:
       type: object
       properties:
@@ -1348,6 +1145,173 @@ components:
       - brandFocused
       - adsAligned
       - mediaMix
+    ClientAttributionConversionsByAdGroupResponseDto:
+      type: object
+      properties:
+        adGroupRef:
+          type: string
+          example: Summer2025AdGroupRef
+          description: The ad group ref
+        summaryBinGrouping:
+          type:
+          - string
+          - 'null'
+          example: '2025-05-19 00:00:00.000'
+          description: Summary bin grouping value (only present when summaryBin parameter is specified)
+        observedConversionsGross:
+          type:
+          - number
+          - 'null'
+          example: 2033
+          description: Observed conversions gross
+        observedConversionsEffective:
+          type:
+          - number
+          - 'null'
+          example: 482
+          description: Observed conversions effective
+        observedConversionsViewable:
+          type:
+          - number
+          - 'null'
+          example: 1238
+          description: Observed conversions viewable
+        upsampledConversionsGross:
+          type:
+          - number
+          - 'null'
+          example: 14377
+          description: Upsampled conversions gross
+        upsampledConversionsEffective:
+          type:
+          - number
+          - 'null'
+          example: 3507
+          description: Upsampled conversions effective
+        upsampledConversionsViewable:
+          type:
+          - number
+          - 'null'
+          example: 8897
+          description: Upsampled conversions viewable
+      required:
+      - adGroupRef
+      - observedConversionsGross
+      - observedConversionsEffective
+      - observedConversionsViewable
+      - upsampledConversionsGross
+      - upsampledConversionsEffective
+      - upsampledConversionsViewable
+    ClientAttributionConversionsByDateResponseDto:
+      type: object
+      properties:
+        summaryBinGrouping:
+          type:
+          - string
+          - 'null'
+          example: '2025-05-19 00:00:00.000'
+          description: Summary bin grouping value (only present when summaryBin parameter is specified)
+        observedConversionsGross:
+          type:
+          - number
+          - 'null'
+          example: 2033
+          description: Observed conversions gross
+        observedConversionsEffective:
+          type:
+          - number
+          - 'null'
+          example: 482
+          description: Observed conversions effective
+        observedConversionsViewable:
+          type:
+          - number
+          - 'null'
+          example: 1238
+          description: Observed conversions viewable
+        upsampledConversionsGross:
+          type:
+          - number
+          - 'null'
+          example: 14377
+          description: Upsampled conversions gross
+        upsampledConversionsEffective:
+          type:
+          - number
+          - 'null'
+          example: 3507
+          description: Upsampled conversions effective
+        upsampledConversionsViewable:
+          type:
+          - number
+          - 'null'
+          example: 8897
+          description: Upsampled conversions viewable
+      required:
+      - observedConversionsGross
+      - observedConversionsEffective
+      - observedConversionsViewable
+      - upsampledConversionsGross
+      - upsampledConversionsEffective
+      - upsampledConversionsViewable
+    GetConversionsByDateResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          description: Conversions grouped by date
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientAttributionConversionsByDateResponseDto'
+      required:
+      - statusCode
+      - meta
+      - data
+    ErrorResponseDto:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status of the response
+          example: error
+        statusCode:
+          type: number
+          description: HTTP status code
+          example: 400
+        errorCode:
+          type: string
+          description: Custom error code
+          example: ERR001
+        message:
+          type: string
+          description: Error message
+          example: Invalid input data
+        details:
+          type:
+          - object
+          - 'null'
+          description: Additional details about the error
+        timestamp:
+          type: string
+          description: Timestamp of the error
+          example: '2024-08-26T14:56:29.000Z'
+        path:
+          type: string
+          description: Request path where the error occurred
+          example: /api/v1/resource
+      required:
+      - status
+      - statusCode
+      - errorCode
+      - message
+      - details
+      - timestamp
+      - path
     ClientAttributionConversionsByUnitResponseDto:
       type: object
       properties:
@@ -1415,6 +1379,42 @@ components:
       - upsampledConversionsGross
       - upsampledConversionsEffective
       - upsampledConversionsViewable
+    GetConversionsByAdGroupResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          description: Conversions grouped by ad group
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientAttributionConversionsByAdGroupResponseDto'
+      required:
+      - statusCode
+      - meta
+      - data
+    GetConversionsByUnitResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          description: Conversions grouped by unit
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientAttributionConversionsByUnitResponseDto'
+      required:
+      - statusCode
+      - meta
+      - data
     CreateAttributionStudyDto_2:
       type: object
       properties:

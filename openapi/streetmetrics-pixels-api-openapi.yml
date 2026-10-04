@@ -563,52 +563,6 @@ paths:
     - url: https://dashboard.streetmetrics.io/v3/public/
 components:
   schemas:
-    CreatePixelResponse:
-      type: object
-      properties:
-        data:
-          type: number
-        message:
-          type: string
-        meta:
-          type: object
-          properties: {}
-          required: []
-      required:
-      - data
-      - message
-      - meta
-    GetPixelsResponseDto:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientPixelEntity'
-        message:
-          type: string
-        meta:
-          type: object
-          properties: {}
-          required: []
-      required:
-      - data
-      - message
-      - meta
-    AttachAttributionStudyToPixelDto:
-      type: object
-      properties:
-        attributionId:
-          type: number
-      required:
-      - attributionId
-    AttachCampaignToPixelDto:
-      type: object
-      properties:
-        campaignId:
-          type: number
-      required:
-      - campaignId
     ClientPixelEntity:
       type: object
       properties:
@@ -665,6 +619,35 @@ components:
       - displayName
       - page
       - funnelStage
+    AttachAttributionStudyToPixelDto:
+      type: object
+      properties:
+        attributionId:
+          type: number
+      required:
+      - attributionId
+    AttachCampaignToPixelDto:
+      type: object
+      properties:
+        campaignId:
+          type: number
+      required:
+      - campaignId
+    CreatePixelResponse:
+      type: object
+      properties:
+        data:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+          properties: {}
+          required: []
+      required:
+      - data
+      - message
+      - meta
     UpdatePixelDto:
       type: object
       properties:
@@ -694,6 +677,23 @@ components:
           format: uri
         notes:
           type: string
+    GetPixelsResponseDto:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientPixelEntity'
+        message:
+          type: string
+        meta:
+          type: object
+          properties: {}
+          required: []
+      required:
+      - data
+      - message
+      - meta
     GetPixelResponseDto:
       type: object
       properties:
@@ -705,36 +705,6 @@ components:
           type: object
           properties: {}
           required: []
-      required:
-      - data
-      - message
-      - meta
-    CreatePixelResponse_2:
-      type: object
-      properties:
-        data:
-          type: number
-        message:
-          type: string
-        meta:
-          type: object
-          properties: {}
-      required:
-      - data
-      - message
-      - meta
-    GetPixelsResponseDto_2:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientPixelEntity_2'
-        message:
-          type: string
-        meta:
-          type: object
-          properties: {}
       required:
       - data
       - message
@@ -792,6 +762,20 @@ components:
       - displayName
       - page
       - funnelStage
+    CreatePixelResponse_2:
+      type: object
+      properties:
+        data:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+          properties: {}
+      required:
+      - data
+      - message
+      - meta
     UpdatePixelDto_2:
       type: object
       properties:
@@ -820,6 +804,22 @@ components:
           type: string
         notes:
           type: string
+    GetPixelsResponseDto_2:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientPixelEntity_2'
+        message:
+          type: string
+        meta:
+          type: object
+          properties: {}
+      required:
+      - data
+      - message
+      - meta
     GetPixelResponseDto_2:
       type: object
       properties:

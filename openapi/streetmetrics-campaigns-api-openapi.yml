@@ -477,94 +477,6 @@ paths:
     - url: https://dashboard.streetmetrics.io/v3/public/
 components:
   schemas:
-    GetCampaignResponseDto:
-      type: object
-      properties:
-        statusCode:
-          type: number
-        message:
-          type: string
-        meta:
-          type: object
-        data:
-          $ref: '#/components/schemas/ClientCampaignEntityResponseDto'
-      required:
-      - statusCode
-      - meta
-      - data
-    ErrorResponseDto:
-      type: object
-      properties:
-        status:
-          type: string
-          description: Status of the response
-          example: error
-        statusCode:
-          type: number
-          description: HTTP status code
-          example: 400
-        errorCode:
-          type: string
-          description: Custom error code
-          example: ERR001
-        message:
-          type: string
-          description: Error message
-          example: Invalid input data
-        details:
-          type:
-          - object
-          - 'null'
-          description: Additional details about the error
-        timestamp:
-          type: string
-          description: Timestamp of the error
-          example: '2024-08-26T14:56:29.000Z'
-        path:
-          type: string
-          description: Request path where the error occurred
-          example: /api/v1/resource
-      required:
-      - status
-      - statusCode
-      - errorCode
-      - message
-      - details
-      - timestamp
-      - path
-    GetCampaignsResponseDto:
-      type: object
-      properties:
-        statusCode:
-          type: number
-        message:
-          type: string
-        meta:
-          type: object
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientCampaignEntityResponseDto'
-      required:
-      - statusCode
-      - meta
-      - data
-    CreateCampaignResponse:
-      type: object
-      properties:
-        statusCode:
-          type: number
-        message:
-          type: string
-        meta:
-          type: object
-        data:
-          type: number
-          description: The ID of the created campaign
-      required:
-      - statusCode
-      - meta
-      - data
     ClientCampaignEntityResponseDto:
       type: object
       properties:
@@ -707,6 +619,94 @@ components:
       - campaignRef
       - advertiser
       - marketId
+    ErrorResponseDto:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status of the response
+          example: error
+        statusCode:
+          type: number
+          description: HTTP status code
+          example: 400
+        errorCode:
+          type: string
+          description: Custom error code
+          example: ERR001
+        message:
+          type: string
+          description: Error message
+          example: Invalid input data
+        details:
+          type:
+          - object
+          - 'null'
+          description: Additional details about the error
+        timestamp:
+          type: string
+          description: Timestamp of the error
+          example: '2024-08-26T14:56:29.000Z'
+        path:
+          type: string
+          description: Request path where the error occurred
+          example: /api/v1/resource
+      required:
+      - status
+      - statusCode
+      - errorCode
+      - message
+      - details
+      - timestamp
+      - path
+    CreateCampaignResponse:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          type: number
+          description: The ID of the created campaign
+      required:
+      - statusCode
+      - meta
+      - data
+    GetCampaignsResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientCampaignEntityResponseDto'
+      required:
+      - statusCode
+      - meta
+      - data
+    GetCampaignResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          $ref: '#/components/schemas/ClientCampaignEntityResponseDto'
+      required:
+      - statusCode
+      - meta
+      - data
     CreateCampaignDto_2:
       type: object
       properties:
