@@ -1,0 +1,46 @@
+slug: streetmetrics
+provider: StreetMetrics
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 3
+edges:
+- tag: Campaigns
+  spec_file: streetmetrics-campaigns-api-openapi.yml
+  capability_id: BC-400
+  capability_id_l1: BC-400
+  capability_name: Marketing Management
+  confidence: 0.75
+  evidence: POST /public/campaigns CampaignController_createCampaign Create a new campaign; GET /public/campaigns
+    CampaignController_getCampaigns Get a list of campaigns
+  reason: Advertising campaign lifecycle CRUD on an OOH media platform is clearly Marketing Management;
+    the evidence does not distinguish demand generation from marketing operations, so no L2.
+- tag: Ad Groups
+  spec_file: streetmetrics-ad-groups-api-openapi.yml
+  capability_id: BC-400
+  capability_id_l1: BC-400
+  capability_name: Marketing Management
+  confidence: 0.7
+  evidence: POST /public/ad-groups/transit AdGroupController_createTransitAdGroup Create a new Transit
+    Ad Group; POST /public/ad-groups/{id}/creatives Attach creatives to a Stationary or Transit Ad group
+  reason: Ad group CRUD with creatives, frames and assets attached is advertising campaign structuring
+    for out-of-home media, so Marketing Management at L1; evidence does not clearly pin a single sub-capability
+    (campaign execution vs. marketing operations).
+- tag: Attribution Studies
+  spec_file: streetmetrics-attribution-studies-api-openapi.yml
+  capability_id: BC-400.50
+  capability_id_l1: BC-400
+  capability_name: Marketing Operations Management
+  confidence: 0.7
+  evidence: POST /public/attribution-studies Create a new attribution study; GET /public/attribution-studies/conversions/ad-group
+    Get conversions aggregated by ad group
+  reason: Creating attribution studies and aggregating campaign conversions is marketing measurement,
+    which sits under Marketing Operations Management (budget, technology, processes, measurement).

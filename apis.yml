@@ -392,6 +392,9 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: CapabilityMap
+  url: capabilities/streetmetrics-capability-edges.yml
+  name: StreetMetrics Business Capability Map
 - type: Overlay
   url: overlays/streetmetrics-public-api-overlay.yaml
 - type: Authentication
