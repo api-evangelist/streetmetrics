@@ -563,27 +563,50 @@ paths:
     - url: https://dashboard.streetmetrics.io/v3/public/
 components:
   schemas:
-    ClientPixelEntity:
+    UpdatePixelDto:
       type: object
       properties:
-        pixelId:
-          type: number
-        pixelUUID:
+        displayName:
           type: string
-        campaign:
-          type: object
-          additionalProperties: true
-        campaignId:
+        page:
+          enum:
+          - Checkout Page
+          - Contact Us Page
+          - Directory Page
+          - Education Page
+          - Homepage
+          - Landing Page
+          - Location Page
+          - Product Page
+          type: string
+          description: 'Page must be a valid page type. Possible values: Checkout Page, Contact Us Page, Directory Page, Education Page, Homepage, Landing Page, Location Page, Product Page'
+        funnelStage:
+          enum:
+          - Visit Page
+          - Consideration Page
+          - Conversion Page
+          type: string
+          description: 'Funnel stage must be a valid funnel stage. Possible values: Visit Page, Consideration Page, Conversion Page'
+        url:
+          type: string
+          format: uri
+        notes:
+          type: string
+    CreatePixelResponse:
+      type: object
+      properties:
+        data:
           type: number
-        metaData:
+        message:
+          type: string
+        meta:
           type: object
-          additionalProperties: true
+          properties: {}
+          required: []
       required:
-      - pixelId
-      - pixelUUID
-      - campaign
-      - campaignId
-      - metaData
+      - data
+      - message
+      - meta
     CreatePixelDto:
       type: object
       properties:
@@ -619,25 +642,11 @@ components:
       - displayName
       - page
       - funnelStage
-    AttachAttributionStudyToPixelDto:
-      type: object
-      properties:
-        attributionId:
-          type: number
-      required:
-      - attributionId
-    AttachCampaignToPixelDto:
-      type: object
-      properties:
-        campaignId:
-          type: number
-      required:
-      - campaignId
-    CreatePixelResponse:
+    GetPixelResponseDto:
       type: object
       properties:
         data:
-          type: number
+          $ref: '#/components/schemas/ClientPixelEntity'
         message:
           type: string
         meta:
@@ -648,7 +657,59 @@ components:
       - data
       - message
       - meta
-    UpdatePixelDto:
+    GetPixelsResponseDto:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientPixelEntity'
+        message:
+          type: string
+        meta:
+          type: object
+          properties: {}
+          required: []
+      required:
+      - data
+      - message
+      - meta
+    ClientPixelEntity:
+      type: object
+      properties:
+        pixelId:
+          type: number
+        pixelUUID:
+          type: string
+        campaign:
+          type: object
+          additionalProperties: true
+        campaignId:
+          type: number
+        metaData:
+          type: object
+          additionalProperties: true
+      required:
+      - pixelId
+      - pixelUUID
+      - campaign
+      - campaignId
+      - metaData
+    AttachCampaignToPixelDto:
+      type: object
+      properties:
+        campaignId:
+          type: number
+      required:
+      - campaignId
+    AttachAttributionStudyToPixelDto:
+      type: object
+      properties:
+        attributionId:
+          type: number
+      required:
+      - attributionId
+    UpdatePixelDto_2:
       type: object
       properties:
         displayName:
@@ -674,60 +735,22 @@ components:
           description: 'Funnel stage must be a valid funnel stage. Possible values: Visit Page, Consideration Page, Conversion Page'
         url:
           type: string
-          format: uri
         notes:
           type: string
-    GetPixelsResponseDto:
+    CreatePixelResponse_2:
       type: object
       properties:
         data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientPixelEntity'
+          type: number
         message:
           type: string
         meta:
           type: object
           properties: {}
-          required: []
       required:
       - data
       - message
       - meta
-    GetPixelResponseDto:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/ClientPixelEntity'
-        message:
-          type: string
-        meta:
-          type: object
-          properties: {}
-          required: []
-      required:
-      - data
-      - message
-      - meta
-    ClientPixelEntity_2:
-      type: object
-      properties:
-        pixelId:
-          type: number
-        pixelUUID:
-          type: string
-        campaign:
-          type: object
-        campaignId:
-          type: number
-        metaData:
-          type: object
-      required:
-      - pixelId
-      - pixelUUID
-      - campaign
-      - campaignId
-      - metaData
     CreatePixelDto_2:
       type: object
       properties:
@@ -762,11 +785,11 @@ components:
       - displayName
       - page
       - funnelStage
-    CreatePixelResponse_2:
+    GetPixelResponseDto_2:
       type: object
       properties:
         data:
-          type: number
+          $ref: '#/components/schemas/ClientPixelEntity_2'
         message:
           type: string
         meta:
@@ -776,34 +799,6 @@ components:
       - data
       - message
       - meta
-    UpdatePixelDto_2:
-      type: object
-      properties:
-        displayName:
-          type: string
-        page:
-          enum:
-          - Checkout Page
-          - Contact Us Page
-          - Directory Page
-          - Education Page
-          - Homepage
-          - Landing Page
-          - Location Page
-          - Product Page
-          type: string
-          description: 'Page must be a valid page type. Possible values: Checkout Page, Contact Us Page, Directory Page, Education Page, Homepage, Landing Page, Location Page, Product Page'
-        funnelStage:
-          enum:
-          - Visit Page
-          - Consideration Page
-          - Conversion Page
-          type: string
-          description: 'Funnel stage must be a valid funnel stage. Possible values: Visit Page, Consideration Page, Conversion Page'
-        url:
-          type: string
-        notes:
-          type: string
     GetPixelsResponseDto_2:
       type: object
       properties:
@@ -820,20 +815,25 @@ components:
       - data
       - message
       - meta
-    GetPixelResponseDto_2:
+    ClientPixelEntity_2:
       type: object
       properties:
-        data:
-          $ref: '#/components/schemas/ClientPixelEntity_2'
-        message:
+        pixelId:
+          type: number
+        pixelUUID:
           type: string
-        meta:
+        campaign:
           type: object
-          properties: {}
+        campaignId:
+          type: number
+        metaData:
+          type: object
       required:
-      - data
-      - message
-      - meta
+      - pixelId
+      - pixelUUID
+      - campaign
+      - campaignId
+      - metaData
   securitySchemes:
     bearer:
       scheme: bearer

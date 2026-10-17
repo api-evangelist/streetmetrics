@@ -931,320 +931,6 @@ components:
       - group
       - deviceCount
       - percent
-    ClientReportingUfResponseDtoUnit:
-      type: object
-      properties:
-        id:
-          type: number
-          example: 1
-          description: The ID of the Unit
-        ref:
-          type: string
-          example: ADG12345
-          description: The reference code of the Unit
-        date:
-          type: string
-          example: '2021-01-01'
-          description: The date of the uniques and frequency data
-        uniquesGross:
-          type: number
-          example: 100
-          description: The number of uniques gross
-        frequencyGross:
-          type: number
-          example: 100
-          description: The number of frequency gross
-        uniquesOts:
-          type: number
-          example: 100
-          description: The number of uniques OTS
-        frequencyOts:
-          type: number
-          example: 100
-          description: The number of frequency OTS
-        uniquesLts:
-          type: number
-          example: 100
-          description: The number of uniques LTS
-        frequencyLts:
-          type: number
-          example: 100
-          description: The number of frequency LTS
-        type:
-          type: string
-          example: ASSET
-          description: ASSET or FRAME
-      required:
-      - id
-      - ref
-      - date
-      - uniquesGross
-      - frequencyGross
-      - uniquesOts
-      - frequencyOts
-      - uniquesLts
-      - frequencyLts
-      - type
-    ClientReportingImpressionsByDateResponseDto:
-      type: object
-      properties:
-        summaryBinGrouping:
-          type: object
-          example: '2021-01-01'
-          description: Date in string format
-        impressions:
-          type: number
-          example: 1000
-          description: Number of impressions for the given date
-        impressionsLts:
-          type: number
-          example: 100
-          description: Number of LTS impressions for the given date. Currently available for stationary, only.
-        impressionsOts:
-          type: number
-          example: 200
-          description: Number of OTS impressions for the given date. Currently available for stationary, only.
-      required:
-      - summaryBinGrouping
-      - impressions
-      - impressionsLts
-      - impressionsOts
-    GetAffinitiesResponseDto:
-      type: object
-      properties:
-        statusCode:
-          type: number
-        message:
-          type: string
-        meta:
-          type: object
-        data:
-          description: Affinities data grouped by campaign
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientReportingAffinitiesResponseDto'
-      required:
-      - statusCode
-      - meta
-      - data
-    ClientReportingUfResponseDtoAdgroup:
-      type: object
-      properties:
-        id:
-          type: number
-          example: 1
-          description: The ID of the Ad Group
-        ref:
-          type: string
-          example: ADG12345
-          description: The reference code of the Ad Group
-        date:
-          type: string
-          example: '2021-01-01'
-          description: The date of the uniques and frequency data
-        uniquesGross:
-          type: number
-          example: 100
-          description: The number of uniques gross
-        frequencyGross:
-          type: number
-          example: 100
-          description: The number of frequency gross
-        uniquesOts:
-          type: number
-          example: 100
-          description: The number of uniques OTS
-        frequencyOts:
-          type: number
-          example: 100
-          description: The number of frequency OTS
-        uniquesLts:
-          type: number
-          example: 100
-          description: The number of uniques LTS
-        frequencyLts:
-          type: number
-          example: 100
-          description: The number of frequency LTS
-      required:
-      - id
-      - ref
-      - date
-      - uniquesGross
-      - frequencyGross
-      - uniquesOts
-      - frequencyOts
-      - uniquesLts
-      - frequencyLts
-    ClientReportingImpressionsByUnitResponseDto:
-      type: object
-      properties:
-        id:
-          type: number
-          example: 1
-          description: The ID of the unit
-        ref:
-          type: string
-          example: ADG12345
-          description: The reference code of the unit
-        type:
-          type: string
-          example: ASSET
-          description: ASSET or FRAME
-        impressions:
-          type: number
-          example: 200
-          description: Number of impressions for the unit
-        rollupTimestamp:
-          type: number
-          example: 1672531200
-          description: The rollup timestamp for the summary bin date grouping
-        summaryBinGrouping:
-          type: string
-          example: '2021-01-01'
-          description: The summary bin date grouping
-        impressionsLts:
-          type: number
-          example: 100
-          description: Number of LTS impressions for the given unit. Currently available for stationary, only.
-        impressionsOts:
-          type: number
-          example: 200
-          description: Number of OTS impressions for the given unit. Currently available for stationary, only.
-      required:
-      - id
-      - ref
-      - type
-      - impressions
-      - rollupTimestamp
-      - summaryBinGrouping
-      - impressionsLts
-      - impressionsOts
-    GetImpressionsByAdGroupResponseDto:
-      type: object
-      properties:
-        statusCode:
-          type: number
-        message:
-          type: string
-        meta:
-          type: object
-        data:
-          description: Impressions grouped by ad group
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientReportingImpressionsByAdGroupResponseDto'
-      required:
-      - statusCode
-      - meta
-      - data
-    ClientReportingUfResponseDto:
-      type: object
-      properties:
-        id:
-          type: number
-          example: 1
-          description: The ID of the campaign
-        ref:
-          type: string
-          example: ADG12345
-          description: The reference code of campaign
-        date:
-          type: string
-          example: '2021-01-01'
-          description: The date of the uniques and frequency data
-        uniquesGross:
-          type: number
-          example: 100
-          description: The number of uniques gross
-        frequencyGross:
-          type: number
-          example: 100
-          description: The number of frequency gross
-        uniquesOts:
-          type: number
-          example: 100
-          description: The number of uniques OTS
-        frequencyOts:
-          type: number
-          example: 100
-          description: The number of frequency OTS
-        uniquesLts:
-          type: number
-          example: 100
-          description: The number of uniques LTS
-        frequencyLts:
-          type: number
-          example: 100
-          description: The number of frequency LTS
-      required:
-      - id
-      - ref
-      - date
-      - uniquesGross
-      - frequencyGross
-      - uniquesOts
-      - frequencyOts
-      - uniquesLts
-      - frequencyLts
-    ErrorResponseDto:
-      type: object
-      properties:
-        status:
-          type: string
-          description: Status of the response
-          example: error
-        statusCode:
-          type: number
-          description: HTTP status code
-          example: 400
-        errorCode:
-          type: string
-          description: Custom error code
-          example: ERR001
-        message:
-          type: string
-          description: Error message
-          example: Invalid input data
-        details:
-          type:
-          - object
-          - 'null'
-          description: Additional details about the error
-        timestamp:
-          type: string
-          description: Timestamp of the error
-          example: '2024-08-26T14:56:29.000Z'
-        path:
-          type: string
-          description: Request path where the error occurred
-          example: /api/v1/resource
-      required:
-      - status
-      - statusCode
-      - errorCode
-      - message
-      - details
-      - timestamp
-      - path
-    GetImpressionsByDateResponseDto:
-      type: object
-      properties:
-        statusCode:
-          type: number
-        message:
-          type: string
-        meta:
-          type: object
-        data:
-          description: Impressions grouped by date
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientReportingImpressionsByDateResponseDto'
-      required:
-      - statusCode
-      - meta
-      - data
     ClientReportingImpressionsByAdGroupResponseDto:
       type: object
       properties:
@@ -1277,6 +963,48 @@ components:
       - adGroupRef
       - impressions
       - summaryBinGrouping
+      - impressionsLts
+      - impressionsOts
+    GetAffinitiesResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          description: Affinities data grouped by campaign
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientReportingAffinitiesResponseDto'
+      required:
+      - statusCode
+      - meta
+      - data
+    ClientReportingImpressionsByDateResponseDto:
+      type: object
+      properties:
+        summaryBinGrouping:
+          type: object
+          example: '2021-01-01'
+          description: Date in string format
+        impressions:
+          type: number
+          example: 1000
+          description: Number of impressions for the given date
+        impressionsLts:
+          type: number
+          example: 100
+          description: Number of LTS impressions for the given date. Currently available for stationary, only.
+        impressionsOts:
+          type: number
+          example: 200
+          description: Number of OTS impressions for the given date. Currently available for stationary, only.
+      required:
+      - summaryBinGrouping
+      - impressions
       - impressionsLts
       - impressionsOts
     ClientReportingAffinitiesResponseDto:
@@ -1333,7 +1061,7 @@ components:
       - ltsComposition
       - otsComposition
       - grossComposition
-    GetDemographicsResponseDto:
+    GetImpressionsByAdGroupResponseDto:
       type: object
       properties:
         statusCode:
@@ -1343,10 +1071,10 @@ components:
         meta:
           type: object
         data:
-          description: Demographics data grouped by campaign
+          description: Impressions grouped by ad group
           type: array
           items:
-            $ref: '#/components/schemas/ClientReportingDemographicsResponseDto'
+            $ref: '#/components/schemas/ClientReportingImpressionsByAdGroupResponseDto'
       required:
       - statusCode
       - meta
@@ -1369,6 +1097,278 @@ components:
       - statusCode
       - meta
       - data
+    ClientReportingUfResponseDto:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+          description: The ID of the campaign
+        ref:
+          type: string
+          example: ADG12345
+          description: The reference code of campaign
+        date:
+          type: string
+          example: '2021-01-01'
+          description: The date of the uniques and frequency data
+        uniquesGross:
+          type: number
+          example: 100
+          description: The number of uniques gross
+        frequencyGross:
+          type: number
+          example: 100
+          description: The number of frequency gross
+        uniquesOts:
+          type: number
+          example: 100
+          description: The number of uniques OTS
+        frequencyOts:
+          type: number
+          example: 100
+          description: The number of frequency OTS
+        uniquesLts:
+          type: number
+          example: 100
+          description: The number of uniques LTS
+        frequencyLts:
+          type: number
+          example: 100
+          description: The number of frequency LTS
+      required:
+      - id
+      - ref
+      - date
+      - uniquesGross
+      - frequencyGross
+      - uniquesOts
+      - frequencyOts
+      - uniquesLts
+      - frequencyLts
+    GetImpressionsByDateResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          description: Impressions grouped by date
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientReportingImpressionsByDateResponseDto'
+      required:
+      - statusCode
+      - meta
+      - data
+    GetDemographicsResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          description: Demographics data grouped by campaign
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientReportingDemographicsResponseDto'
+      required:
+      - statusCode
+      - meta
+      - data
+    ClientReportingImpressionsByUnitResponseDto:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+          description: The ID of the unit
+        ref:
+          type: string
+          example: ADG12345
+          description: The reference code of the unit
+        type:
+          type: string
+          example: ASSET
+          description: ASSET or FRAME
+        impressions:
+          type: number
+          example: 200
+          description: Number of impressions for the unit
+        rollupTimestamp:
+          type: number
+          example: 1672531200
+          description: The rollup timestamp for the summary bin date grouping
+        summaryBinGrouping:
+          type: string
+          example: '2021-01-01'
+          description: The summary bin date grouping
+        impressionsLts:
+          type: number
+          example: 100
+          description: Number of LTS impressions for the given unit. Currently available for stationary, only.
+        impressionsOts:
+          type: number
+          example: 200
+          description: Number of OTS impressions for the given unit. Currently available for stationary, only.
+      required:
+      - id
+      - ref
+      - type
+      - impressions
+      - rollupTimestamp
+      - summaryBinGrouping
+      - impressionsLts
+      - impressionsOts
+    ErrorResponseDto:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status of the response
+          example: error
+        statusCode:
+          type: number
+          description: HTTP status code
+          example: 400
+        errorCode:
+          type: string
+          description: Custom error code
+          example: ERR001
+        message:
+          type: string
+          description: Error message
+          example: Invalid input data
+        details:
+          type:
+          - object
+          - 'null'
+          description: Additional details about the error
+        timestamp:
+          type: string
+          description: Timestamp of the error
+          example: '2024-08-26T14:56:29.000Z'
+        path:
+          type: string
+          description: Request path where the error occurred
+          example: /api/v1/resource
+      required:
+      - status
+      - statusCode
+      - errorCode
+      - message
+      - details
+      - timestamp
+      - path
+    ClientReportingUfResponseDtoAdgroup:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+          description: The ID of the Ad Group
+        ref:
+          type: string
+          example: ADG12345
+          description: The reference code of the Ad Group
+        date:
+          type: string
+          example: '2021-01-01'
+          description: The date of the uniques and frequency data
+        uniquesGross:
+          type: number
+          example: 100
+          description: The number of uniques gross
+        frequencyGross:
+          type: number
+          example: 100
+          description: The number of frequency gross
+        uniquesOts:
+          type: number
+          example: 100
+          description: The number of uniques OTS
+        frequencyOts:
+          type: number
+          example: 100
+          description: The number of frequency OTS
+        uniquesLts:
+          type: number
+          example: 100
+          description: The number of uniques LTS
+        frequencyLts:
+          type: number
+          example: 100
+          description: The number of frequency LTS
+      required:
+      - id
+      - ref
+      - date
+      - uniquesGross
+      - frequencyGross
+      - uniquesOts
+      - frequencyOts
+      - uniquesLts
+      - frequencyLts
+    ClientReportingUfResponseDtoUnit:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+          description: The ID of the Unit
+        ref:
+          type: string
+          example: ADG12345
+          description: The reference code of the Unit
+        date:
+          type: string
+          example: '2021-01-01'
+          description: The date of the uniques and frequency data
+        uniquesGross:
+          type: number
+          example: 100
+          description: The number of uniques gross
+        frequencyGross:
+          type: number
+          example: 100
+          description: The number of frequency gross
+        uniquesOts:
+          type: number
+          example: 100
+          description: The number of uniques OTS
+        frequencyOts:
+          type: number
+          example: 100
+          description: The number of frequency OTS
+        uniquesLts:
+          type: number
+          example: 100
+          description: The number of uniques LTS
+        frequencyLts:
+          type: number
+          example: 100
+          description: The number of frequency LTS
+        type:
+          type: string
+          example: ASSET
+          description: ASSET or FRAME
+      required:
+      - id
+      - ref
+      - date
+      - uniquesGross
+      - frequencyGross
+      - uniquesOts
+      - frequencyOts
+      - uniquesLts
+      - frequencyLts
+      - type
   securitySchemes:
     bearer:
       scheme: bearer

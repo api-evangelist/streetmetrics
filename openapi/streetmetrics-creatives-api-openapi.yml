@@ -283,24 +283,25 @@ paths:
     - url: https://dashboard.streetmetrics.io/v3/public/
 components:
   schemas:
-    GetCreativesResponseDto:
+    CreativeResponseDto:
       type: object
       properties:
-        statusCode:
+        creativeId:
           type: number
-        message:
+          description: Unique identifier for the creative
+          example: 123
+        creativeRef:
           type: string
-        meta:
-          type: object
-        data:
-          description: Array of creative objects
-          type: array
-          items:
-            $ref: '#/components/schemas/CreativeResponseDto'
+          description: Creative reference string
+          example: summer-campaign-banner
+        displayName:
+          type: string
+          description: Display name of the creative
+          example: Summer Campaign Banner
       required:
-      - statusCode
-      - meta
-      - data
+      - creativeId
+      - creativeRef
+      - displayName
     ErrorResponseDto:
       type: object
       properties:
@@ -341,6 +342,24 @@ components:
       - details
       - timestamp
       - path
+    GetCreativesResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        meta:
+          type: object
+        data:
+          description: Array of creative objects
+          type: array
+          items:
+            $ref: '#/components/schemas/CreativeResponseDto'
+      required:
+      - statusCode
+      - meta
+      - data
     GetCreativeByIdResponseDto:
       type: object
       properties:
@@ -358,25 +377,6 @@ components:
       - statusCode
       - meta
       - data
-    CreativeResponseDto:
-      type: object
-      properties:
-        creativeId:
-          type: number
-          description: Unique identifier for the creative
-          example: 123
-        creativeRef:
-          type: string
-          description: Creative reference string
-          example: summer-campaign-banner
-        displayName:
-          type: string
-          description: Display name of the creative
-          example: Summer Campaign Banner
-      required:
-      - creativeId
-      - creativeRef
-      - displayName
   securitySchemes:
     bearer:
       scheme: bearer
