@@ -64,15 +64,133 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-StreetMetrics is an out-of-home (OOH) advertising measurement, planning, and attribution platform,
-surfaced as a portfolio company of techstars and profiled here from its public developer surface.
+StreetMetrics is an out-of-home (OOH) advertising measurement, planning, and attribution platform that gives operators, agencies, and brands data-driven tools to plan campaigns, track delivery in near real-time across 1.6M+ OOH units, and measure business outcomes from outdoor advertising. Its SmartSearch planning intelligence surfaces unit-level performance and audience insights, daily-refreshed impression measurement tracks delivery, and attribution connects OOH exposure to website visits, app opens, and in-store lift. StreetMetrics publishes a public REST API — the StreetMetrics Public API, documented at docs.streetmetrics.com and served from dashboard.streetmetrics.io/v3/public/ — covering campaigns, ad groups, assets, frames, creatives, markets, media, attribution studies, conversion pixels, and impression/demographic/uniques-and-frequency reporting. Authentication is a JWT bearer token minted from the same email and password used to sign in to the StreetMetrics platform, so API access follows a platform subscription rather than self-serve developer signup.
 
-StreetMetrics publishes a **public REST API** — the StreetMetrics Public API, documented at
-https://docs.streetmetrics.com and served from `https://dashboard.streetmetrics.io/v3/public/`. The
-harvested OpenAPI 3.0 definition (54 operations across campaigns, ad groups, assets, frames,
-creatives, markets, media, attribution studies, conversion pixels and reporting) is in `openapi/`,
-with the verbatim live copy in `openapi/_original/`. Authentication, conventions, error catalog, data
-model, lifecycle, changelog, conformance, rate limits, plans, packages, well-known probes, MCP, and
-Agent Skills artifacts were derived or searched from that surface.
+**Areas:** Company · Advertising · Out-of-Home · Measurements · Attribution · Analytics · Marketing · Location Data · Media Planning · Transit Advertising · Campaign Reporting · Audience Data
 
-Backed by: techstars — https://streetmetrics.com/
+## StreetMetrics on APIs.io
+
+Everything profiled for StreetMetrics is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/streetmetrics/](https://apis.io/providers/streetmetrics/)** — or go straight to one of the APIs or properties below.
+
+### APIs (11)
+
+- [StreetMetrics Ad Groups API](https://apis.io/apis/streetmetrics/streetmetrics-ad-groups-api/) — The Ad Groups API from StreetMetrics — 7 operation(s) for ad groups.
+- [StreetMetrics Assets API](https://apis.io/apis/streetmetrics/streetmetrics-assets-api/) — The Assets API from StreetMetrics — 5 operation(s) for assets.
+- [StreetMetrics Attribution Studies API](https://apis.io/apis/streetmetrics/streetmetrics-attribution-studies-api/) — The Attribution Studies API from StreetMetrics — 6 operation(s) for attribution studies.
+- [StreetMetrics Authentication API](https://apis.io/apis/streetmetrics/streetmetrics-authentication-api/) — The Authentication API from StreetMetrics — 1 operation(s) for authentication.
+- [StreetMetrics Campaigns API](https://apis.io/apis/streetmetrics/streetmetrics-campaigns-api/) — The Campaigns API from StreetMetrics — 2 operation(s) for campaigns.
+- [StreetMetrics Creatives API](https://apis.io/apis/streetmetrics/streetmetrics-creatives-api/) — The Creatives API from StreetMetrics — 2 operation(s) for creatives.
+- [StreetMetrics Frames API](https://apis.io/apis/streetmetrics/streetmetrics-frames-api/) — The Frames API from StreetMetrics — 2 operation(s) for frames.
+- [StreetMetrics Markets API](https://apis.io/apis/streetmetrics/streetmetrics-markets-api/) — The Markets API from StreetMetrics — 1 operation(s) for markets.
+- [StreetMetrics Media API](https://apis.io/apis/streetmetrics/streetmetrics-media-api/) — The Media API from StreetMetrics — 2 operation(s) for media.
+- [StreetMetrics Pixels API](https://apis.io/apis/streetmetrics/streetmetrics-pixels-api/) — The Pixels API from StreetMetrics — 4 operation(s) for pixels.
+- [StreetMetrics Reporting API](https://apis.io/apis/streetmetrics/streetmetrics-reporting-api/) — The Reporting API from StreetMetrics — 8 operation(s) for reporting.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [StreetMetrics Documentation MCP Server](https://apis.io/servers/streetmetrics/streetmetrics-documentation-mcp-server/)
+
+#### Collections (1)
+
+Postman and Open Collection request collections.
+
+- [StreetMetrics Public API](https://apis.io/collections/streetmetrics/open-streetmetrics-public-api/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Streetmetrics Public Api Overlay](https://apis.io/overlays/streetmetrics/streetmetrics-public-api-overlay/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Streetmetrics Authentication](https://apis.io/security/streetmetrics/streetmetrics-authentication/)
+- [Streetmetrics Domain Security](https://apis.io/security/streetmetrics/streetmetrics-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Streetmetrics Plans Pricing](https://apis.io/plans/streetmetrics/streetmetrics-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Streetmetrics Rate Limits](https://apis.io/rate-limits/streetmetrics/streetmetrics-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://streetmetrics.com/)
+- [Documentation](https://docs.streetmetrics.com/reference/ad-groups)
+- [Getting started](https://docs.streetmetrics.com/recipes/how-to-authenticate-requests-and-create-tokens)
+- [API reference](https://docs.streetmetrics.com/reference/ad-groups)
+- [Support](https://streetmetrics.com/contact)
+- [Changelog](https://docs.streetmetrics.com/changelog)
+- [Blog](https://streetmetrics.com/resource-hub)
+- [Terms of service](https://streetmetrics.com/privacy-terms/terms)
+- [Privacy policy](https://streetmetrics.com/privacy-terms/privacy-policy)
+- [GitHub](https://github.com/streetmetrics)
+
+## API Evangelist rating
+
+**Kin Score 34.5** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 71.7 |
+| Contract quality | 44.9 |
+| Contract governance | 4.5 |
+| Operational transparency | 10.5 |
+| Developer ergonomics | 39.9 |
+| Access clarity | 27.6 |
+
+**Agent readiness 30.6** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | documented (partial credit) |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 24.5** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/streetmetrics/](https://apis.io/providers/streetmetrics/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for StreetMetrics: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/streetmetrics/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
